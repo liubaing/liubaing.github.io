@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2014-06-12T09:10:19.093Z</updated>
+  <updated>2014-06-12T09:58:03.552Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -15,11 +15,11 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[Cancel linode account]]></title>
-    <link href="http://liubaing.com/2014/06/12/Cancel-linode-account/"/>
-    <id>http://liubaing.com/2014/06/12/Cancel-linode-account/</id>
+    <title><![CDATA[Linode退钱]]></title>
+    <link href="http://liubaing.com/2014/06/12/Linode%E9%80%80%E9%92%B1/"/>
+    <id>http://liubaing.com/2014/06/12/Linode退钱/</id>
     <published>2014-06-12T08:13:17.000Z</published>
-    <updated>2014-06-12T09:04:02.000Z</updated>
+    <updated>2014-06-12T09:56:31.000Z</updated>
     <content type="html"><![CDATA[<p>之前用过一段时间Linode，不过由于种种原因（其实就是懒）不想继续维护了，Remove掉主机后，它会自动结算剩余金额。也不想让钱那么寂寞的呆在账户里，琢磨怎么退还到信用卡里。<br><a id="more"></a><br>网上找了下退款的方法，竟然要删掉账户，不能理解这是什么逻辑，算了，拿到钱要紧。</p>
 <p>方法是登录Linode后点击Account标签，然后在页面的底部有个cancel account的按钮，点击后会有一个表单会让输入原因，这有点像俩人闹掰了，再纠缠着问“怎么了，我哪里不好我改行吗”，我直接写了一句 I don’t have time to maintain it and kindly need money，提交，等着收钱。</p>
 ]]></content>
