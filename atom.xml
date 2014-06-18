@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2014-06-18T03:12:17.638Z</updated>
+  <updated>2014-06-18T03:36:34.648Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -19,12 +19,28 @@
     <link href="http://liubaing.com/2014/06/18/Python%E8%A7%84%E8%8C%83%E7%AC%94%E8%AE%B0/"/>
     <id>http://liubaing.com/2014/06/18/Python规范笔记/</id>
     <published>2014-06-18T02:44:35.000Z</published>
-    <updated>2014-06-18T03:12:06.000Z</updated>
-    <content type="html"><![CDATA[<p>由于Java代码写的比较多，不由自主便将一些Java编码规范带入Python代码中，但是IDE会给出很多提示，现在有必要做一些总结，还会持续更新。<br><a id="more"></a></p>
-<p>1.代码编排<br>不要在一句import中多个库；<br>一行代码PEP 8 规范为120字符长度，过长换行；<br>类和top-level函数定义之间空两行；<br>类中的方法定义之间空一行；<br>函数内逻辑无关段落之间空一行；<br>逗号后面和操作符两边要加空格；</p>
-<p>2.命名规范<br>模块名全部小写，可以使用<code>_</code>；<br>类名采用大驼峰式；<br>类中函数，变量全部为小写，单词中间以<code>_</code>间隔；</p>
+    <updated>2014-06-18T03:27:13.000Z</updated>
+    <content type="html"><![CDATA[<p>由于Java代码写的比较多，不由自主便将一些Java编码规范带入Python代码中，庆幸IDE会给出很多提示，有必要根据PEP8规范做一些总结，并且还会持续更新。<br><a id="more"></a></p>
+<h5 id="1-_代码编排">1. 代码编排</h5>
+<ul>
+<li>不要在一行import多个库；</li>
+<li>一行代码限制字符长度，过长换行；</li>
+<li>类和top-level函数定义之间空两行；</li>
+<li>类中的方法定义之间空一行；</li>
+<li>函数内逻辑无关段落之间空一行；</li>
+<li>函数参数中KV等号两边不能加空格；</li>
+<li>逗号后面和其他操作符两边要加空格；</li>
+</ul>
+<h5 id="2-_命名规范">2. 命名规范</h5>
+<ul>
+<li>模块名全部小写，可以使用<code>_</code>；</li>
+<li>常量命名使用全部大写的方式，可以使用<code>_</code>；</li>
+<li>类名采用大驼峰式；</li>
+<li>类中函数，变量全部为小写，单词中间以<code>_</code>间隔；</li>
+<li>类的方法第一个参数必须是<code>self</code>，而静态方法第一个参数必须是<code>cls</code>；</li>
+</ul>
 ]]></content>
-    <summary type="html"><![CDATA[<p>由于Java代码写的比较多，不由自主便将一些Java编码规范带入Python代码中，但是IDE会给出很多提示，现在有必要做一些总结，还会持续更新。<br>]]></summary>
+    <summary type="html"><![CDATA[<p>由于Java代码写的比较多，不由自主便将一些Java编码规范带入Python代码中，庆幸IDE会给出很多提示，有必要根据PEP8规范做一些总结，并且还会持续更新。<br>]]></summary>
     
       <category term="Python" scheme="http://liubaing.com/tags/Python/"/>
     
