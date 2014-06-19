@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2014-06-19T06:51:41.894Z</updated>
+  <updated>2014-06-19T09:57:40.209Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://liubaing.com/2014/06/18/%E9%BE%99%E6%B3%89%E9%A9%BE%E6%A0%A1%E7%BA%A6%E8%BD%A6%E8%84%9A%E6%9C%AC/"/>
     <id>http://liubaing.com/2014/06/18/龙泉驾校约车脚本/</id>
     <published>2014-06-18T08:20:49.000Z</published>
-    <updated>2014-06-18T08:39:36.000Z</updated>
+    <updated>2014-06-19T09:57:12.000Z</updated>
     <content type="html"><![CDATA[<p>最近该学科目二，可一连几天都约不上车，开始琢磨写个脚本，看有没有效果。<br><a id="more"></a></p>
 <p>抱怨驾校也是徒劳，谁让当时图便宜呢。脚本也是参考了其他同学的代码，调整后不是特别完善，不过龙泉的校友还是可以参考。</p>
 <p>下面是执行脚本，其中有些参数根据自己情况填写：</p>
@@ -57,7 +57,7 @@
 32
 33
 34
-</pre></td><td class="code"><pre><span class="comment"># !/usr/bin/env python</span>
+</pre></td><td class="code"><pre><span class="comment"># !/usr/bin/python</span>
 <span class="comment"># -*- coding: utf-8 -*-</span>
 
 <span class="keyword">import</span> lqjx
@@ -159,9 +159,7 @@ passwd = <span class="string">""</span>
 63
 64
 65
-66
-</pre></td><td class="code"><pre><span class="comment"># !/usr/bin/env python</span>
-<span class="comment"># -*- coding: utf-8 -*-</span>
+</pre></td><td class="code"><pre><span class="comment"># -*- coding: utf-8 -*-</span>
 
 <span class="keyword">import</span> requests
 <span class="keyword">import</span> datetime
@@ -217,7 +215,7 @@ lq_session = requests.Session()
             <span class="string">'filters[xnsd]'</span>: xnsd,
             <span class="string">'filters[xllxid]'</span>: <span class="string">'3'</span>,
             <span class="string">'filters[type]'</span>: <span class="string">'km2Car'</span>,
-            <span class="string">'filters[cnbh]'</span>: <span class="string">'15195'</span>, <span class="comment">#场内编号，不填写则为全部</span>
+            <span class="string">'filters[cnbh]'</span>: <span class="string">''</span>, <span class="comment">#场内编号，不填写则为全部</span>
             <span class="string">'pageno'</span>: <span class="string">'1'</span>,
             <span class="string">'pagesize'</span>: <span class="string">'30'</span>,
             <span class="string">'_'</span>: int(time.time())
