@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2014-06-18T09:52:09.390Z</updated>
+  <updated>2014-06-19T06:50:04.735Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -293,7 +293,7 @@ lq_session = requests.Session()
     <link href="http://liubaing.com/2014/06/13/%E7%BF%BB%E5%A2%99/"/>
     <id>http://liubaing.com/2014/06/13/翻墙/</id>
     <published>2014-06-13T08:38:14.000Z</published>
-    <updated>2014-06-13T10:33:55.000Z</updated>
+    <updated>2014-06-19T06:49:57.000Z</updated>
     <content type="html"><![CDATA[<p>最近Google访问不了，各种403和连接被重置。<br><a id="more"></a><br>这给平时工作带来很大的不便，至于原因大家心知肚明。</p>
 <p>之前由于改过hosts，遇到Google被墙对自己影响不大，但这次彻底歇菜了。</p>
 <p>选择VPN还得取决所在网络环境，L2TP方式经常连接不上，所以暂时先Pass。看微博上有推荐用SSH代理，去淘宝上搜了一家，10块一月，感觉价格可以接受，还是香港主机，下单吧。</p>
@@ -303,12 +303,16 @@ lq_session = requests.Session()
 </pre></td></tr></table></figure><br>输入密码后在网络设置中增加代理，这里选择SOCKS Proxy，输入127.0.0.1:7070后点击应用。</p>
 <p><img src="http://liubaing.qiniudn.com/ssh_proxy.jpeg" alt="增加代理"></p>
 <p>现在，打开浏览器试试吧！</p>
+<hr>
+<p>2014-6-19更新：<br>提供新版<a href="http://liubaing.qiniudn.com/hosts" target="_blank" rel="external">hosts</a>下载，大家自测。</p>
 ]]></content>
     <summary type="html"><![CDATA[<p>最近Google访问不了，各种403和连接被重置。<br>]]></summary>
     
-      <category term="SSH" scheme="http://liubaing.com/tags/SSH/"/>
+      <category term="hosts" scheme="http://liubaing.com/tags/hosts/"/>
     
       <category term="VPN" scheme="http://liubaing.com/tags/VPN/"/>
+    
+      <category term="Google" scheme="http://liubaing.com/tags/Google/"/>
     
       <category term="工具" scheme="http://liubaing.com/categories/%E5%B7%A5%E5%85%B7/"/>
     
