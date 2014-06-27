@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2014-06-19T10:54:19.004Z</updated>
+  <updated>2014-06-27T09:10:23.061Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -13,6 +13,89 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[URL编码]]></title>
+    <link href="http://liubaing.com/2014/06/27/URL%E7%BC%96%E7%A0%81/"/>
+    <id>http://liubaing.com/2014/06/27/URL编码/</id>
+    <published>2014-06-27T07:42:03.000Z</published>
+    <updated>2014-06-27T09:08:10.000Z</updated>
+    <content type="html"><![CDATA[<p>前段时间有个世界杯的需求，增加世界杯外链统计。当时直接把合作方链接作为参数放在URL中，上线后相安无事。<br>但最近运营同事修改链接后，发现跳转不正确，反馈过来后，我赶紧用Chrome的调试工具观察Network，原来是外链中包含<code>&amp;word=爸爸去哪儿</code>参数，而之前并没有对外链进行编码，导致外链的参数被当作统计URL的参数了，所以外链参数丢失，跳转不正确。</p>
+<a id="more"></a>
+
+<p>知道原因后，在前端JS中增加<code>encodeURIComponent()</code>，本地测试感觉良好，跟运营同事沟通后，他测试还是跳转不正确，这次再调试，又疏忽大意了，本地是Tomcat7，而线上是Tomcat8。</p>
+<p>去Tomcat官网看了 <a href="http://tomcat.apache.org/tomcat-8.0-doc/changelog.html" target="_blank" rel="external">Tomcat 8 changelog</a>，注意下面这句话<br><code>Change the default URIEncoding for all connectors from ISO-8859-1 to UTF-8</code></p>
+<p>在Controller中对链接进行编码处理：</p>
+<figure class="highlight {java}"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+</pre></td><td class="code"><pre>UriComponentsBuilder builder = UriComponentsBuilder<span class="preprocessor">.fromHttpUrl</span>(link)<span class="comment">;</span>
+MultiValueMap&lt;String, String&gt; params = builder<span class="preprocessor">.build</span>()<span class="preprocessor">.getQueryParams</span>()<span class="comment">;</span>
+if (!params<span class="preprocessor">.isEmpty</span>()) {
+    StringBuilder queryBuilder = new StringBuilder()<span class="comment">;</span>
+    for (Map<span class="preprocessor">.Entry</span>&lt;String, List&lt;String&gt;&gt; entry : params<span class="preprocessor">.entrySet</span>()) {
+        String name = entry<span class="preprocessor">.getKey</span>()<span class="comment">;</span>
+        List&lt;String&gt; values = entry<span class="preprocessor">.getValue</span>()<span class="comment">;</span>
+        if (CollectionUtils<span class="preprocessor">.isEmpty</span>(values)) {
+            if (queryBuilder<span class="preprocessor">.length</span>() != <span class="number">0</span>) {
+                queryBuilder<span class="preprocessor">.append</span>(<span class="string">'&'</span>)<span class="comment">;</span>
+            }
+            queryBuilder<span class="preprocessor">.append</span>(name)<span class="comment">;</span>
+        }
+        else {
+            for (Object value : values) {
+                if (queryBuilder<span class="preprocessor">.length</span>() != <span class="number">0</span>) {
+                    queryBuilder<span class="preprocessor">.append</span>(<span class="string">'&'</span>)<span class="comment">;</span>
+                }
+                queryBuilder<span class="preprocessor">.append</span>(name)<span class="comment">;</span>
+
+                if (value != null) {
+                    queryBuilder<span class="preprocessor">.append</span>(<span class="string">'='</span>)<span class="comment">;</span>
+                    queryBuilder<span class="preprocessor">.append</span>(EncodeUtils<span class="preprocessor">.urlEncode</span>(value<span class="preprocessor">.toString</span>()))<span class="comment">;</span>
+                }
+            }
+        }
+    }
+    redirectView<span class="preprocessor">.setUrl</span>(builder<span class="preprocessor">.replaceQuery</span>(queryBuilder<span class="preprocessor">.toString</span>())<span class="preprocessor">.build</span>()<span class="preprocessor">.toUriString</span>())<span class="comment">;</span>
+}
+</pre></td></tr></table></figure>
+
+<p>这下在ResponseHeader中Location字段出现中文也没问题了。</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>前段时间有个世界杯的需求，增加世界杯外链统计。当时直接把合作方链接作为参数放在URL中，上线后相安无事。<br>但最近运营同事修改链接后，发现跳转不正确，反馈过来后，我赶紧用Chrome的调试工具观察Network，原来是外链中包含<code>&amp;word=爸爸去哪儿</code>参数，而之前并没有对外链进行编码，导致外链的参数被当作统计URL的参数了，所以外链参数丢失，跳转不正确。</p>
+]]></summary>
+    
+      <category term="Java" scheme="http://liubaing.com/tags/Java/"/>
+    
+      <category term="编程" scheme="http://liubaing.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[龙泉驾校约车脚本]]></title>
