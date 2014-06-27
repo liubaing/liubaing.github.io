@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2014-06-27T09:10:23.061Z</updated>
+  <updated>2014-06-27T09:14:11.093Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://liubaing.com/2014/06/27/URL%E7%BC%96%E7%A0%81/"/>
     <id>http://liubaing.com/2014/06/27/URL编码/</id>
     <published>2014-06-27T07:42:03.000Z</published>
-    <updated>2014-06-27T09:08:10.000Z</updated>
+    <updated>2014-06-27T09:14:04.000Z</updated>
     <content type="html"><![CDATA[<p>前段时间有个世界杯的需求，增加世界杯外链统计。当时直接把合作方链接作为参数放在URL中，上线后相安无事。<br>但最近运营同事修改链接后，发现跳转不正确，反馈过来后，我赶紧用Chrome的调试工具观察Network，原来是外链中包含<code>&amp;word=爸爸去哪儿</code>参数，而之前并没有对外链进行编码，导致外链的参数被当作统计URL的参数了，所以外链参数丢失，跳转不正确。</p>
 <a id="more"></a>
 
@@ -55,8 +55,8 @@
 27
 28
 29
-</pre></td><td class="code"><pre>UriComponentsBuilder builder = UriComponentsBuilder<span class="preprocessor">.fromHttpUrl</span>(link)<span class="comment">;</span>
-MultiValueMap&lt;String, String&gt; params = builder<span class="preprocessor">.build</span>()<span class="preprocessor">.getQueryParams</span>()<span class="comment">;</span>
+</pre></td><td class="code"><pre>UriComponentsBuilder urlBuilder = UriComponentsBuilder<span class="preprocessor">.fromHttpUrl</span>(link)<span class="comment">;</span>
+MultiValueMap&lt;String, String&gt; params = urlBuilder<span class="preprocessor">.build</span>()<span class="preprocessor">.getQueryParams</span>()<span class="comment">;</span>
 if (!params<span class="preprocessor">.isEmpty</span>()) {
     StringBuilder queryBuilder = new StringBuilder()<span class="comment">;</span>
     for (Map<span class="preprocessor">.Entry</span>&lt;String, List&lt;String&gt;&gt; entry : params<span class="preprocessor">.entrySet</span>()) {
@@ -82,7 +82,7 @@ if (!params<span class="preprocessor">.isEmpty</span>()) {
             }
         }
     }
-    redirectView<span class="preprocessor">.setUrl</span>(builder<span class="preprocessor">.replaceQuery</span>(queryBuilder<span class="preprocessor">.toString</span>())<span class="preprocessor">.build</span>()<span class="preprocessor">.toUriString</span>())<span class="comment">;</span>
+    redirectView<span class="preprocessor">.setUrl</span>(urlBuilder<span class="preprocessor">.replaceQuery</span>(queryBuilder<span class="preprocessor">.toString</span>())<span class="preprocessor">.build</span>()<span class="preprocessor">.toUriString</span>())<span class="comment">;</span>
 }
 </pre></td></tr></table></figure>
 

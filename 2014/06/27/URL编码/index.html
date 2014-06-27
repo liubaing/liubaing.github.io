@@ -150,8 +150,8 @@ var _hmt = _hmt || [];
 27
 28
 29
-</pre></td><td class="code"><pre>UriComponentsBuilder builder = UriComponentsBuilder<span class="preprocessor">.fromHttpUrl</span>(link)<span class="comment">;</span>
-MultiValueMap&lt;String, String&gt; params = builder<span class="preprocessor">.build</span>()<span class="preprocessor">.getQueryParams</span>()<span class="comment">;</span>
+</pre></td><td class="code"><pre>UriComponentsBuilder urlBuilder = UriComponentsBuilder<span class="preprocessor">.fromHttpUrl</span>(link)<span class="comment">;</span>
+MultiValueMap&lt;String, String&gt; params = urlBuilder<span class="preprocessor">.build</span>()<span class="preprocessor">.getQueryParams</span>()<span class="comment">;</span>
 if (!params<span class="preprocessor">.isEmpty</span>()) {
     StringBuilder queryBuilder = new StringBuilder()<span class="comment">;</span>
     for (Map<span class="preprocessor">.Entry</span>&lt;String, List&lt;String&gt;&gt; entry : params<span class="preprocessor">.entrySet</span>()) {
@@ -177,7 +177,7 @@ if (!params<span class="preprocessor">.isEmpty</span>()) {
             }
         }
     }
-    redirectView<span class="preprocessor">.setUrl</span>(builder<span class="preprocessor">.replaceQuery</span>(queryBuilder<span class="preprocessor">.toString</span>())<span class="preprocessor">.build</span>()<span class="preprocessor">.toUriString</span>())<span class="comment">;</span>
+    redirectView<span class="preprocessor">.setUrl</span>(urlBuilder<span class="preprocessor">.replaceQuery</span>(queryBuilder<span class="preprocessor">.toString</span>())<span class="preprocessor">.build</span>()<span class="preprocessor">.toUriString</span>())<span class="comment">;</span>
 }
 </pre></td></tr></table></figure>
 
@@ -186,7 +186,7 @@ if (!params<span class="preprocessor">.isEmpty</span>()) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/27/URL编码/" data-id="nopijal62bd0n4cv" data-title="URL编码" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/27/URL编码/" data-id="ev8ejtie7gymtaju" data-title="URL编码" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
