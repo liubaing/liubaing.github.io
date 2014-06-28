@@ -5,15 +5,15 @@
   
   <title>URL编码 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前段时间有个世界杯的需求，增加世界杯外链统计。当时直接把合作方链接作为参数放在URL中，上线后相安无事。但最近运营同事修改链接后，发现跳转不正确，反馈过来后，我赶紧用Chrome的调试工具观察Network，原来是外链中包含&amp;word=爸爸去哪儿参数，而之前并没有对外链进行编码，导致外链的参数被当作统计URL的参数了，所以外链参数丢失，跳转不正确。">
+  <meta name="description" content="前段时间有个世界杯的需求，增加世界杯外链统计。当时直接把合作方链接作为参数放在URL中，但运营同事修改为其他链接后，发现跳转不正确，反馈过来后，我赶紧用Chrome的调试工具观察Network，原来是外链中包含&amp;word=爸爸去哪儿参数，而之前并没有对外链进行编码，导致外链的参数被当作统计URL的参数了，所以外链参数丢失，跳转不正确。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="URL编码">
 <meta property="og:url" content="http://liubaing.com/2014/06/27/URL编码/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="前段时间有个世界杯的需求，增加世界杯外链统计。当时直接把合作方链接作为参数放在URL中，上线后相安无事。但最近运营同事修改链接后，发现跳转不正确，反馈过来后，我赶紧用Chrome的调试工具观察Network，原来是外链中包含&amp;word=爸爸去哪儿参数，而之前并没有对外链进行编码，导致外链的参数被当作统计URL的参数了，所以外链参数丢失，跳转不正确。">
+<meta property="og:description" content="前段时间有个世界杯的需求，增加世界杯外链统计。当时直接把合作方链接作为参数放在URL中，但运营同事修改为其他链接后，发现跳转不正确，反馈过来后，我赶紧用Chrome的调试工具观察Network，原来是外链中包含&amp;word=爸爸去哪儿参数，而之前并没有对外链进行编码，导致外链的参数被当作统计URL的参数了，所以外链参数丢失，跳转不正确。">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="URL编码">
-<meta name="twitter:description" content="前段时间有个世界杯的需求，增加世界杯外链统计。当时直接把合作方链接作为参数放在URL中，上线后相安无事。但最近运营同事修改链接后，发现跳转不正确，反馈过来后，我赶紧用Chrome的调试工具观察Network，原来是外链中包含&amp;word=爸爸去哪儿参数，而之前并没有对外链进行编码，导致外链的参数被当作统计URL的参数了，所以外链参数丢失，跳转不正确。">
+<meta name="twitter:description" content="前段时间有个世界杯的需求，增加世界杯外链统计。当时直接把合作方链接作为参数放在URL中，但运营同事修改为其他链接后，发现跳转不正确，反馈过来后，我赶紧用Chrome的调试工具观察Network，原来是外链中包含&amp;word=爸爸去哪儿参数，而之前并没有对外链进行编码，导致外链的参数被当作统计URL的参数了，所以外链参数丢失，跳转不正确。">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -115,13 +115,12 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>前段时间有个世界杯的需求，增加世界杯外链统计。当时直接把合作方链接作为参数放在URL中，上线后相安无事。<br>但最近运营同事修改链接后，发现跳转不正确，反馈过来后，我赶紧用Chrome的调试工具观察Network，原来是外链中包含<code>&amp;word=爸爸去哪儿</code>参数，而之前并没有对外链进行编码，导致外链的参数被当作统计URL的参数了，所以外链参数丢失，跳转不正确。</p>
+        <p>前段时间有个世界杯的需求，增加世界杯外链统计。当时直接把合作方链接作为参数放在URL中，但运营同事修改为其他链接后，发现跳转不正确，反馈过来后，我赶紧用Chrome的调试工具观察Network，原来是外链中包含<code>&amp;word=爸爸去哪儿</code>参数，而之前并没有对外链进行编码，导致外链的参数被当作统计URL的参数了，所以外链参数丢失，跳转不正确。</p>
 <a id="more"></a>
 
-<p>知道原因后，在前端JS中增加<code>encodeURIComponent()</code>，本地测试感觉良好，跟运营同事沟通后，他测试还是跳转不正确，这次再调试，又疏忽大意了，本地是Tomcat7，而线上是Tomcat8。</p>
-<p>去Tomcat官网看了 <a href="http://tomcat.apache.org/tomcat-8.0-doc/changelog.html" target="_blank" rel="external">Tomcat 8 changelog</a>，注意下面这句话<br><code>Change the default URIEncoding for all connectors from ISO-8859-1 to UTF-8</code></p>
-<p>在Controller中对链接进行编码处理：</p>
-<figure class="highlight {java}"><table><tr><td class="gutter"><pre>1
+<p>知道原因后，在前端JS中增加<code>encodeURIComponent()</code>，本地调试感觉良好，跟运营同事沟通后，他测试还是跳转不正确。<br>然后通过对比发现，原因可能是Tomcat版本的问题，去Tomcat官网看了 <a href="http://tomcat.apache.org/tomcat-8.0-doc/changelog.html" target="_blank" rel="external">Tomcat 8 changelog</a>，注意下面这句话<br><code>Change the default URIEncoding for all connectors from ISO-8859-1 to UTF-8</code>。</p>
+<p>在Controller取到的参数应该为UTF-8编码的，然后对链接的参数Encode：</p>
+<figure class="highlight {Java}"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -186,7 +185,7 @@ if (!params<span class="preprocessor">.isEmpty</span>()) {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/27/URL编码/" data-id="ev8ejtie7gymtaju" data-title="URL编码" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/27/URL编码/" data-id="b12t6xdp68cz1k7n" data-title="URL编码" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
