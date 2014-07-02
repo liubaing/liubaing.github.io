@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>标签: hosts | 六八ing的博客</title>
+  <title>Git日常操作 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="屌丝码农，关注技术，分享生活">
-<meta property="og:type" content="website">
-<meta property="og:title" content="六八ing的博客">
-<meta property="og:url" content="http://liubaing.com/tags/hosts/">
+  <meta name="description" content="平时使用git依赖于IDE图形化界面插件，用起来倒没什么问题，但觉得还是有必要总结下常用的git命令，点击查看Git中文文档。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git日常操作">
+<meta property="og:url" content="http://liubaing.com/2014/07/02/Git日常操作/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="屌丝码农，关注技术，分享生活">
+<meta property="og:description" content="平时使用git依赖于IDE图形化界面插件，用起来倒没什么问题，但觉得还是有必要总结下常用的git命令，点击查看Git中文文档。">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="六八ing的博客">
-<meta name="twitter:description" content="屌丝码农，关注技术，分享生活">
+<meta name="twitter:title" content="Git日常操作">
+<meta name="twitter:description" content="平时使用git依赖于IDE图形化界面插件，用起来倒没什么问题，但觉得还是有必要总结下常用的git命令，点击查看Git中文文档。">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -89,39 +89,108 @@ var _hmt = _hmt || [];
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2014/06/13/翻墙/" class="archive-article-date">
-  <time datetime="2014-06-13T08:38:14.000Z" itemprop="datePublished">6月 13</time>
+        <section id="main"><article id="post-Git日常操作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/07/02/Git日常操作/" class="article-date">
+  <time datetime="2014-07-02T07:05:24.000Z" itemprop="datePublished">7月 2 2014</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/工具/">工具</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/06/13/翻墙/">翻墙</a>
+    <h1 class="article-title" itemprop="name">
+      Git日常操作
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>平时使用git依赖于IDE图形化界面插件，用起来倒没什么问题，但觉得还是有必要总结下常用的git命令，<a href="http://git-scm.com/book/zh" target="_blank" rel="external">点击查看Git中文文档</a>。<br><a id="more"></a></p>
+<p>一般我们clone已有的项目，默认就是git协议，URL后面可以指定目录：</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">$ </span>git clone git<span class="variable">@github</span>.<span class="symbol">com:</span>liubaing/galaxy.git galaxy
+</pre></td></tr></table></figure>
+
+<p>本地默认会创建一个master分支，拿平时开发项目为例，我们还需要建立MS分支：</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
+Switched <span class="keyword">to</span> a <span class="literal">new</span> branch <span class="string">'vs-ezine-4.2.0-MS20140702'</span>
+</pre></td></tr></table></figure>
+
+<p>现在我们来看下本地分支:</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>$ git branch
+  master
+<span class="subst">*</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
+</pre></td></tr></table></figure>
+
+<p>如果要删除上一版本远程分支：</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">$ </span>git push origin <span class="symbol">:vs-ezine-</span><span class="number">4.1</span>.<span class="number">1</span>-<span class="constant">MS20140617</span>
+</pre></td></tr></table></figure>
+
+<p>开发过程中多利用<code>git status</code>的命令输出提示，需要提交时：</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="variable">$ </span>git add -<span class="constant">A</span>
+<span class="variable">$ </span>git commit -m <span class="string">"xxx"</span>
+<span class="variable">$ </span>git push origin vs-ezine-<span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span><span class="symbol">:vs-ezine-</span><span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span>
+</pre></td></tr></table></figure>
+
+<p>开发过程中文件revert有两种方式：<br>用<code>git reset HEAD &lt;file&gt;...</code>来取消暂存文件，<br>用<code>git checkout -- &lt;file&gt;...</code>来取消文件修改。</p>
+<p>开发结束后要把分支代码合并到master，并删除分支：</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>$ git checkout master
+$ git merge vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
+$ git branch <span class="attribute">-D</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
+</pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liubaing.com/2014/07/02/Git日常操作/" data-id="x34d3mqn1n7g2nzh" data-title="Git日常操作" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2014/06/27/URL编码/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">URL编码</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
+
+
+<section id="comment">
+  <div class="ds-thread" data-title="Git日常操作">
+  </div>
+</section>
+
 </section>
         
           <aside id="sidebar">
