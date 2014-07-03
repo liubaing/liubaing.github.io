@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2014-07-02T09:37:18.917Z</updated>
+  <updated>2014-07-03T06:26:36.388Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -13,6 +13,75 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Vim基本操作]]></title>
+    <link href="http://liubaing.com/2014/07/03/Vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
+    <id>http://liubaing.com/2014/07/03/Vim基本操作/</id>
+    <published>2014-07-03T03:16:05.000Z</published>
+    <updated>2014-07-03T06:19:56.000Z</updated>
+    <content type="html"><![CDATA[<p>废话不多说，直入主题吧。<br><a id="more"></a><br>1、平时常用操作</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>vim 启动vim
+i 进入插入模式
+&lt;<span class="constant">Esc</span>&gt; 回到编辑模式
+<span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
+<span class="symbol">:q</span> 退出vim
+</pre></td></tr></table></figure>
+
+<p>2、批量删除</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="tag">vim</span> <span class="tag">filename</span>
+<span class="pseudo">:set</span> <span class="tag">nu</span> 显示行号
+<span class="pseudo">:n</span> 移动到第<span class="tag">n</span>行
+<span class="pseudo">:1</span>,5<span class="tag">d</span> 回车后，删除1<span class="tag">-5</span>行
+<span class="pseudo">:u</span> 恢复
+</pre></td></tr></table></figure>
+
+<p>3、移动光标</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>/kw 向前搜索kw
+?kw 向后搜索kw
+<span class="number">0</span> 跳到行首
+<span class="variable">$ </span>跳到行尾
+gg 跳到首行
+<span class="constant">G</span> 跳到文件末尾
+dd 删除光标所在整行
+</pre></td></tr></table></figure>
+
+<p>4、批量加注释</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>编辑模式下，按下Ctrl + v，进入列（也叫区块）模式
+使用上下键（shift可翻页）选择需要注释的多行
+按下键盘（大写）<span class="keyword">I</span>键，进入插入模式
+然后输入注释符
+最后按下esc键才会出现注释
+</pre></td></tr></table></figure>]]></content>
+    <summary type="html"><![CDATA[<p>废话不多说，直入主题吧。<br>]]></summary>
+    
+      <category term="Vim" scheme="http://liubaing.com/tags/Vim/"/>
+    
+      <category term="扯淡" scheme="http://liubaing.com/categories/%E6%89%AF%E6%B7%A1/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Git日常操作]]></title>
@@ -78,13 +147,13 @@ $ git branch <span class="attribute">-D</span> vs<span class="attribute">-ezine<
     <link href="http://liubaing.com/2014/06/27/URL%E7%BC%96%E7%A0%81/"/>
     <id>http://liubaing.com/2014/06/27/URL编码/</id>
     <published>2014-06-27T07:42:03.000Z</published>
-    <updated>2014-06-28T10:41:29.000Z</updated>
+    <updated>2014-07-03T06:26:26.000Z</updated>
     <content type="html"><![CDATA[<p>前段时间有个世界杯的需求，增加世界杯外链统计。当时直接把合作方链接作为参数放在URL中，但运营同事修改为其他链接后，发现跳转不正确，反馈过来后，我赶紧用Chrome的调试工具观察Network，原来是外链中包含<code>&amp;word=爸爸去哪儿</code>参数，而之前并没有对外链进行编码，导致外链的参数被当作统计URL的参数了，所以外链参数丢失，跳转不正确。</p>
 <a id="more"></a>
 
 <p>知道原因后，在前端JS中增加<code>encodeURIComponent()</code>，本地调试感觉良好，跟运营同事沟通后，他测试还是跳转不正确。<br>然后通过对比发现，原因可能是Tomcat版本的问题，去Tomcat官网看了 <a href="http://tomcat.apache.org/tomcat-8.0-doc/changelog.html" target="_blank" rel="external">Tomcat 8 changelog</a>，注意下面这句话<br><code>Change the default URIEncoding for all connectors from ISO-8859-1 to UTF-8</code>。</p>
 <p>在Controller取到的参数应该为UTF-8编码的，然后对链接的参数Encode：</p>
-<figure class="highlight {Java}"><table><tr><td class="gutter"><pre>1
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -413,15 +482,13 @@ lq_session = requests.Session()
     <link href="http://liubaing.com/2014/06/15/%E4%B8%96%E7%95%8C%E6%9D%AF%E7%9B%B4%E6%92%AD/"/>
     <id>http://liubaing.com/2014/06/15/世界杯直播/</id>
     <published>2014-06-15T03:10:39.000Z</published>
-    <updated>2014-06-18T02:50:05.000Z</updated>
+    <updated>2014-07-03T03:20:07.000Z</updated>
     <content type="html"><![CDATA[<p>感谢世界杯给我们带来如此精彩的比赛，感谢CCTV节目组和解说嘉宾，更要感谢我们身边那个支持我们熬夜看球的人，但不用谢我，我只是搬运工。<br><a id="more"></a></p>
 <iframe height="408" width="510" src="http://static.youku.com/v1.0.0550/v/swf/livePlayer.swf?autoplay=1&showlogo=0&channel=204" frameborder="0" allowfullscreen></iframe>
 
 <p>今天是父亲节，在此借助世界杯祝愿天下所有父亲身体健康，感谢生命中有您的陪伴！</p>
 ]]></content>
     <summary type="html"><![CDATA[<p>感谢世界杯给我们带来如此精彩的比赛，感谢CCTV节目组和解说嘉宾，更要感谢我们身边那个支持我们熬夜看球的人，但不用谢我，我只是搬运工。<br>]]></summary>
-    
-      <category term="World Cup" scheme="http://liubaing.com/tags/World-Cup/"/>
     
       <category term="生活" scheme="http://liubaing.com/categories/%E7%94%9F%E6%B4%BB/"/>
     
@@ -462,7 +529,7 @@ lq_session = requests.Session()
     <link href="http://liubaing.com/2014/06/12/Linode%E9%80%80%E9%92%B1/"/>
     <id>http://liubaing.com/2014/06/12/Linode退钱/</id>
     <published>2014-06-12T08:13:17.000Z</published>
-    <updated>2014-06-18T09:12:44.000Z</updated>
+    <updated>2014-07-03T03:20:07.000Z</updated>
     <content type="html"><![CDATA[<p>之前用过一段时间Linode，不过由于种种原因（其实就是懒）不想继续维护了，Remove掉主机后，它会自动结算剩余金额。也不想让钱那么寂寞的呆在账户里，琢磨怎么退还到信用卡里。<br><a id="more"></a></p>
 <p>方法是登录Linode后给Linode客服发ticket申请退款。我直接写了一句 I don’t have time to maintain it and kindly need money，提交，等着收钱。然后客服回复后，退款自生成之日起，要3到5天才能到你的信用卡账户。</p>
 <p>退款后，如果你觉得这个账户没有继续存在的必要，那么可以在account选项卡页面的最底部，找到“Cancel this Account”链接，点击即可。</p>
@@ -473,7 +540,7 @@ lq_session = requests.Session()
     
       <category term="VPS" scheme="http://liubaing.com/tags/VPS/"/>
     
-      <category term="运维" scheme="http://liubaing.com/categories/%E8%BF%90%E7%BB%B4/"/>
+      <category term="扯淡" scheme="http://liubaing.com/categories/%E6%89%AF%E6%B7%A1/"/>
     
   </entry>
   
@@ -482,14 +549,12 @@ lq_session = requests.Session()
     <link href="http://liubaing.com/2014/06/08/hello-world/"/>
     <id>http://liubaing.com/2014/06/08/hello-world/</id>
     <published>2014-06-07T23:56:29.000Z</published>
-    <updated>2014-06-13T10:08:21.000Z</updated>
+    <updated>2014-07-03T03:20:07.000Z</updated>
     <content type="html"><![CDATA[<p>迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。<br><a id="more"></a><br>之前零零散散也分享过，比如网易的LOFTER、开源中国，都没坚持多久就荒废了，然后在微博上偶尔也会唠叨几句自己遇到的问题，最近想着自己能把博客坚持写下去，多少也是对码农生涯一个见证。</p>
 ]]></content>
     <summary type="html"><![CDATA[<p>迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。<br>]]></summary>
     
-      <category term="Hexo" scheme="http://liubaing.com/tags/Hexo/"/>
-    
-      <category term="装B" scheme="http://liubaing.com/categories/%E8%A3%85B/"/>
+      <category term="扯淡" scheme="http://liubaing.com/categories/%E6%89%AF%E6%B7%A1/"/>
     
   </entry>
   
