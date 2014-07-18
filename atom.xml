@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2014-07-03T06:26:36.388Z</updated>
+  <updated>2014-07-18T07:15:31.466Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -147,73 +147,12 @@ $ git branch <span class="attribute">-D</span> vs<span class="attribute">-ezine<
     <link href="http://liubaing.com/2014/06/27/URL%E7%BC%96%E7%A0%81/"/>
     <id>http://liubaing.com/2014/06/27/URL编码/</id>
     <published>2014-06-27T07:42:03.000Z</published>
-    <updated>2014-07-03T06:26:26.000Z</updated>
+    <updated>2014-07-18T07:11:57.000Z</updated>
     <content type="html"><![CDATA[<p>前段时间有个世界杯的需求，增加世界杯外链统计。当时直接把合作方链接作为参数放在URL中，但运营同事修改为其他链接后，发现跳转不正确，反馈过来后，我赶紧用Chrome的调试工具观察Network，原来是外链中包含<code>&amp;word=爸爸去哪儿</code>参数，而之前并没有对外链进行编码，导致外链的参数被当作统计URL的参数了，所以外链参数丢失，跳转不正确。</p>
 <a id="more"></a>
 
 <p>知道原因后，在前端JS中增加<code>encodeURIComponent()</code>，本地调试感觉良好，跟运营同事沟通后，他测试还是跳转不正确。<br>然后通过对比发现，原因可能是Tomcat版本的问题，去Tomcat官网看了 <a href="http://tomcat.apache.org/tomcat-8.0-doc/changelog.html" target="_blank" rel="external">Tomcat 8 changelog</a>，注意下面这句话<br><code>Change the default URIEncoding for all connectors from ISO-8859-1 to UTF-8</code>。</p>
-<p>在Controller取到的参数应该为UTF-8编码的，然后对链接的参数Encode：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-</pre></td><td class="code"><pre>UriComponentsBuilder urlBuilder = UriComponentsBuilder<span class="preprocessor">.fromHttpUrl</span>(link)<span class="comment">;</span>
-MultiValueMap&lt;String, String&gt; params = urlBuilder<span class="preprocessor">.build</span>()<span class="preprocessor">.getQueryParams</span>()<span class="comment">;</span>
-if (!params<span class="preprocessor">.isEmpty</span>()) {
-    StringBuilder queryBuilder = new StringBuilder()<span class="comment">;</span>
-    for (Map<span class="preprocessor">.Entry</span>&lt;String, List&lt;String&gt;&gt; entry : params<span class="preprocessor">.entrySet</span>()) {
-        String name = entry<span class="preprocessor">.getKey</span>()<span class="comment">;</span>
-        List&lt;String&gt; values = entry<span class="preprocessor">.getValue</span>()<span class="comment">;</span>
-        if (CollectionUtils<span class="preprocessor">.isEmpty</span>(values)) {
-            if (queryBuilder<span class="preprocessor">.length</span>() != <span class="number">0</span>) {
-                queryBuilder<span class="preprocessor">.append</span>(<span class="string">'&'</span>)<span class="comment">;</span>
-            }
-            queryBuilder<span class="preprocessor">.append</span>(name)<span class="comment">;</span>
-        }
-        else {
-            for (Object value : values) {
-                if (queryBuilder<span class="preprocessor">.length</span>() != <span class="number">0</span>) {
-                    queryBuilder<span class="preprocessor">.append</span>(<span class="string">'&'</span>)<span class="comment">;</span>
-                }
-                queryBuilder<span class="preprocessor">.append</span>(name)<span class="comment">;</span>
-
-                if (value != null) {
-                    queryBuilder<span class="preprocessor">.append</span>(<span class="string">'='</span>)<span class="comment">;</span>
-                    queryBuilder<span class="preprocessor">.append</span>(EncodeUtils<span class="preprocessor">.urlEncode</span>(value<span class="preprocessor">.toString</span>()))<span class="comment">;</span>
-                }
-            }
-        }
-    }
-    redirectView<span class="preprocessor">.setUrl</span>(urlBuilder<span class="preprocessor">.replaceQuery</span>(queryBuilder<span class="preprocessor">.toString</span>())<span class="preprocessor">.build</span>()<span class="preprocessor">.toUriString</span>())<span class="comment">;</span>
-}
-</pre></td></tr></table></figure>
-
-<p>这下在ResponseHeader中Location字段出现中文也没问题了。</p>
+<p>在Controller取到的参数应该为UTF-8编码的，然后对链接的参数Encode，这下在ResponseHeader中Location字段出现中文也没问题了。</p>
 ]]></content>
     <summary type="html"><![CDATA[<p>前段时间有个世界杯的需求，增加世界杯外链统计。当时直接把合作方链接作为参数放在URL中，但运营同事修改为其他链接后，发现跳转不正确，反馈过来后，我赶紧用Chrome的调试工具观察Network，原来是外链中包含<code>&amp;word=爸爸去哪儿</code>参数，而之前并没有对外链进行编码，导致外链的参数被当作统计URL的参数了，所以外链参数丢失，跳转不正确。</p>
 ]]></summary>
@@ -229,7 +168,7 @@ if (!params<span class="preprocessor">.isEmpty</span>()) {
     <link href="http://liubaing.com/2014/06/18/%E9%BE%99%E6%B3%89%E9%A9%BE%E6%A0%A1%E7%BA%A6%E8%BD%A6%E8%84%9A%E6%9C%AC/"/>
     <id>http://liubaing.com/2014/06/18/龙泉驾校约车脚本/</id>
     <published>2014-06-18T08:20:49.000Z</published>
-    <updated>2014-06-19T09:57:12.000Z</updated>
+    <updated>2014-07-18T07:15:16.000Z</updated>
     <content type="html"><![CDATA[<p>最近该学科目二，可一连几天都约不上车，开始琢磨写个脚本，看有没有效果。<br><a id="more"></a></p>
 <p>抱怨驾校也是徒劳，谁让当时图便宜呢。脚本也是参考了其他同学的代码，调整后不是特别完善，不过龙泉的校友还是可以参考。</p>
 <p>下面是执行脚本，其中有些参数根据自己情况填写：</p>
@@ -267,6 +206,10 @@ if (!params<span class="preprocessor">.isEmpty</span>()) {
 32
 33
 34
+35
+36
+37
+38
 </pre></td><td class="code"><pre><span class="comment"># !/usr/bin/python</span>
 <span class="comment"># -*- coding: utf-8 -*-</span>
 
@@ -288,19 +231,23 @@ passwd = <span class="string">""</span>
 
 <span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
     lq = lqjx.LQJX()
-    <span class="keyword">if</span> lq.login(uname, passwd):
-        <span class="keyword">while</span> <span class="number">1</span>:
-            cars = lq.get_bookable_car(xnsd[<span class="number">1</span>])
-            <span class="keyword">if</span> <span class="string">'null_0'</span> <span class="keyword">in</span> cars:
-                logging.info(<span class="string">'没到时间或者没有可预订车辆！'</span>)
-            <span class="keyword">else</span>:
-                result = lq.order_car(xnsd[<span class="number">1</span>], jlcbh)
-                <span class="keyword">print</span> result
-                <span class="keyword">if</span> <span class="string">u'成功'</span> <span class="keyword">in</span> result:
-                    logging.info(<span class="string">'\n 预定成功！'</span>)
-                    sys.exit(<span class="number">0</span>)
-            <span class="comment">#增加间隔时间，防止频繁请求，账号被封</span>
-            time.sleep(<span class="number">30</span>)
+    <span class="keyword">try</span>:
+        <span class="keyword">if</span> lq.login(uname, passwd):
+            <span class="keyword">while</span> <span class="number">1</span>:
+                cars = lq.get_bookable_car(xnsd[<span class="number">1</span>])
+                <span class="keyword">if</span> <span class="string">'null_0'</span> <span class="keyword">in</span> cars:
+                    logging.info(<span class="string">'没到时间或者没有可预订车辆！'</span>)
+                <span class="keyword">else</span>:
+                    result = lq.order_car(xnsd[<span class="number">1</span>], jlcbh)
+                    <span class="keyword">print</span> result
+                    <span class="keyword">if</span> <span class="string">u'成功'</span> <span class="keyword">in</span> result:
+                        logging.info(<span class="string">'\n 预定成功！'</span>)
+                        sys.exit(<span class="number">0</span>)
+                <span class="comment">#增加间隔时间，防止频繁请求，账号被封</span>
+                time.sleep(<span class="number">30</span>)
+    <span class="keyword">except</span> KeyboardInterrupt:
+        lq.logout()
+        logging.info(<span class="string">'退出约车系统！'</span>)
 </pre></td></tr></table></figure>
 
 <p>下面是核心模块：</p>
@@ -369,6 +316,9 @@ passwd = <span class="string">""</span>
 63
 64
 65
+66
+67
+68
 </pre></td><td class="code"><pre><span class="comment"># -*- coding: utf-8 -*-</span>
 
 <span class="keyword">import</span> requests
@@ -406,6 +356,9 @@ lq_session = requests.Session()
             logging.error(<span class="string">"登录失败，请检查账号状态或请求参数!"</span>)
             flag = <span class="keyword">False</span>
         <span class="keyword">return</span> flag
+
+    <span class="function"><span class="keyword">def</span> <span class="title">logout</span><span class="params">(self)</span>:</span>
+        lq_session.get(LQJX_HOST + <span class="string">'/Login.aspx?LoginOut=true'</span>, headers=self.header)
 
     <span class="function"><span class="keyword">def</span> <span class="title">order_car</span><span class="params">(self, xnsd, jlcbh)</span>:</span>
         query_param = {
@@ -499,7 +452,7 @@ lq_session = requests.Session()
     <link href="http://liubaing.com/2014/06/13/%E7%BF%BB%E5%A2%99/"/>
     <id>http://liubaing.com/2014/06/13/翻墙/</id>
     <published>2014-06-13T08:38:14.000Z</published>
-    <updated>2014-06-19T06:49:57.000Z</updated>
+    <updated>2014-07-18T07:11:57.000Z</updated>
     <content type="html"><![CDATA[<p>最近Google访问不了，各种403和连接被重置。<br><a id="more"></a><br>这给平时工作带来很大的不便，至于原因大家心知肚明。</p>
 <p>之前由于改过hosts，遇到Google被墙对自己影响不大，但这次彻底歇菜了。</p>
 <p>选择VPN还得取决所在网络环境，L2TP方式经常连接不上，所以暂时先Pass。看微博上有推荐用SSH代理，去淘宝上搜了一家，10块一月，感觉价格可以接受，还是香港主机，下单吧。</p>
@@ -510,7 +463,8 @@ lq_session = requests.Session()
 <p><img src="http://liubaing.qiniudn.com/ssh_proxy.jpeg" alt="增加代理"></p>
 <p>现在，打开浏览器试试吧！</p>
 <hr>
-<p>2014-6-19更新：<br>提供新版<a href="http://liubaing.qiniudn.com/hosts" target="_blank" rel="external">hosts</a>下载，大家自测。</p>
+<p>2014-6-19更新：</p>
+<p>提供新版<a href="http://liubaing.qiniudn.com/hosts" target="_blank" rel="external">hosts</a>下载，大家自测。</p>
 ]]></content>
     <summary type="html"><![CDATA[<p>最近Google访问不了，各种403和连接被重置。<br>]]></summary>
     

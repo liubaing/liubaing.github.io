@@ -152,6 +152,10 @@ var _hmt = _hmt || [];
 32
 33
 34
+35
+36
+37
+38
 </pre></td><td class="code"><pre><span class="comment"># !/usr/bin/python</span>
 <span class="comment"># -*- coding: utf-8 -*-</span>
 
@@ -173,19 +177,23 @@ passwd = <span class="string">""</span>
 
 <span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
     lq = lqjx.LQJX()
-    <span class="keyword">if</span> lq.login(uname, passwd):
-        <span class="keyword">while</span> <span class="number">1</span>:
-            cars = lq.get_bookable_car(xnsd[<span class="number">1</span>])
-            <span class="keyword">if</span> <span class="string">'null_0'</span> <span class="keyword">in</span> cars:
-                logging.info(<span class="string">'没到时间或者没有可预订车辆！'</span>)
-            <span class="keyword">else</span>:
-                result = lq.order_car(xnsd[<span class="number">1</span>], jlcbh)
-                <span class="keyword">print</span> result
-                <span class="keyword">if</span> <span class="string">u'成功'</span> <span class="keyword">in</span> result:
-                    logging.info(<span class="string">'\n 预定成功！'</span>)
-                    sys.exit(<span class="number">0</span>)
-            <span class="comment">#增加间隔时间，防止频繁请求，账号被封</span>
-            time.sleep(<span class="number">30</span>)
+    <span class="keyword">try</span>:
+        <span class="keyword">if</span> lq.login(uname, passwd):
+            <span class="keyword">while</span> <span class="number">1</span>:
+                cars = lq.get_bookable_car(xnsd[<span class="number">1</span>])
+                <span class="keyword">if</span> <span class="string">'null_0'</span> <span class="keyword">in</span> cars:
+                    logging.info(<span class="string">'没到时间或者没有可预订车辆！'</span>)
+                <span class="keyword">else</span>:
+                    result = lq.order_car(xnsd[<span class="number">1</span>], jlcbh)
+                    <span class="keyword">print</span> result
+                    <span class="keyword">if</span> <span class="string">u'成功'</span> <span class="keyword">in</span> result:
+                        logging.info(<span class="string">'\n 预定成功！'</span>)
+                        sys.exit(<span class="number">0</span>)
+                <span class="comment">#增加间隔时间，防止频繁请求，账号被封</span>
+                time.sleep(<span class="number">30</span>)
+    <span class="keyword">except</span> KeyboardInterrupt:
+        lq.logout()
+        logging.info(<span class="string">'退出约车系统！'</span>)
 </pre></td></tr></table></figure>
 
 <p>下面是核心模块：</p>
@@ -254,6 +262,9 @@ passwd = <span class="string">""</span>
 63
 64
 65
+66
+67
+68
 </pre></td><td class="code"><pre><span class="comment"># -*- coding: utf-8 -*-</span>
 
 <span class="keyword">import</span> requests
@@ -292,6 +303,9 @@ lq_session = requests.Session()
             flag = <span class="keyword">False</span>
         <span class="keyword">return</span> flag
 
+    <span class="function"><span class="keyword">def</span> <span class="title">logout</span><span class="params">(self)</span>:</span>
+        lq_session.get(LQJX_HOST + <span class="string">'/Login.aspx?LoginOut=true'</span>, headers=self.header)
+
     <span class="function"><span class="keyword">def</span> <span class="title">order_car</span><span class="params">(self, xnsd, jlcbh)</span>:</span>
         query_param = {
             <span class="string">'jlcbh'</span>: jlcbh,  <span class="comment">#教练场编号</span>
@@ -323,7 +337,7 @@ lq_session = requests.Session()
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="urwntzk125ubfthw" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="ojmp4auxh7dte5qa" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
 
