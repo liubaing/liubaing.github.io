@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2014-07-18T07:15:31.466Z</updated>
+  <updated>2014-07-26T10:09:19.864Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -13,6 +13,55 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[利用Chrome调试JavaScript]]></title>
+    <link href="http://liubaing.com/2014/07/26/%E5%88%A9%E7%94%A8Chrome%E8%B0%83%E8%AF%95JavaScript/"/>
+    <id>http://liubaing.com/2014/07/26/利用Chrome调试JavaScript/</id>
+    <published>2014-07-26T07:41:31.000Z</published>
+    <updated>2014-07-26T09:59:43.000Z</updated>
+    <content type="html"><![CDATA[<p>以下测试均在Chrome Version 36.0.1985.125下：</p>
+<h2 id="Console">Console</h2>
+<p>使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>&gt; console.<span class="keyword">log</span>(<span class="string">'hello world'</span>);
+  hello world
+&gt; console.<span class="keyword">warn</span>(<span class="string">'warning info'</span>);
+&gt; console.<span class="keyword">warn</span>(<span class="string">'error message'</span>)
+</pre></td></tr></table></figure><br>平时在Sources标签下对JS方法设置断点Debug时，可以查看作用域内的变量，也可以利用在Console中直接输入变量名查看。</p>
+<a id="more"></a>
+
+<h2 id="Emulation">Emulation</h2>
+<p>用来调试移动网站的利器，可以模拟移动设备分辨率，UA等，还可以模拟传感器，比如经纬度。</p>
+<h2 id="Network">Network</h2>
+<p>在这里罗列了当前页所有的HTTP请求，注意Status和Timeline用来作为优化请求的参考标准。<br>点击每条请求能看到请求头、请求参数、响应头、响应内容等信息，比如AJAX请求中比较关注的Content-Type字段。</p>
+<h2 id="Resources">Resources</h2>
+<p>一般常用就是Cookies标签，可以手动清除部分Cookie。<br>现在很多站点也开始采用H5中的Storage，在这里也可以查看并手动编辑。</p>
+<h2 id="Elements">Elements</h2>
+<p>查看页面节点信息，可以手动调整DOM，也可以更改CSS，观察渲染样式，查看节点监听事件。</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>以下测试均在Chrome Version 36.0.1985.125下：</p>
+<h2 id="Console">Console</h2>
+<p>使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>&gt; console.<span class="keyword">log</span>(<span class="string">'hello world'</span>);
+  hello world
+&gt; console.<span class="keyword">warn</span>(<span class="string">'warning info'</span>);
+&gt; console.<span class="keyword">warn</span>(<span class="string">'error message'</span>)
+</pre></td></tr></table></figure><br>平时在Sources标签下对JS方法设置断点Debug时，可以查看作用域内的变量，也可以利用在Console中直接输入变量名查看。</p>
+]]></summary>
+    
+      <category term="JavaScript" scheme="http://liubaing.com/tags/JavaScript/"/>
+    
+      <category term="工具" scheme="http://liubaing.com/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Vim基本操作]]></title>

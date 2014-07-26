@@ -3,17 +3,47 @@
 <head>
   <meta charset="utf-8">
   
-  <title>世界杯直播 | 六八ing的博客</title>
+  <title>利用Chrome调试JavaScript | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="感谢世界杯给我们带来如此精彩的比赛，感谢CCTV节目组和解说嘉宾，更要感谢我们身边那个支持我们熬夜看球的人，但不用谢我，我只是搬运工。">
+  <meta name="description" content="以下测试均在Chrome Version 36.0.1985.125下：
+Console
+使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。
+1
+2
+3
+4
+&gt; console.log('hello world');
+  hello world
+&gt; console.warn('warning info');
+&gt; console.warn('error">
 <meta property="og:type" content="article">
-<meta property="og:title" content="世界杯直播">
-<meta property="og:url" content="http://liubaing.com/2014/06/15/世界杯直播/">
+<meta property="og:title" content="利用Chrome调试JavaScript">
+<meta property="og:url" content="http://liubaing.com/2014/07/26/利用Chrome调试JavaScript/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="感谢世界杯给我们带来如此精彩的比赛，感谢CCTV节目组和解说嘉宾，更要感谢我们身边那个支持我们熬夜看球的人，但不用谢我，我只是搬运工。">
+<meta property="og:description" content="以下测试均在Chrome Version 36.0.1985.125下：
+Console
+使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。
+1
+2
+3
+4
+&gt; console.log('hello world');
+  hello world
+&gt; console.warn('warning info');
+&gt; console.warn('error">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="世界杯直播">
-<meta name="twitter:description" content="感谢世界杯给我们带来如此精彩的比赛，感谢CCTV节目组和解说嘉宾，更要感谢我们身边那个支持我们熬夜看球的人，但不用谢我，我只是搬运工。">
+<meta name="twitter:title" content="利用Chrome调试JavaScript">
+<meta name="twitter:description" content="以下测试均在Chrome Version 36.0.1985.125下：
+Console
+使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。
+1
+2
+3
+4
+&gt; console.log('hello world');
+  hello world
+&gt; console.warn('warning info');
+&gt; console.warn('error">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -89,14 +119,14 @@ var _hmt = _hmt || [];
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-世界杯直播" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-利用Chrome调试JavaScript" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/06/15/世界杯直播/" class="article-date">
-  <time datetime="2014-06-15T03:10:39.000Z" itemprop="datePublished">6月 15 2014</time>
+    <a href="/2014/07/26/利用Chrome调试JavaScript/" class="article-date">
+  <time datetime="2014-07-26T07:41:31.000Z" itemprop="datePublished">7月 26 2014</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/生活/">生活</a>
+    <a class="article-category-link" href="/categories/工具/">工具</a>
   </div>
 
   </div>
@@ -107,7 +137,7 @@ var _hmt = _hmt || [];
         
   
     <h1 class="article-title" itemprop="name">
-      世界杯直播
+      利用Chrome调试JavaScript
     </h1>
   
 
@@ -115,35 +145,46 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>感谢世界杯给我们带来如此精彩的比赛，感谢CCTV节目组和解说嘉宾，更要感谢我们身边那个支持我们熬夜看球的人，但不用谢我，我只是搬运工。<br><a id="more"></a></p>
-<iframe height="408" width="510" src="http://static.youku.com/v1.0.0550/v/swf/livePlayer.swf?autoplay=1&showlogo=0&channel=204" frameborder="0" allowfullscreen></iframe>
+        <p>以下测试均在Chrome Version 36.0.1985.125下：</p>
+<h2 id="Console">Console</h2>
+<p>使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>&gt; console.<span class="keyword">log</span>(<span class="string">'hello world'</span>);
+  hello world
+&gt; console.<span class="keyword">warn</span>(<span class="string">'warning info'</span>);
+&gt; console.<span class="keyword">warn</span>(<span class="string">'error message'</span>)
+</pre></td></tr></table></figure><br>平时在Sources标签下对JS方法设置断点Debug时，可以查看作用域内的变量，也可以利用在Console中直接输入变量名查看。</p>
+<a id="more"></a>
 
-<p>今天是父亲节，在此借助世界杯祝愿天下所有父亲身体健康，感谢生命中有您的陪伴！</p>
+<h2 id="Emulation">Emulation</h2>
+<p>用来调试移动网站的利器，可以模拟移动设备分辨率，UA等，还可以模拟传感器，比如经纬度。</p>
+<h2 id="Network">Network</h2>
+<p>在这里罗列了当前页所有的HTTP请求，注意Status和Timeline用来作为优化请求的参考标准。<br>点击每条请求能看到请求头、请求参数、响应头、响应内容等信息，比如AJAX请求中比较关注的Content-Type字段。</p>
+<h2 id="Resources">Resources</h2>
+<p>一般常用就是Cookies标签，可以手动清除部分Cookie。<br>现在很多站点也开始采用H5中的Storage，在这里也可以查看并手动编辑。</p>
+<h2 id="Elements">Elements</h2>
+<p>查看页面节点信息，可以手动调整DOM，也可以更改CSS，观察渲染样式，查看节点监听事件。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/15/世界杯直播/" data-id="hwum9z4pt5is7roq" data-title="世界杯直播" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/07/26/利用Chrome调试JavaScript/" data-id="bn2v8ilvm6cq890r" data-title="利用Chrome调试JavaScript" class="article-share-link">分享</a>
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2014/06/18/Python规范笔记/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          Python规范笔记
-        
-      </div>
-    </a>
   
-  
-    <a href="/2014/06/13/翻墙/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2014/07/03/Vim基本操作/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">翻墙</div>
+      <div class="article-nav-title">Vim基本操作</div>
     </a>
   
 </nav>
@@ -154,7 +195,7 @@ var _hmt = _hmt || [];
 
 
 <section id="comment">
-  <div class="ds-thread" data-title="世界杯直播">
+  <div class="ds-thread" data-title="利用Chrome调试JavaScript">
   </div>
 </section>
 
