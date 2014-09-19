@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2014-07-26T10:20:34.676Z</updated>
+  <updated>2014-09-19T03:04:43.691Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -13,6 +13,139 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Java中常用的时间格式化注意点]]></title>
+    <link href="http://liubaing.com/2014/09/18/Java%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%8C%96%E6%B3%A8%E6%84%8F%E7%82%B9/"/>
+    <id>http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/</id>
+    <published>2014-09-18T09:29:24.000Z</published>
+    <updated>2014-09-19T03:02:21.000Z</updated>
+    <content type="html"><![CDATA[<p>平时工作中或多或少都会遇到时间格式化的问题，传统思路都利用<code>java.text.SimpleDateFormat</code>，然后根据业务场景写几个Pattern去处理。</p>
+<p>之前接触到项目中一般都会提供一个工具类，既然是工具类，那就按套路了，上面声明几个不同格式的Pattern实例，下面写几个static方法，然后处理下异常之类的。</p>
+<p>这样的好处是避免方法调用时去new SimpleDateFormat，从而创建大量的实例对象，毕竟SimpleDateFormat类初始化代价不小，父类DateFormat中成员变量包含Calendar等。</p>
+<p>但恰恰就因为这个成员变量，并且format方法又没有同步，所以这个工具类在多线程下风险很高。</p>
+<p>这个问题在网上也看到很多解决方案，参考JDK中注释。</p>
+<blockquote>
+<p> Date formats are not synchronized.<br> It is recommended to create separate format instances for each thread.<br> If multiple threads access a format concurrently, it must be synchronized<br> externally</p>
+</blockquote>
+<h4 id="同步SimpleDateFormat对象">同步SimpleDateFormat对象</h4>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">formatDate</span>(Date date) <span class="keyword">throws</span> ParseException {
+    <span class="keyword">synchronized</span>(sdf) {
+        <span class="keyword">return</span> sdf.format(date);
+    }
+}
+</pre></td></tr></table></figure><br>同步随之而来就是阻塞</p>
+<h4 id="使用ThreadLocal">使用ThreadLocal</h4>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="code"><pre><span class="keyword">private</span> <span class="keyword">static</span> final String FULL_DATE_FORMAT = <span class="string">"yyyy-MM-dd HH:mm:ss"</span>;
+<span class="keyword">private</span> <span class="keyword">static</span> ThreadLocal&lt;SimpleDateFormat&gt; threadLocal = <span class="keyword">new</span> ThreadLocal&lt;SimpleDateFormat&gt;();
+
+<span class="keyword">public</span> <span class="keyword">static</span> SimpleDateFormat <span class="title">getDateFormat</span>() {
+    SimpleDateFormat dateFormat = threadLocal.<span class="keyword">get</span>();
+    <span class="keyword">if</span> (dateFormat == <span class="keyword">null</span>) {
+        dateFormat = <span class="keyword">new</span> SimpleDateFormat(FULL_DATE_FORMAT);
+        threadLocal.<span class="keyword">set</span>(dateFormat);
+    }
+    <span class="keyword">return</span> dateFormat;
+}
+
+<span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">formatDate</span>(Date date) throws ParseException {
+    <span class="keyword">return</span> getDateFormat().format(date);
+}
+</pre></td></tr></table></figure><br>共享变量变成了线程私有</p>
+<a id="more"></a>
+
+<h4 id="使用Joda-Time类库">使用Joda-Time类库</h4>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String FULL_DATE_FORMAT = <span class="string">"yyyy-MM-dd HH:mm:ss"</span>;
+
+<span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">formatDate</span>(DateTime dateTime) {
+    <span class="keyword">return</span> dateTime.toString(FULL_DATE_FORMAT);
+}
+</pre></td></tr></table></figure><br>对用户自定义Pattern，Joda在解析并创建<code>org.joda.time.format.DateTimeFormatter</code>会Cache，不用过于担心性能问题，当然也自己手动去Cache，因为DateTime有多个toString()重载方法。</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>平时工作中或多或少都会遇到时间格式化的问题，传统思路都利用<code>java.text.SimpleDateFormat</code>，然后根据业务场景写几个Pattern去处理。</p>
+<p>之前接触到项目中一般都会提供一个工具类，既然是工具类，那就按套路了，上面声明几个不同格式的Pattern实例，下面写几个static方法，然后处理下异常之类的。</p>
+<p>这样的好处是避免方法调用时去new SimpleDateFormat，从而创建大量的实例对象，毕竟SimpleDateFormat类初始化代价不小，父类DateFormat中成员变量包含Calendar等。</p>
+<p>但恰恰就因为这个成员变量，并且format方法又没有同步，所以这个工具类在多线程下风险很高。</p>
+<p>这个问题在网上也看到很多解决方案，参考JDK中注释。</p>
+<blockquote>
+<p> Date formats are not synchronized.<br> It is recommended to create separate format instances for each thread.<br> If multiple threads access a format concurrently, it must be synchronized<br> externally</p>
+</blockquote>
+<h4 id="同步SimpleDateFormat对象">同步SimpleDateFormat对象</h4>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">formatDate</span>(Date date) <span class="keyword">throws</span> ParseException {
+    <span class="keyword">synchronized</span>(sdf) {
+        <span class="keyword">return</span> sdf.format(date);
+    }
+}
+</pre></td></tr></table></figure><br>同步随之而来就是阻塞</p>
+<h4 id="使用ThreadLocal">使用ThreadLocal</h4>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="code"><pre><span class="keyword">private</span> <span class="keyword">static</span> final String FULL_DATE_FORMAT = <span class="string">"yyyy-MM-dd HH:mm:ss"</span>;
+<span class="keyword">private</span> <span class="keyword">static</span> ThreadLocal&lt;SimpleDateFormat&gt; threadLocal = <span class="keyword">new</span> ThreadLocal&lt;SimpleDateFormat&gt;();
+
+<span class="keyword">public</span> <span class="keyword">static</span> SimpleDateFormat <span class="title">getDateFormat</span>() {
+    SimpleDateFormat dateFormat = threadLocal.<span class="keyword">get</span>();
+    <span class="keyword">if</span> (dateFormat == <span class="keyword">null</span>) {
+        dateFormat = <span class="keyword">new</span> SimpleDateFormat(FULL_DATE_FORMAT);
+        threadLocal.<span class="keyword">set</span>(dateFormat);
+    }
+    <span class="keyword">return</span> dateFormat;
+}
+
+<span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">formatDate</span>(Date date) throws ParseException {
+    <span class="keyword">return</span> getDateFormat().format(date);
+}
+</pre></td></tr></table></figure><br>共享变量变成了线程私有</p>
+]]></summary>
+    
+      <category term="Java" scheme="http://liubaing.com/tags/Java/"/>
+    
+      <category term="编程" scheme="http://liubaing.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[利用Chrome调试]]></title>
