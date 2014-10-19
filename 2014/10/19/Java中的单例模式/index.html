@@ -3,50 +3,62 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Vim基本操作 | 六八ing的博客</title>
+  <title>Java中的单例模式 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="废话不多说，直入主题吧。
-1、平时常用操作
+  <meta name="description" content="单例模式是Java设计模式中相当经典的了，平时工作接触的也只有懒汉、饿汉之类的，之前阿里面试中也被问到这个问题，今天就总结一下。
+饿汉式
 1
 2
 3
 4
 5
-vim 启动vim
-i 进入插入模式
-&lt;Esc&gt; 回到编辑模式
-:w filename （保存文件为"filename"）
-:q 退出vim">
+6
+7
+8
+9
+10
+public class Singleton {
+    private final static Singleton INSTANCE = new Singleton();
+
+    private Singleton">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vim基本操作">
-<meta property="og:url" content="http://liubaing.com/2014/07/03/Vim基本操作/">
+<meta property="og:title" content="Java中的单例模式">
+<meta property="og:url" content="http://liubaing.com/2014/10/19/Java中的单例模式/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="废话不多说，直入主题吧。
-1、平时常用操作
+<meta property="og:description" content="单例模式是Java设计模式中相当经典的了，平时工作接触的也只有懒汉、饿汉之类的，之前阿里面试中也被问到这个问题，今天就总结一下。
+饿汉式
 1
 2
 3
 4
 5
-vim 启动vim
-i 进入插入模式
-&lt;Esc&gt; 回到编辑模式
-:w filename （保存文件为"filename"）
-:q 退出vim">
+6
+7
+8
+9
+10
+public class Singleton {
+    private final static Singleton INSTANCE = new Singleton();
+
+    private Singleton">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vim基本操作">
-<meta name="twitter:description" content="废话不多说，直入主题吧。
-1、平时常用操作
+<meta name="twitter:title" content="Java中的单例模式">
+<meta name="twitter:description" content="单例模式是Java设计模式中相当经典的了，平时工作接触的也只有懒汉、饿汉之类的，之前阿里面试中也被问到这个问题，今天就总结一下。
+饿汉式
 1
 2
 3
 4
 5
-vim 启动vim
-i 进入插入模式
-&lt;Esc&gt; 回到编辑模式
-:w filename （保存文件为"filename"）
-:q 退出vim">
+6
+7
+8
+9
+10
+public class Singleton {
+    private final static Singleton INSTANCE = new Singleton();
+
+    private Singleton">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -110,14 +122,14 @@ var _hmt = _hmt || [];
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-Vim基本操作" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Java中的单例模式" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/07/03/Vim基本操作/" class="article-date">
-  <time datetime="2014-07-03T03:16:05.000Z" itemprop="datePublished">7月 3 2014</time>
+    <a href="/2014/10/19/Java中的单例模式/" class="article-date">
+  <time datetime="2014-10-19T10:28:54.000Z" itemprop="datePublished">10月 19 2014</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/扯淡/">扯淡</a>
+    <a class="article-category-link" href="/categories/编程/">编程</a>
   </div>
 
   </div>
@@ -128,7 +140,7 @@ var _hmt = _hmt || [];
         
   
     <h1 class="article-title" itemprop="name">
-      Vim基本操作
+      Java中的单例模式
     </h1>
   
 
@@ -136,31 +148,8 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>废话不多说，直入主题吧。</p>
-<p>1、平时常用操作</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre>vim 启动vim
-i 进入插入模式
-&lt;<span class="constant">Esc</span>&gt; 回到编辑模式
-<span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
-<span class="symbol">:q</span> 退出vim
-</pre></td></tr></table></figure><br><a id="more"></a><br>2、批量删除<br><figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre><span class="tag">vim</span> <span class="tag">filename</span>
-<span class="pseudo">:set</span> <span class="tag">nu</span> 显示行号
-<span class="pseudo">:n</span> 移动到第<span class="tag">n</span>行
-<span class="pseudo">:1</span>,5<span class="tag">d</span> 回车后，删除1<span class="tag">-5</span>行
-<span class="pseudo">:u</span> 恢复
-</pre></td></tr></table></figure>
-
-<p>3、移动光标</p>
+        <p>单例模式是Java设计模式中相当经典的了，平时工作接触的也只有懒汉、饿汉之类的，之前阿里面试中也被问到这个问题，今天就总结一下。</p>
+<h4 id="饿汉式">饿汉式</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -168,33 +157,133 @@ i 进入插入模式
 5
 6
 7
-</pre></td><td class="code"><pre>/kw 向前搜索kw
-?kw 向后搜索kw
-<span class="number">0</span> 跳到行首
-<span class="variable">$ </span>跳到行尾
-gg 跳到首行
-<span class="constant">G</span> 跳到文件末尾
-dd 删除光标所在整行
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">class</span> Singleton {
+    <span class="keyword">private</span> final <span class="keyword">static</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();
+
+    <span class="keyword">private</span> <span class="title">Singleton</span>() {
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span>() {
+        <span class="keyword">return</span> INSTANCE;
+    }
+}
 </pre></td></tr></table></figure>
 
-<p>4、批量加注释</p>
+<p>一般不希望在类加载时就创建对象，改进后：</p>
+<h4 id="简单实现线程安全的懒汉式">简单实现线程安全的懒汉式</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
 4
 5
-</pre></td><td class="code"><pre>编辑模式下，按下Ctrl + v，进入列（也叫区块）模式
-使用上下键（shift可翻页）选择需要注释的多行
-按下键盘（大写）<span class="keyword">I</span>键，进入插入模式
-然后输入注释符
-最后按下esc键才会出现注释
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">class</span> Singleton {
+    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance;
+
+    <span class="keyword">private</span> <span class="title">Singleton</span>() {
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> synchronized Singleton <span class="title">getInstance</span>() {
+        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) {
+            instance = <span class="keyword">new</span> Singleton();
+        }
+        <span class="keyword">return</span> instance;
+    }
+}
 </pre></td></tr></table></figure>
+
+<p>上面例子的性能不太理想，其实只需第一次调用时同步，利用JDK1.5中volatile关键字改进后：<br><a id="more"></a></p>
+<p><h4>利用volatile的懒汉式</h4></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> Singleton {
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> Singleton instance = <span class="keyword">null</span>;
+
+    <span class="keyword">private</span> <span class="title">Singleton</span>() {
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span>() {
+        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) {
+            synchronized (Singleton.class) {
+                <span class="keyword">if</span> (instance == <span class="keyword">null</span>) {
+                    instance = <span class="keyword">new</span> Singleton();
+                }
+            }
+        }
+        <span class="keyword">return</span> instance;
+    }
+}
+</pre></td></tr></table></figure>
+
+<h4 id="利用枚举类">利用枚举类</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">enum</span> Singleton {
+    INSTANCE;
+}
+</pre></td></tr></table></figure>
+
+<h4 id="利用内部类机制实现">利用内部类机制实现</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">class</span> Singleton {
+
+    <span class="keyword">private</span> <span class="title">Singleton</span>() { }
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> SingletonHolder {
+        <span class="keyword">private</span> final <span class="keyword">static</span> Singleton INSTANCE = <span class="keyword">new</span> Singleton();
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span>() {
+        <span class="keyword">return</span> SingletonHolder.INSTANCE;
+    }
+}
+</pre></td></tr></table></figure>
+
+<p>总结下，尽管上面列举一些方法实现单例，但还是不完全能保证，还需要注意反序列化和反射。个人推荐枚举方式，代码量简介而且很好利用JVM。</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/07/03/Vim基本操作/" data-id="7q6971291qvacht6" data-title="Vim基本操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="fokve341qx3m6wd2" data-title="Java中的单例模式" class="article-share-link">分享</a>
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
     </footer>
   </div>
@@ -202,19 +291,10 @@ dd 删除光标所在整行
     
 <nav id="article-nav">
   
-    <a href="/2014/07/26/利用Chrome调试/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          利用Chrome调试
-        
-      </div>
-    </a>
   
-  
-    <a href="/2014/07/02/Git日常操作/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2014/09/18/Java中常用的时间格式化注意点/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">Git日常操作</div>
+      <div class="article-nav-title">Java中常用的时间格式化注意点</div>
     </a>
   
 </nav>
@@ -225,7 +305,7 @@ dd 删除光标所在整行
 
 
 <section id="comment">
-  <div class="ds-thread" data-title="Vim基本操作">
+  <div class="ds-thread" data-title="Java中的单例模式">
   </div>
 </section>
 
