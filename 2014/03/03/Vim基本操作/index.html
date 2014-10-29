@@ -3,47 +3,50 @@
 <head>
   <meta charset="utf-8">
   
-  <title>利用Chrome调试 | 六八ing的博客</title>
+  <title>Vim基本操作 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="以下测试均在Chrome Version 36.0.1985.125下：
-Console
-使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。
+  <meta name="description" content="废话不多说，直入主题吧。
+1、平时常用操作
 1
 2
 3
 4
-&gt; console.log('hello world');
-  hello world
-&gt; console.warn('warning info');
-&gt; console.warn('error">
+5
+vim 启动vim
+i 进入插入模式
+&lt;Esc&gt; 回到编辑模式
+:w filename （保存文件为"filename"）
+:q 退出vim">
 <meta property="og:type" content="article">
-<meta property="og:title" content="利用Chrome调试">
-<meta property="og:url" content="http://liubaing.com/2014/07/26/利用Chrome调试/">
+<meta property="og:title" content="Vim基本操作">
+<meta property="og:url" content="http://liubaing.com/2014/03/03/Vim基本操作/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="以下测试均在Chrome Version 36.0.1985.125下：
-Console
-使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。
+<meta property="og:description" content="废话不多说，直入主题吧。
+1、平时常用操作
 1
 2
 3
 4
-&gt; console.log('hello world');
-  hello world
-&gt; console.warn('warning info');
-&gt; console.warn('error">
+5
+vim 启动vim
+i 进入插入模式
+&lt;Esc&gt; 回到编辑模式
+:w filename （保存文件为"filename"）
+:q 退出vim">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="利用Chrome调试">
-<meta name="twitter:description" content="以下测试均在Chrome Version 36.0.1985.125下：
-Console
-使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。
+<meta name="twitter:title" content="Vim基本操作">
+<meta name="twitter:description" content="废话不多说，直入主题吧。
+1、平时常用操作
 1
 2
 3
 4
-&gt; console.log('hello world');
-  hello world
-&gt; console.warn('warning info');
-&gt; console.warn('error">
+5
+vim 启动vim
+i 进入插入模式
+&lt;Esc&gt; 回到编辑模式
+:w filename （保存文件为"filename"）
+:q 退出vim">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -107,14 +110,14 @@ var _hmt = _hmt || [];
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-利用Chrome调试" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Vim基本操作" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/07/26/利用Chrome调试/" class="article-date">
-  <time datetime="2014-07-26T07:41:31.000Z" itemprop="datePublished">7月 26 2014</time>
+    <a href="/2014/03/03/Vim基本操作/" class="article-date">
+  <time datetime="2014-03-03T03:16:05.000Z" itemprop="datePublished">3月 3 2014</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/工具/">工具</a>
+    <a class="article-category-link" href="/categories/扯淡/">扯淡</a>
   </div>
 
   </div>
@@ -125,7 +128,7 @@ var _hmt = _hmt || [];
         
   
     <h1 class="article-title" itemprop="name">
-      利用Chrome调试
+      Vim基本操作
     </h1>
   
 
@@ -133,35 +136,67 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>以下测试均在Chrome Version 36.0.1985.125下：</p>
-<h2 id="Console">Console</h2>
-<p>使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+        <p>废话不多说，直入主题吧。</p>
+<p>1、平时常用操作</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
 4
-</pre></td><td class="code"><pre>&gt; console.<span class="keyword">log</span>(<span class="string">'hello world'</span>);
-  hello world
-&gt; console.<span class="keyword">warn</span>(<span class="string">'warning info'</span>);
-&gt; console.<span class="keyword">warn</span>(<span class="string">'error message'</span>)
-</pre></td></tr></table></figure><br>平时在Sources标签下对JS方法设置断点Debug时，可以查看作用域内的变量，也可以利用在Console中直接输入变量名查看。</p>
-<a id="more"></a>
+5
+</pre></td><td class="code"><pre>vim 启动vim
+i 进入插入模式
+&lt;<span class="constant">Esc</span>&gt; 回到编辑模式
+<span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
+<span class="symbol">:q</span> 退出vim
+</pre></td></tr></table></figure><br><a id="more"></a><br>2、批量删除<br><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="tag">vim</span> <span class="tag">filename</span>
+<span class="pseudo">:set</span> <span class="tag">nu</span> 显示行号
+<span class="pseudo">:n</span> 移动到第<span class="tag">n</span>行
+<span class="pseudo">:1</span>,5<span class="tag">d</span> 回车后，删除1<span class="tag">-5</span>行
+<span class="pseudo">:u</span> 恢复
+</pre></td></tr></table></figure>
 
-<h2 id="Emulation">Emulation</h2>
-<p>用来调试移动网站的利器，可以模拟移动设备分辨率，UA等，还可以模拟传感器，比如经纬度。</p>
-<h2 id="Network">Network</h2>
-<p>在这里罗列了当前页所有的HTTP请求，注意Status和Timeline用来作为优化请求的参考标准。<br>点击每条请求能看到请求头、请求参数、响应头、响应内容等信息，比如AJAX请求中比较关注的Content-Type字段。</p>
-<h2 id="Resources">Resources</h2>
-<p>一般常用就是Cookies标签，可以手动清除部分Cookie。<br>现在很多站点也开始采用H5中的Storage，在这里也可以查看并手动编辑。</p>
-<h2 id="Elements">Elements</h2>
-<p>查看页面节点信息，可以手动调整DOM，也可以更改CSS，观察渲染样式，查看节点监听事件。</p>
+<p>3、移动光标</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre>/kw 向前搜索kw
+?kw 向后搜索kw
+<span class="number">0</span> 跳到行首
+<span class="variable">$ </span>跳到行尾
+gg 跳到首行
+dG 删除所有行
+<span class="constant">G</span> 跳到文件末尾
+dd 剪切光标所在整行
+</pre></td></tr></table></figure>
 
+<p>4、批量加注释</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>编辑模式下，按下Ctrl + v，进入列（也叫区块）模式
+使用上下键（shift可翻页）选择需要注释的多行
+按下键盘（大写）<span class="keyword">I</span>键，进入插入模式
+然后输入注释符
+最后按下esc键才会出现注释
+</pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/07/26/利用Chrome调试/" data-id="ub85n6vd3zvtnhes" data-title="利用Chrome调试" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="hefl653i8djk9nvb" data-title="Vim基本操作" class="article-share-link">分享</a>
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chrome/">Chrome</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
 
     </footer>
   </div>
@@ -169,19 +204,19 @@ var _hmt = _hmt || [];
     
 <nav id="article-nav">
   
-    <a href="/2014/09/18/Java中常用的时间格式化注意点/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2014/04/12/Linode退钱/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
-          Java中常用的时间格式化注意点
+          Linode退钱
         
       </div>
     </a>
   
   
-    <a href="/2014/07/03/Vim基本操作/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2014/02/08/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">Vim基本操作</div>
+      <div class="article-nav-title">Hello World</div>
     </a>
   
 </nav>
@@ -192,7 +227,7 @@ var _hmt = _hmt || [];
 
 
 <section id="comment">
-  <div class="ds-thread" data-title="利用Chrome调试">
+  <div class="ds-thread" data-title="Vim基本操作">
   </div>
 </section>
 
@@ -204,7 +239,7 @@ var _hmt = _hmt || [];
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Chrome/" style="font-size: 10.00px;">Chrome</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Python/" style="font-size: 15.00px;">Python</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/VPS/" style="font-size: 10.00px;">VPS</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
+      <a href="/tags/Chrome/" style="font-size: 10.00px;">Chrome</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/Safari/" style="font-size: 10.00px;">Safari</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/VPS/" style="font-size: 10.00px;">VPS</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
     </div>
   </div>
 
@@ -224,15 +259,15 @@ var _hmt = _hmt || [];
           </li>
         
           <li>
-            <a href="/2014/07/26/利用Chrome调试/">利用Chrome调试</a>
+            <a href="/2014/07/26/常用浏览器下调试/">常用浏览器下调试</a>
           </li>
         
           <li>
-            <a href="/2014/07/03/Vim基本操作/">Vim基本操作</a>
+            <a href="/2014/06/27/URL编码/">URL编码</a>
           </li>
         
           <li>
-            <a href="/2014/07/02/Git日常操作/">Git日常操作</a>
+            <a href="/2014/06/18/龙泉驾校约车脚本/">龙泉驾校约车脚本</a>
           </li>
         
       </ul>

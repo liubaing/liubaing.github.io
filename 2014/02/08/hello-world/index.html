@@ -3,50 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Vim基本操作 | 六八ing的博客</title>
+  <title>Hello World | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="废话不多说，直入主题吧。
-1、平时常用操作
-1
-2
-3
-4
-5
-vim 启动vim
-i 进入插入模式
-&lt;Esc&gt; 回到编辑模式
-:w filename （保存文件为"filename"）
-:q 退出vim">
+  <meta name="description" content="迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vim基本操作">
-<meta property="og:url" content="http://liubaing.com/2014/07/03/Vim基本操作/">
+<meta property="og:title" content="Hello World">
+<meta property="og:url" content="http://liubaing.com/2014/02/08/hello-world/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="废话不多说，直入主题吧。
-1、平时常用操作
-1
-2
-3
-4
-5
-vim 启动vim
-i 进入插入模式
-&lt;Esc&gt; 回到编辑模式
-:w filename （保存文件为"filename"）
-:q 退出vim">
+<meta property="og:description" content="迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vim基本操作">
-<meta name="twitter:description" content="废话不多说，直入主题吧。
-1、平时常用操作
-1
-2
-3
-4
-5
-vim 启动vim
-i 进入插入模式
-&lt;Esc&gt; 回到编辑模式
-:w filename （保存文件为"filename"）
-:q 退出vim">
+<meta name="twitter:title" content="Hello World">
+<meta name="twitter:description" content="迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -110,10 +77,10 @@ var _hmt = _hmt || [];
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-Vim基本操作" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/07/03/Vim基本操作/" class="article-date">
-  <time datetime="2014-07-03T03:16:05.000Z" itemprop="datePublished">7月 3 2014</time>
+    <a href="/2014/02/08/hello-world/" class="article-date">
+  <time datetime="2014-02-07T23:56:29.000Z" itemprop="datePublished">2月 8 2014</time>
 </a>
     
   <div class="article-category">
@@ -128,7 +95,7 @@ var _hmt = _hmt || [];
         
   
     <h1 class="article-title" itemprop="name">
-      Vim基本操作
+      Hello World
     </h1>
   
 
@@ -136,86 +103,28 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>废话不多说，直入主题吧。</p>
-<p>1、平时常用操作</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre>vim 启动vim
-i 进入插入模式
-&lt;<span class="constant">Esc</span>&gt; 回到编辑模式
-<span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
-<span class="symbol">:q</span> 退出vim
-</pre></td></tr></table></figure><br><a id="more"></a><br>2、批量删除<br><figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre><span class="tag">vim</span> <span class="tag">filename</span>
-<span class="pseudo">:set</span> <span class="tag">nu</span> 显示行号
-<span class="pseudo">:n</span> 移动到第<span class="tag">n</span>行
-<span class="pseudo">:1</span>,5<span class="tag">d</span> 回车后，删除1<span class="tag">-5</span>行
-<span class="pseudo">:u</span> 恢复
-</pre></td></tr></table></figure>
+        <p>迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。<br><a id="more"></a><br>之前零零散散也分享过，比如网易的LOFTER、开源中国，都没坚持多久就荒废了，然后在微博上偶尔也会唠叨几句自己遇到的问题，最近想着自己能把博客坚持写下去，多少也是对码农生涯一个见证。</p>
 
-<p>3、移动光标</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre>/kw 向前搜索kw
-?kw 向后搜索kw
-<span class="number">0</span> 跳到行首
-<span class="variable">$ </span>跳到行尾
-gg 跳到首行
-<span class="constant">G</span> 跳到文件末尾
-dd 删除光标所在整行
-</pre></td></tr></table></figure>
-
-<p>4、批量加注释</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre>编辑模式下，按下Ctrl + v，进入列（也叫区块）模式
-使用上下键（shift可翻页）选择需要注释的多行
-按下键盘（大写）<span class="keyword">I</span>键，进入插入模式
-然后输入注释符
-最后按下esc键才会出现注释
-</pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/07/03/Vim基本操作/" data-id="7q6971291qvacht6" data-title="Vim基本操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/02/08/hello-world/" data-id="g9pvy6avnbfkkvau" data-title="Hello World" class="article-share-link">分享</a>
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
-
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2014/07/26/利用Chrome调试/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2014/03/03/Vim基本操作/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
-          利用Chrome调试
+          Vim基本操作
         
       </div>
     </a>
   
-  
-    <a href="/2014/07/02/Git日常操作/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">Git日常操作</div>
-    </a>
   
 </nav>
 
@@ -225,7 +134,7 @@ dd 删除光标所在整行
 
 
 <section id="comment">
-  <div class="ds-thread" data-title="Vim基本操作">
+  <div class="ds-thread" data-title="Hello World">
   </div>
 </section>
 
@@ -237,7 +146,7 @@ dd 删除光标所在整行
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Chrome/" style="font-size: 10.00px;">Chrome</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Python/" style="font-size: 15.00px;">Python</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/VPS/" style="font-size: 10.00px;">VPS</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
+      <a href="/tags/Chrome/" style="font-size: 10.00px;">Chrome</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/Safari/" style="font-size: 10.00px;">Safari</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/VPS/" style="font-size: 10.00px;">VPS</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
     </div>
   </div>
 
@@ -257,15 +166,15 @@ dd 删除光标所在整行
           </li>
         
           <li>
-            <a href="/2014/07/26/利用Chrome调试/">利用Chrome调试</a>
+            <a href="/2014/07/26/常用浏览器下调试/">常用浏览器下调试</a>
           </li>
         
           <li>
-            <a href="/2014/07/03/Vim基本操作/">Vim基本操作</a>
+            <a href="/2014/06/27/URL编码/">URL编码</a>
           </li>
         
           <li>
-            <a href="/2014/07/02/Git日常操作/">Git日常操作</a>
+            <a href="/2014/06/18/龙泉驾校约车脚本/">龙泉驾校约车脚本</a>
           </li>
         
       </ul>

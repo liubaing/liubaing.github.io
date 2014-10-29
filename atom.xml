@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2014-10-19T14:41:19.058Z</updated>
+  <updated>2014-10-29T04:12:56.888Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -346,12 +346,13 @@
   </entry>
   
   <entry>
-    <title><![CDATA[利用Chrome调试]]></title>
-    <link href="http://liubaing.com/2014/07/26/%E5%88%A9%E7%94%A8Chrome%E8%B0%83%E8%AF%95/"/>
-    <id>http://liubaing.com/2014/07/26/利用Chrome调试/</id>
+    <title><![CDATA[常用浏览器下调试]]></title>
+    <link href="http://liubaing.com/2014/07/26/%E5%B8%B8%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%8B%E8%B0%83%E8%AF%95/"/>
+    <id>http://liubaing.com/2014/07/26/常用浏览器下调试/</id>
     <published>2014-07-26T07:41:31.000Z</published>
-    <updated>2014-07-26T10:20:26.000Z</updated>
-    <content type="html"><![CDATA[<p>以下测试均在Chrome Version 36.0.1985.125下：</p>
+    <updated>2014-10-29T04:09:25.000Z</updated>
+    <content type="html"><![CDATA[<p>Safari下显示开发者调试工具方法:<br>Preferences - Advanced - Show Develop menu in menu bar</p>
+<p>Chrome下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)</p>
 <h2 id="Console">Console</h2>
 <p>使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。</p>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -374,7 +375,8 @@
 <h2 id="Elements">Elements</h2>
 <p>查看页面节点信息，可以手动调整DOM，也可以更改CSS，观察渲染样式，查看节点监听事件。</p>
 ]]></content>
-    <summary type="html"><![CDATA[<p>以下测试均在Chrome Version 36.0.1985.125下：</p>
+    <summary type="html"><![CDATA[<p>Safari下显示开发者调试工具方法:<br>Preferences - Advanced - Show Develop menu in menu bar</p>
+<p>Chrome下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)</p>
 <h2 id="Console">Console</h2>
 <p>使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。</p>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -390,151 +392,7 @@
     
       <category term="Chrome" scheme="http://liubaing.com/tags/Chrome/"/>
     
-      <category term="工具" scheme="http://liubaing.com/categories/%E5%B7%A5%E5%85%B7/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Vim基本操作]]></title>
-    <link href="http://liubaing.com/2014/07/03/Vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
-    <id>http://liubaing.com/2014/07/03/Vim基本操作/</id>
-    <published>2014-07-03T03:16:05.000Z</published>
-    <updated>2014-09-19T03:08:52.000Z</updated>
-    <content type="html"><![CDATA[<p>废话不多说，直入主题吧。</p>
-<p>1、平时常用操作</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre>vim 启动vim
-i 进入插入模式
-&lt;<span class="constant">Esc</span>&gt; 回到编辑模式
-<span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
-<span class="symbol">:q</span> 退出vim
-</pre></td></tr></table></figure><br><a id="more"></a><br>2、批量删除<br><figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre><span class="tag">vim</span> <span class="tag">filename</span>
-<span class="pseudo">:set</span> <span class="tag">nu</span> 显示行号
-<span class="pseudo">:n</span> 移动到第<span class="tag">n</span>行
-<span class="pseudo">:1</span>,5<span class="tag">d</span> 回车后，删除1<span class="tag">-5</span>行
-<span class="pseudo">:u</span> 恢复
-</pre></td></tr></table></figure>
-
-<p>3、移动光标</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-</pre></td><td class="code"><pre>/kw 向前搜索kw
-?kw 向后搜索kw
-<span class="number">0</span> 跳到行首
-<span class="variable">$ </span>跳到行尾
-gg 跳到首行
-<span class="constant">G</span> 跳到文件末尾
-dd 删除光标所在整行
-</pre></td></tr></table></figure>
-
-<p>4、批量加注释</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre>编辑模式下，按下Ctrl + v，进入列（也叫区块）模式
-使用上下键（shift可翻页）选择需要注释的多行
-按下键盘（大写）<span class="keyword">I</span>键，进入插入模式
-然后输入注释符
-最后按下esc键才会出现注释
-</pre></td></tr></table></figure>]]></content>
-    <summary type="html"><![CDATA[<p>废话不多说，直入主题吧。</p>
-<p>1、平时常用操作</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre>vim 启动vim
-i 进入插入模式
-&lt;<span class="constant">Esc</span>&gt; 回到编辑模式
-<span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
-<span class="symbol">:q</span> 退出vim
-</pre></td></tr></table></figure><br>]]></summary>
-    
-      <category term="Vim" scheme="http://liubaing.com/tags/Vim/"/>
-    
-      <category term="扯淡" scheme="http://liubaing.com/categories/%E6%89%AF%E6%B7%A1/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Git日常操作]]></title>
-    <link href="http://liubaing.com/2014/07/02/Git%E6%97%A5%E5%B8%B8%E6%93%8D%E4%BD%9C/"/>
-    <id>http://liubaing.com/2014/07/02/Git日常操作/</id>
-    <published>2014-07-02T07:05:24.000Z</published>
-    <updated>2014-09-19T03:08:36.000Z</updated>
-    <content type="html"><![CDATA[<p>平时使用git依赖于IDE图形化界面插件，用起来倒没什么问题，但觉得还是有必要总结下常用的git命令，<a href="http://git-scm.com/book/zh" target="_blank" rel="external">点击查看Git中文文档</a>。</p>
-<p>一般我们clone已有的项目，默认就是git协议，URL后面可以指定目录：</p>
-<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="variable">$ </span>git clone git<span class="variable">@github</span>.<span class="symbol">com:</span>liubaing/galaxy.git galaxy
-</pre></td></tr></table></figure>
-
-<p>本地默认会创建一个master分支，拿平时开发项目为例，我们还需要建立MS分支：</p>
-<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
-Switched <span class="keyword">to</span> a <span class="literal">new</span> branch <span class="string">'vs-ezine-4.2.0-MS20140702'</span>
-</pre></td></tr></table></figure><br><a id="more"></a><br><br>现在我们来看下本地分支:<br><figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre>$ git branch
-  master
-<span class="subst">*</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
-</pre></td></tr></table></figure>
-
-<p>如果要删除上一版本远程分支：</p>
-<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="variable">$ </span>git push origin <span class="symbol">:vs-ezine-</span><span class="number">4.1</span>.<span class="number">1</span>-<span class="constant">MS20140617</span>
-</pre></td></tr></table></figure>
-
-<p>开发过程中多利用<code>git status</code>的命令输出提示，需要提交时：</p>
-<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="variable">$ </span>git add -<span class="constant">A</span>
-<span class="variable">$ </span>git commit -m <span class="string">"xxx"</span>
-<span class="variable">$ </span>git push origin vs-ezine-<span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span><span class="symbol">:vs-ezine-</span><span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span>
-</pre></td></tr></table></figure>
-
-<p>开发过程中文件revert有两种方式：<br>用<code>git reset HEAD &lt;file&gt;...</code>来取消暂存文件，<br>用<code>git checkout -- &lt;file&gt;...</code>来取消文件修改。</p>
-<p>开发结束后要把分支代码合并到master，并删除分支：</p>
-<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre>$ git checkout master
-$ git merge vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
-$ git branch <span class="attribute">-D</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
-</pre></td></tr></table></figure>]]></content>
-    <summary type="html"><![CDATA[<p>平时使用git依赖于IDE图形化界面插件，用起来倒没什么问题，但觉得还是有必要总结下常用的git命令，<a href="http://git-scm.com/book/zh" target="_blank" rel="external">点击查看Git中文文档</a>。</p>
-<p>一般我们clone已有的项目，默认就是git协议，URL后面可以指定目录：</p>
-<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="variable">$ </span>git clone git<span class="variable">@github</span>.<span class="symbol">com:</span>liubaing/galaxy.git galaxy
-</pre></td></tr></table></figure>
-
-<p>本地默认会创建一个master分支，拿平时开发项目为例，我们还需要建立MS分支：</p>
-<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
-Switched <span class="keyword">to</span> a <span class="literal">new</span> branch <span class="string">'vs-ezine-4.2.0-MS20140702'</span>
-</pre></td></tr></table></figure><br>]]></summary>
-    
-      <category term="Git" scheme="http://liubaing.com/tags/Git/"/>
+      <category term="Safari" scheme="http://liubaing.com/tags/Safari/"/>
     
       <category term="工具" scheme="http://liubaing.com/categories/%E5%B7%A5%E5%85%B7/"/>
     
@@ -878,40 +736,6 @@ passwd = <span class="string">""</span>
   </entry>
   
   <entry>
-    <title><![CDATA[Python规范笔记]]></title>
-    <link href="http://liubaing.com/2014/06/18/Python%E8%A7%84%E8%8C%83%E7%AC%94%E8%AE%B0/"/>
-    <id>http://liubaing.com/2014/06/18/Python规范笔记/</id>
-    <published>2014-06-18T02:44:35.000Z</published>
-    <updated>2014-06-18T08:44:03.000Z</updated>
-    <content type="html"><![CDATA[<p>由于Java代码写的比较多，不由自主便将一些Java编码规范带入Python中，庆幸IDE会给出很多提示，有必要做一些总结，并且还会持续更新。<br><a id="more"></a></p>
-<h5 id="1-_代码编排">1. 代码编排</h5>
-<ul>
-<li>不要在一行import多个库；</li>
-<li>一行代码限制字符长度，过长换行；</li>
-<li>类和Top-level函数定义之间空两行；</li>
-<li>类中的方法定义之间空一行；</li>
-<li>函数内逻辑无关段落之间空一行；</li>
-<li>函数参数中KV等号两边不能加空格；</li>
-<li>逗号后面和其他操作符两边要加空格；</li>
-</ul>
-<h5 id="2-_命名规范">2. 命名规范</h5>
-<ul>
-<li>模块名全部小写，可以使用<code>_</code>；</li>
-<li>常量命名使用全部大写的方式，可以使用<code>_</code>；</li>
-<li>类名采用大驼峰式；</li>
-<li>类中函数，变量全部为小写，单词中间以<code>_</code>间隔；</li>
-<li>类的方法第一个参数必须是<code>self</code>，而静态方法第一个参数必须是<code>cls</code>；</li>
-</ul>
-]]></content>
-    <summary type="html"><![CDATA[<p>由于Java代码写的比较多，不由自主便将一些Java编码规范带入Python中，庆幸IDE会给出很多提示，有必要做一些总结，并且还会持续更新。<br>]]></summary>
-    
-      <category term="Python" scheme="http://liubaing.com/tags/Python/"/>
-    
-      <category term="编程" scheme="http://liubaing.com/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[世界杯直播]]></title>
     <link href="http://liubaing.com/2014/06/15/%E4%B8%96%E7%95%8C%E6%9D%AF%E7%9B%B4%E6%92%AD/"/>
     <id>http://liubaing.com/2014/06/15/世界杯直播/</id>
@@ -960,11 +784,78 @@ passwd = <span class="string">""</span>
   </entry>
   
   <entry>
+    <title><![CDATA[Git日常操作]]></title>
+    <link href="http://liubaing.com/2014/05/02/Git%E6%97%A5%E5%B8%B8%E6%93%8D%E4%BD%9C/"/>
+    <id>http://liubaing.com/2014/05/02/Git日常操作/</id>
+    <published>2014-05-02T07:05:24.000Z</published>
+    <updated>2014-10-29T04:04:06.000Z</updated>
+    <content type="html"><![CDATA[<p>平时使用git依赖于IDE图形化界面插件，用起来倒没什么问题，但觉得还是有必要总结下常用的git命令，<a href="http://git-scm.com/book/zh" target="_blank" rel="external">点击查看Git中文文档</a>。</p>
+<p>一般我们clone已有的项目，默认就是git协议，URL后面可以指定目录：</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">$ </span>git clone git<span class="variable">@github</span>.<span class="symbol">com:</span>liubaing/galaxy.git galaxy
+</pre></td></tr></table></figure>
+
+<p>本地默认会创建一个master分支，拿平时开发项目为例，我们还需要建立MS分支：</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
+Switched <span class="keyword">to</span> a <span class="literal">new</span> branch <span class="string">'vs-ezine-4.2.0-MS20140702'</span>
+</pre></td></tr></table></figure><br><a id="more"></a><br><br>现在我们来看下本地分支:<br><figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>$ git branch
+  master
+<span class="subst">*</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
+</pre></td></tr></table></figure>
+
+<p>如果要删除上一版本远程分支：</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">$ </span>git push origin <span class="symbol">:vs-ezine-</span><span class="number">4.1</span>.<span class="number">1</span>-<span class="constant">MS20140617</span>
+</pre></td></tr></table></figure>
+
+<p>开发过程中多利用<code>git status</code>的命令输出提示，需要提交时：</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="variable">$ </span>git add -<span class="constant">A</span>
+<span class="variable">$ </span>git commit -m <span class="string">"xxx"</span>
+<span class="variable">$ </span>git push origin vs-ezine-<span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span><span class="symbol">:vs-ezine-</span><span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span>
+</pre></td></tr></table></figure>
+
+<p>开发过程中文件revert有两种方式：<br>用<code>git reset HEAD &lt;file&gt;...</code>来取消暂存文件，<br>用<code>git checkout -- &lt;file&gt;...</code>来取消文件修改。</p>
+<p>开发结束后要把分支代码合并到master，并删除分支：</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>$ git checkout master
+$ git merge vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
+$ git branch <span class="attribute">-D</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
+</pre></td></tr></table></figure>]]></content>
+    <summary type="html"><![CDATA[<p>平时使用git依赖于IDE图形化界面插件，用起来倒没什么问题，但觉得还是有必要总结下常用的git命令，<a href="http://git-scm.com/book/zh" target="_blank" rel="external">点击查看Git中文文档</a>。</p>
+<p>一般我们clone已有的项目，默认就是git协议，URL后面可以指定目录：</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">$ </span>git clone git<span class="variable">@github</span>.<span class="symbol">com:</span>liubaing/galaxy.git galaxy
+</pre></td></tr></table></figure>
+
+<p>本地默认会创建一个master分支，拿平时开发项目为例，我们还需要建立MS分支：</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
+Switched <span class="keyword">to</span> a <span class="literal">new</span> branch <span class="string">'vs-ezine-4.2.0-MS20140702'</span>
+</pre></td></tr></table></figure><br>]]></summary>
+    
+      <category term="Git" scheme="http://liubaing.com/tags/Git/"/>
+    
+      <category term="工具" scheme="http://liubaing.com/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Linode退钱]]></title>
-    <link href="http://liubaing.com/2014/06/12/Linode%E9%80%80%E9%92%B1/"/>
-    <id>http://liubaing.com/2014/06/12/Linode退钱/</id>
-    <published>2014-06-12T08:13:17.000Z</published>
-    <updated>2014-07-03T03:20:07.000Z</updated>
+    <link href="http://liubaing.com/2014/04/12/Linode%E9%80%80%E9%92%B1/"/>
+    <id>http://liubaing.com/2014/04/12/Linode退钱/</id>
+    <published>2014-04-12T08:13:17.000Z</published>
+    <updated>2014-10-29T04:04:06.000Z</updated>
     <content type="html"><![CDATA[<p>之前用过一段时间Linode，不过由于种种原因（其实就是懒）不想继续维护了，Remove掉主机后，它会自动结算剩余金额。也不想让钱那么寂寞的呆在账户里，琢磨怎么退还到信用卡里。<br><a id="more"></a></p>
 <p>方法是登录Linode后给Linode客服发ticket申请退款。我直接写了一句 I don’t have time to maintain it and kindly need money，提交，等着收钱。然后客服回复后，退款自生成之日起，要3到5天才能到你的信用卡账户。</p>
 <p>退款后，如果你觉得这个账户没有继续存在的必要，那么可以在account选项卡页面的最底部，找到“Cancel this Account”链接，点击即可。</p>
@@ -980,11 +871,92 @@ passwd = <span class="string">""</span>
   </entry>
   
   <entry>
+    <title><![CDATA[Vim基本操作]]></title>
+    <link href="http://liubaing.com/2014/03/03/Vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
+    <id>http://liubaing.com/2014/03/03/Vim基本操作/</id>
+    <published>2014-03-03T03:16:05.000Z</published>
+    <updated>2014-10-29T04:12:28.000Z</updated>
+    <content type="html"><![CDATA[<p>废话不多说，直入主题吧。</p>
+<p>1、平时常用操作</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>vim 启动vim
+i 进入插入模式
+&lt;<span class="constant">Esc</span>&gt; 回到编辑模式
+<span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
+<span class="symbol">:q</span> 退出vim
+</pre></td></tr></table></figure><br><a id="more"></a><br>2、批量删除<br><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="tag">vim</span> <span class="tag">filename</span>
+<span class="pseudo">:set</span> <span class="tag">nu</span> 显示行号
+<span class="pseudo">:n</span> 移动到第<span class="tag">n</span>行
+<span class="pseudo">:1</span>,5<span class="tag">d</span> 回车后，删除1<span class="tag">-5</span>行
+<span class="pseudo">:u</span> 恢复
+</pre></td></tr></table></figure>
+
+<p>3、移动光标</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre>/kw 向前搜索kw
+?kw 向后搜索kw
+<span class="number">0</span> 跳到行首
+<span class="variable">$ </span>跳到行尾
+gg 跳到首行
+dG 删除所有行
+<span class="constant">G</span> 跳到文件末尾
+dd 剪切光标所在整行
+</pre></td></tr></table></figure>
+
+<p>4、批量加注释</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>编辑模式下，按下Ctrl + v，进入列（也叫区块）模式
+使用上下键（shift可翻页）选择需要注释的多行
+按下键盘（大写）<span class="keyword">I</span>键，进入插入模式
+然后输入注释符
+最后按下esc键才会出现注释
+</pre></td></tr></table></figure>]]></content>
+    <summary type="html"><![CDATA[<p>废话不多说，直入主题吧。</p>
+<p>1、平时常用操作</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>vim 启动vim
+i 进入插入模式
+&lt;<span class="constant">Esc</span>&gt; 回到编辑模式
+<span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
+<span class="symbol">:q</span> 退出vim
+</pre></td></tr></table></figure><br>]]></summary>
+    
+      <category term="Vim" scheme="http://liubaing.com/tags/Vim/"/>
+    
+      <category term="扯淡" scheme="http://liubaing.com/categories/%E6%89%AF%E6%B7%A1/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Hello World]]></title>
-    <link href="http://liubaing.com/2014/06/08/hello-world/"/>
-    <id>http://liubaing.com/2014/06/08/hello-world/</id>
-    <published>2014-06-07T23:56:29.000Z</published>
-    <updated>2014-07-03T03:20:07.000Z</updated>
+    <link href="http://liubaing.com/2014/02/08/hello-world/"/>
+    <id>http://liubaing.com/2014/02/08/hello-world/</id>
+    <published>2014-02-07T23:56:29.000Z</published>
+    <updated>2014-10-29T04:04:06.000Z</updated>
     <content type="html"><![CDATA[<p>迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。<br><a id="more"></a><br>之前零零散散也分享过，比如网易的LOFTER、开源中国，都没坚持多久就荒废了，然后在微博上偶尔也会唠叨几句自己遇到的问题，最近想着自己能把博客坚持写下去，多少也是对码农生涯一个见证。</p>
 ]]></content>
     <summary type="html"><![CDATA[<p>迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。<br>]]></summary>

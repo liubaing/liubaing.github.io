@@ -3,17 +3,41 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hello World | 六八ing的博客</title>
+  <title>常用浏览器下调试 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。">
+  <meta name="description" content="Safari下显示开发者调试工具方法:Preferences - Advanced - Show Develop menu in menu bar
+Chrome下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)
+Console
+使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。
+1
+2
+3
+4
+&gt; c">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://liubaing.com/2014/06/08/hello-world/">
+<meta property="og:title" content="常用浏览器下调试">
+<meta property="og:url" content="http://liubaing.com/2014/07/26/常用浏览器下调试/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。">
+<meta property="og:description" content="Safari下显示开发者调试工具方法:Preferences - Advanced - Show Develop menu in menu bar
+Chrome下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)
+Console
+使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。
+1
+2
+3
+4
+&gt; c">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。">
+<meta name="twitter:title" content="常用浏览器下调试">
+<meta name="twitter:description" content="Safari下显示开发者调试工具方法:Preferences - Advanced - Show Develop menu in menu bar
+Chrome下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)
+Console
+使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。
+1
+2
+3
+4
+&gt; c">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -77,14 +101,14 @@ var _hmt = _hmt || [];
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-常用浏览器下调试" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/06/08/hello-world/" class="article-date">
-  <time datetime="2014-06-07T23:56:29.000Z" itemprop="datePublished">6月 8 2014</time>
+    <a href="/2014/07/26/常用浏览器下调试/" class="article-date">
+  <time datetime="2014-07-26T07:41:31.000Z" itemprop="datePublished">7月 26 2014</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/扯淡/">扯淡</a>
+    <a class="article-category-link" href="/categories/工具/">工具</a>
   </div>
 
   </div>
@@ -95,7 +119,7 @@ var _hmt = _hmt || [];
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      常用浏览器下调试
     </h1>
   
 
@@ -103,28 +127,57 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。<br><a id="more"></a><br>之前零零散散也分享过，比如网易的LOFTER、开源中国，都没坚持多久就荒废了，然后在微博上偶尔也会唠叨几句自己遇到的问题，最近想着自己能把博客坚持写下去，多少也是对码农生涯一个见证。</p>
+        <p>Safari下显示开发者调试工具方法:<br>Preferences - Advanced - Show Develop menu in menu bar</p>
+<p>Chrome下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)</p>
+<h2 id="Console">Console</h2>
+<p>使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>&gt; console.<span class="keyword">log</span>(<span class="string">'hello world'</span>);
+  hello world
+&gt; console.<span class="keyword">warn</span>(<span class="string">'warning info'</span>);
+&gt; console.<span class="keyword">warn</span>(<span class="string">'error message'</span>)
+</pre></td></tr></table></figure><br>平时在Sources标签下对JS方法设置断点Debug时，可以查看作用域内的变量，也可以利用在Console中直接输入变量名查看。</p>
+<a id="more"></a>
+
+<h2 id="Emulation">Emulation</h2>
+<p>用来调试移动网站的利器，可以模拟移动设备分辨率，UA等，还可以模拟传感器，比如经纬度。</p>
+<h2 id="Network">Network</h2>
+<p>在这里罗列了当前页所有的HTTP请求，注意Status和Timeline用来作为优化请求的参考标准。<br>点击每条请求能看到请求头、请求参数、响应头、响应内容等信息，比如AJAX请求中比较关注的Content-Type字段。</p>
+<h2 id="Resources">Resources</h2>
+<p>一般常用就是Cookies标签，可以手动清除部分Cookie。<br>现在很多站点也开始采用H5中的Storage，在这里也可以查看并手动编辑。</p>
+<h2 id="Elements">Elements</h2>
+<p>查看页面节点信息，可以手动调整DOM，也可以更改CSS，观察渲染样式，查看节点监听事件。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/08/hello-world/" data-id="ppcomo8te07pszqp" data-title="Hello World" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/07/26/常用浏览器下调试/" data-id="z5oet4w8oo0cgav4" data-title="常用浏览器下调试" class="article-share-link">分享</a>
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chrome/">Chrome</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Safari/">Safari</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2014/06/12/Linode退钱/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2014/09/18/Java中常用的时间格式化注意点/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
-          Linode退钱
+          Java中常用的时间格式化注意点
         
       </div>
     </a>
   
+  
+    <a href="/2014/06/27/URL编码/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">URL编码</div>
+    </a>
   
 </nav>
 
@@ -134,7 +187,7 @@ var _hmt = _hmt || [];
 
 
 <section id="comment">
-  <div class="ds-thread" data-title="Hello World">
+  <div class="ds-thread" data-title="常用浏览器下调试">
   </div>
 </section>
 
@@ -146,7 +199,7 @@ var _hmt = _hmt || [];
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Chrome/" style="font-size: 10.00px;">Chrome</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Python/" style="font-size: 15.00px;">Python</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/VPS/" style="font-size: 10.00px;">VPS</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
+      <a href="/tags/Chrome/" style="font-size: 10.00px;">Chrome</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/Safari/" style="font-size: 10.00px;">Safari</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/VPS/" style="font-size: 10.00px;">VPS</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
     </div>
   </div>
 
@@ -166,15 +219,15 @@ var _hmt = _hmt || [];
           </li>
         
           <li>
-            <a href="/2014/07/26/利用Chrome调试/">利用Chrome调试</a>
+            <a href="/2014/07/26/常用浏览器下调试/">常用浏览器下调试</a>
           </li>
         
           <li>
-            <a href="/2014/07/03/Vim基本操作/">Vim基本操作</a>
+            <a href="/2014/06/27/URL编码/">URL编码</a>
           </li>
         
           <li>
-            <a href="/2014/07/02/Git日常操作/">Git日常操作</a>
+            <a href="/2014/06/18/龙泉驾校约车脚本/">龙泉驾校约车脚本</a>
           </li>
         
       </ul>
