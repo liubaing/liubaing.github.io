@@ -168,7 +168,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="sfm679nwoaz6ktiy" data-title="Java中的单例模式" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="fvshtkslfabpkap6" data-title="Java中的单例模式" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -266,7 +266,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="ocwfwgyhx5bar190" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="5ikga33ciw84ni32" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -325,7 +325,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/07/26/常用浏览器下调试/" data-id="z5oet4w8oo0cgav4" data-title="常用浏览器下调试" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/07/26/常用浏览器下调试/" data-id="v8eqpear8jo5de7l" data-title="常用浏览器下调试" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chrome/">Chrome</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Safari/">Safari</a></li></ul>
 
@@ -336,9 +336,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-URL编码" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-HTTP常见乱码问题" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/06/27/URL编码/" class="article-date">
+    <a href="/2014/06/27/HTTP常见乱码问题/" class="article-date">
   <time datetime="2014-06-27T07:42:03.000Z" itemprop="datePublished">6月 27 2014</time>
 </a>
     
@@ -354,7 +354,7 @@ var _hmt = _hmt || [];
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/06/27/URL编码/">URL编码</a>
+      <a class="article-title" href="/2014/06/27/HTTP常见乱码问题/">HTTP常见乱码问题</a>
     </h1>
   
 
@@ -362,17 +362,19 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>前段时间有个世界杯的需求，增加世界杯外链统计。当时直接把合作方链接作为参数放在URL中，但运营同事修改为其他链接后，发现跳转不正确，反馈过来后，我赶紧用Chrome的调试工具观察Network，原来是外链中包含<code>&amp;word=爸爸去哪儿</code>参数，而之前并没有对外链进行编码，导致外链的参数被当作统计URL的参数了，所以外链参数丢失，跳转不正确。</p>
+        <p>众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于浏览器或者服务器的默认编码。</p>
+<p>平时Java项目容易出现乱码的几个地方：</p>
+<h4 id="HTML页面">HTML页面</h4>
+<p>1、<code>&lt;head&gt;</code>中声明<br><code>&lt;meta charset=&quot;utf-8&quot;&gt;</code><br>或者<br><code>&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;</code><br>2、响应中设置<br><code>response.setContentType(&quot;text/html; charset=UTF-8&quot;)</code><br>或者<br><code>response.setCharacterEncoding(&quot;UTF-8&quot;)</code></p>
+<h4 id="GET">GET</h4>
+<p>由于URL中没有默认字符集，之前一些浏览器考虑<code>ISO-8859-1</code>字符码和ASCII兼容，大多数会使用<code>ISO-8859-1</code>作为默认字符集。<br>现在已经有许多浏览器开始将<code>UTF-8</code>代替<code>ISO-8859-1</code>，也有利用当前页面编码作为默认URL编码的，同时HTML 4.0也推荐使用<code>UTF-8</code>来编码URL。<br>一般情况，GET请求中请求参数要经过 <code>%</code> 去转义为US-ASCII，利用JS的encodeURI处理，后台java.net.URLDecoder.decode()。<br>(注)如果没有指明编码，Tomcat7及以下版本的URIEncoding为<code>ISO-8859-1</code>，Tomcat8才更改为<code>UTF-8</code>。<br>解决方案为设置server.xml中<connector>标签下URIEncoding=”UTF-8”或者useBodyEncodingForURI=true</connector></p>
+<h4 id="POST">POST</h4>
+<p>Header中<code>Content-Type</code>中需指明字符集，比如application/x-www-form-urlencoded; charset=UTF-8。<br>没有指定的话，按照HTTP协议中POST默认字符集为<code>ISO-8859-1</code>。后台也可以利用Filter去设置request.setCharacterEncoding(“UTF-8”)，但只有在解析前设置有效。</p>
 
-        
-          <p class="article-more-link">
-            <a href="/2014/06/27/URL编码/">全文</a>
-          </p>
-        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/27/URL编码/" data-id="q5w7bvqwjcw53snp" data-title="URL编码" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="um9gzl8ol1b1w0vy" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -500,7 +502,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="5w7hx5m0as6wrwo0" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="2avifkth9ftvc72x" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
 
@@ -546,7 +548,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/15/世界杯直播/" data-id="oya74mqe4skhxs5g" data-title="世界杯直播" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/15/世界杯直播/" data-id="r9vz23urzwev26gv" data-title="世界杯直播" class="article-share-link">分享</a>
       
     </footer>
   </div>
@@ -590,7 +592,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/13/翻墙/" data-id="y5ox7rxs9zzl0xql" data-title="翻墙" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/13/翻墙/" data-id="05yxikzpexzegbgr" data-title="翻墙" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Google/">Google</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hosts/">hosts</a></li></ul>
 
@@ -647,7 +649,7 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="6o3g9su7j6yho5da" data-title="Git日常操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="3fg7gz0jn51jd40j" data-title="Git日常操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
 
@@ -693,7 +695,7 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/04/12/Linode退钱/" data-id="o9cqs4000wqal7xg" data-title="Linode退钱" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/04/12/Linode退钱/" data-id="2iogkk4w0trivup1" data-title="Linode退钱" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linode/">Linode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li></ul>
 
@@ -751,7 +753,7 @@ i 进入插入模式
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="hefl653i8djk9nvb" data-title="Vim基本操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="hcpvj4efo03s9m2k" data-title="Vim基本操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
 
@@ -799,7 +801,7 @@ i 进入插入模式
           </li>
         
           <li>
-            <a href="/2014/06/27/URL编码/">URL编码</a>
+            <a href="/2014/06/27/HTTP常见乱码问题/">HTTP常见乱码问题</a>
           </li>
         
           <li>
