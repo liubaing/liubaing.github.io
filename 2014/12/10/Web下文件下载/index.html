@@ -3,17 +3,29 @@
 <head>
   <meta charset="utf-8">
   
-  <title>归档: 2014/4 | 六八ing的博客</title>
+  <title>Web下文件下载 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="屌丝码农，关注技术，分享生活">
-<meta property="og:type" content="website">
-<meta property="og:title" content="六八ing的博客">
-<meta property="og:url" content="http://liubaing.com/archives/2014/04/">
+  <meta name="description" content="下载中文名文件，这个场景在很多Web下经常遇到。
+普遍思路，保存文件重命名，记录下原文件名，待用户下载时，response header种设置下原文件名。
+需要注意的是，考虑到浏览器兼容问题，文件名不仅要URLEncode编码处理，还需要遵循RFC 2231，参数Key后增加星号，Value前面为字符集和单引号中的语言，比如
+1
+Content-disposition: attachment;fi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web下文件下载">
+<meta property="og:url" content="http://liubaing.com/2014/12/10/Web下文件下载/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="屌丝码农，关注技术，分享生活">
+<meta property="og:description" content="下载中文名文件，这个场景在很多Web下经常遇到。
+普遍思路，保存文件重命名，记录下原文件名，待用户下载时，response header种设置下原文件名。
+需要注意的是，考虑到浏览器兼容问题，文件名不仅要URLEncode编码处理，还需要遵循RFC 2231，参数Key后增加星号，Value前面为字符集和单引号中的语言，比如
+1
+Content-disposition: attachment;fi">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="六八ing的博客">
-<meta name="twitter:description" content="屌丝码农，关注技术，分享生活">
+<meta name="twitter:title" content="Web下文件下载">
+<meta name="twitter:description" content="下载中文名文件，这个场景在很多Web下经常遇到。
+普遍思路，保存文件重命名，记录下原文件名，待用户下载时，response header种设置下原文件名。
+需要注意的是，考虑到浏览器兼容问题，文件名不仅要URLEncode编码处理，还需要遵循RFC 2231，参数Key后增加星号，Value前面为字符集和单引号中的语言，比如
+1
+Content-disposition: attachment;fi">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -77,39 +89,69 @@ var _hmt = _hmt || [];
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2014/04/12/Linode退钱/" class="archive-article-date">
-  <time datetime="2014-04-12T08:13:17.000Z" itemprop="datePublished">4月 12</time>
+        <section id="main"><article id="post-Web下文件下载" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/12/10/Web下文件下载/" class="article-date">
+  <time datetime="2014-12-10T02:45:20.000Z" itemprop="datePublished">12月 10 2014</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/编程/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/04/12/Linode退钱/">Linode退钱</a>
+    <h1 class="article-title" itemprop="name">
+      Web下文件下载
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>下载中文名文件，这个场景在很多Web下经常遇到。</p>
+<p>普遍思路，保存文件重命名，记录下原文件名，待用户下载时，response header种设置下原文件名。</p>
+<p>需要注意的是，考虑到浏览器兼容问题，文件名不仅要URLEncode编码处理，还需要遵循<a href="http://tools.ietf.org/html/rfc2231" target="_blank" rel="external">RFC 2231</a>，参数Key后增加星号，Value前面为字符集和单引号中的语言，比如</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>Content-disposition: attachment;filename<span class="variable">*=</span>utf-<span class="number">8</span><span class="string">'zh_cn'</span><span class="variable">%e4</span><span class="variable">%b8</span><span class="variable">%ad</span><span class="variable">%e6</span><span class="variable">%96</span><span class="variable">%87</span>.pdf
+</pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="x7wzxq7csscgu9bl" data-title="Web下文件下载" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2014/10/19/Java中的单例模式/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">Java中的单例模式</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
+
+
+<section id="comment">
+  <div class="ds-thread" data-title="Web下文件下载">
+  </div>
+</section>
+
 </section>
         
           <aside id="sidebar">

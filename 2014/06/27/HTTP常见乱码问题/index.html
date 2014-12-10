@@ -117,16 +117,16 @@ var _hmt = _hmt || [];
 <h4 id="HTML页面">HTML页面</h4>
 <p>1、<code>&lt;head&gt;</code>中声明<br><code>&lt;meta charset=&quot;utf-8&quot;&gt;</code><br>或者<br><code>&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;</code><br>2、响应中设置<br><code>response.setContentType(&quot;text/html; charset=UTF-8&quot;)</code><br>或者<br><code>response.setCharacterEncoding(&quot;UTF-8&quot;)</code></p>
 <h4 id="GET">GET</h4>
-<p>由于URL中没有默认字符集，之前一些浏览器考虑<code>ISO-8859-1</code>字符码和ASCII兼容，大多数会使用<code>ISO-8859-1</code>作为默认字符集。<br>现在已经有许多浏览器开始将<code>UTF-8</code>代替<code>ISO-8859-1</code>，也有利用当前页面编码作为默认URL编码的，同时HTML 4.0也推荐使用<code>UTF-8</code>来编码URL。<br>一般情况，GET请求中请求参数要经过 <code>%</code> 去转义为US-ASCII，利用JS的encodeURI处理，后台java.net.URLDecoder.decode()。<br>(注)如果没有指明编码，Tomcat7及以下版本的URIEncoding为<code>ISO-8859-1</code>，Tomcat8才更改为<code>UTF-8</code>。<br>解决方案为设置server.xml中<connector>标签下URIEncoding=”UTF-8”或者useBodyEncodingForURI=true</connector></p>
+<p>由于URL中没有默认字符集，之前一些浏览器考虑<code>ISO-8859-1</code>字符码和ASCII兼容，大多数会使用<code>ISO-8859-1</code>作为默认字符集。<br>现在已经有许多浏览器开始将<code>UTF-8</code>代替<code>ISO-8859-1</code>，也有利用当前页面编码作为默认URL编码的，同时HTML 4.0也推荐使用<code>UTF-8</code>来编码URL。<br>一般情况，GET请求中请求参数要经利用JS的encodeURI处理过，后台java.net.URLDecoder.decode()。<br>(注)如果没有指明编码，Tomcat7及以下版本的URIEncoding为<code>ISO-8859-1</code>，Tomcat8才更改为<code>UTF-8</code>。<br>解决方案为设置server.xml中<connector>标签下URIEncoding=”UTF-8”或者useBodyEncodingForURI=true</connector></p>
 <h4 id="POST">POST</h4>
-<p>Header中<code>Content-Type</code>中需指明字符集，比如application/x-www-form-urlencoded; charset=UTF-8。<br>没有指定的话，按照HTTP协议中POST默认字符集为<code>ISO-8859-1</code>。后台也可以利用Filter去设置request.setCharacterEncoding(“UTF-8”)，但只有在解析前设置有效。</p>
+<p>Header中<code>Content-Type</code>中需指明字符集，比如application/x-www-form-urlencoded; charset=UTF-8。<br>没有指定的话，按照HTTP协议中POST默认字符集为<code>ISO-8859-1</code>，会把中文字符吞掉。<br>后台也可以利用Filter去设置request.setCharacterEncoding(“UTF-8”)，但只有在解析前设置有效。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="um9gzl8ol1b1w0vy" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="ma9i9009zwi738wg" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
     </footer>
   </div>
@@ -169,7 +169,7 @@ var _hmt = _hmt || [];
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Chrome/" style="font-size: 10.00px;">Chrome</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/Safari/" style="font-size: 10.00px;">Safari</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/VPS/" style="font-size: 10.00px;">VPS</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
+      <a href="/tags/Chrome/" style="font-size: 10.00px;">Chrome</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/HTTP/" style="font-size: 15.00px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/Safari/" style="font-size: 10.00px;">Safari</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/VPS/" style="font-size: 10.00px;">VPS</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
     </div>
   </div>
 
@@ -179,6 +179,10 @@ var _hmt = _hmt || [];
     <h3 class="widget-title">最新发表</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2014/12/10/Web下文件下载/">Web下文件下载</a>
+          </li>
         
           <li>
             <a href="/2014/10/19/Java中的单例模式/">Java中的单例模式</a>
@@ -194,10 +198,6 @@ var _hmt = _hmt || [];
         
           <li>
             <a href="/2014/06/27/HTTP常见乱码问题/">HTTP常见乱码问题</a>
-          </li>
-        
-          <li>
-            <a href="/2014/06/18/龙泉驾校约车脚本/">龙泉驾校约车脚本</a>
           </li>
         
       </ul>
