@@ -130,26 +130,27 @@ var _hmt = _hmt || [];
 <p>本地默认会创建一个master分支，拿平时开发项目为例，我们还需要建立MS分支：</p>
 <figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
+</pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span> <span class="variable">#branch</span>为要切换的目的分支
 Switched <span class="keyword">to</span> a <span class="literal">new</span> branch <span class="string">'vs-ezine-4.2.0-MS20140702'</span>
 </pre></td></tr></table></figure><br><a id="more"></a><br><br>现在我们来看下本地分支:<br><figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
 2
 3
-</pre></td><td class="code"><pre>$ git branch
+</pre></td><td class="code"><pre>$ git branch <span class="attribute">-a</span> 查看所有分支
   master
 <span class="subst">*</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
 </pre></td></tr></table></figure>
 
-<p>如果要删除上一版本远程分支：</p>
-<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="variable">$ </span>git push origin <span class="symbol">:vs-ezine-</span><span class="number">4.1</span>.<span class="number">1</span>-<span class="constant">MS20140617</span>
-</pre></td></tr></table></figure>
-
-<p>开发过程中多利用<code>git status</code>的命令输出提示，需要提交时：</p>
+<p>开发过程中需要提交时：</p>
 <figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
 2
 3
-</pre></td><td class="code"><pre><span class="variable">$ </span>git add -<span class="constant">A</span>
+4
+5
+6
+</pre></td><td class="code"><pre><span class="variable">$ </span>git pull <span class="comment">#更新代码</span>
+<span class="variable">$ </span>git status  <span class="comment">#查看当前分支的状态，是否有冲突或未提交的文件</span>
+<span class="variable">$ </span>git log  <span class="comment">#查看当前分支的commit log，看看是否与远程分支一致</span>
+<span class="variable">$ </span>git add -<span class="constant">A</span>
 <span class="variable">$ </span>git commit -m <span class="string">"xxx"</span>
 <span class="variable">$ </span>git push origin vs-ezine-<span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span><span class="symbol">:vs-ezine-</span><span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span>
 </pre></td></tr></table></figure>
@@ -159,14 +160,16 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
 <figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
 2
 3
-</pre></td><td class="code"><pre>$ git checkout master
-$ git merge vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
-$ git branch <span class="attribute">-D</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
+4
+</pre></td><td class="code"><pre><span class="variable">$ </span>git checkout master
+<span class="variable">$ </span>git merge vs-ezine-<span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span>
+<span class="variable">$ </span>git branch -<span class="constant">D</span> vs-ezine-<span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span> <span class="comment">#注意：这是是强制删除，但尽量不能删除当前分支，分支如果有commit未合并也不要删除</span>
+<span class="variable">$ </span>git push origin <span class="symbol">:vs-ezine-</span><span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span> <span class="comment">#删除远程分支</span>
 </pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="5oo8q77m5rd3uy04" data-title="Git日常操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="nturbmj8gkff5gvv" data-title="Git日常操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
 
@@ -263,7 +266,7 @@ $ git branch <span class="attribute">-D</span> vs<span class="attribute">-ezine<
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2014 何帅<br>
+      &copy; 2015 何帅<br>
       Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
     </div>
   </div>

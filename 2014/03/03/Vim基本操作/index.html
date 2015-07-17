@@ -148,16 +148,24 @@ i 进入插入模式
 &lt;<span class="constant">Esc</span>&gt; 回到编辑模式
 <span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
 <span class="symbol">:q</span> 退出vim
-</pre></td></tr></table></figure><br><a id="more"></a><br>2、批量删除<br><figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure><br><a id="more"></a><br>2、删除<br><figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
 4
 5
+6
+7
+8
+9
 </pre></td><td class="code"><pre><span class="tag">vim</span> <span class="tag">filename</span>
 <span class="pseudo">:set</span> <span class="tag">nu</span> 显示行号
 <span class="pseudo">:n</span> 移动到第<span class="tag">n</span>行
 <span class="pseudo">:1</span>,5<span class="tag">d</span> 回车后，删除1<span class="tag">-5</span>行
 <span class="pseudo">:u</span> 恢复
+<span class="pseudo">:dG</span> 删除所有行
+<span class="pseudo">:dd</span> 剪切光标所在整行
+<span class="pseudo">:dw</span> 删除该单词
+<span class="pseudo">:d0</span> 删除该行开始到当前光标
 </pre></td></tr></table></figure>
 
 <p>3、移动光标</p>
@@ -167,16 +175,12 @@ i 进入插入模式
 4
 5
 6
-7
-8
 </pre></td><td class="code"><pre>/kw 向前搜索kw
 ?kw 向后搜索kw
 <span class="number">0</span> 跳到行首
 <span class="variable">$ </span>跳到行尾
 gg 跳到首行
-dG 删除所有行
 <span class="constant">G</span> 跳到文件末尾
-dd 剪切光标所在整行
 </pre></td></tr></table></figure>
 
 <p>4、批量加注释</p>
@@ -194,7 +198,7 @@ dd 剪切光标所在整行
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="8qxz7dsd3zo2jo4b" data-title="Vim基本操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="c538xr0f35mb1bhn" data-title="Vim基本操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
 
@@ -291,7 +295,7 @@ dd 剪切光标所在整行
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2014 何帅<br>
+      &copy; 2015 何帅<br>
       Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
     </div>
   </div>

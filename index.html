@@ -114,7 +114,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="x7wzxq7csscgu9bl" data-title="Web下文件下载" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="0dlpomsi1latia1w" data-title="Web下文件下载" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
 
@@ -214,7 +214,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="tbmi2ly6ppgd2d20" data-title="Java中的单例模式" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="el6p25tudw6idxtm" data-title="Java中的单例模式" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -312,7 +312,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="gcodt82iqx2vc1qh" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="ttwirufvpeddh4h9" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -349,8 +349,9 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Safari下显示开发者调试工具方法:<br>Preferences - Advanced - Show Develop menu in menu bar</p>
-<p>Chrome下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)</p>
+        <p><strong>Safari</strong>下显示开发者调试工具方法:<br>Preferences - Advanced - Show Develop menu in menu bar</p>
+<p><strong>Firefox</strong>本身包含开发者工具，当然Firebug插件大家更常用。</p>
+<p><strong>Chrome</strong>下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)</p>
 <h2 id="Console">Console</h2>
 <p>使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。</p>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -371,7 +372,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/07/26/常用浏览器下调试/" data-id="3tb7n21ct65itssq" data-title="常用浏览器下调试" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/07/26/常用浏览器下调试/" data-id="awhdvv4td5owgv74" data-title="常用浏览器下调试" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chrome/">Chrome</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Safari/">Safari</a></li></ul>
 
@@ -408,19 +409,12 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于浏览器或者服务器的默认编码。</p>
-<p>平时Java项目容易出现乱码的几个地方：</p>
-<h4 id="HTML页面">HTML页面</h4>
-<p>1、<code>&lt;head&gt;</code>中声明<br><code>&lt;meta charset=&quot;utf-8&quot;&gt;</code><br>或者<br><code>&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;</code><br>2、响应中设置<br><code>response.setContentType(&quot;text/html; charset=UTF-8&quot;)</code><br>或者<br><code>response.setCharacterEncoding(&quot;UTF-8&quot;)</code></p>
-<h4 id="GET">GET</h4>
-<p>由于URL中没有默认字符集，之前一些浏览器考虑<code>ISO-8859-1</code>字符码和ASCII兼容，大多数会使用<code>ISO-8859-1</code>作为默认字符集。<br>现在已经有许多浏览器开始将<code>UTF-8</code>代替<code>ISO-8859-1</code>，也有利用当前页面编码作为默认URL编码的，同时HTML 4.0也推荐使用<code>UTF-8</code>来编码URL。<br>一般情况，GET请求中请求参数要经利用JS的encodeURI处理过，后台java.net.URLDecoder.decode()。<br>(注)如果没有指明编码，Tomcat7及以下版本的URIEncoding为<code>ISO-8859-1</code>，Tomcat8才更改为<code>UTF-8</code>。<br>解决方案为设置server.xml中<connector>标签下URIEncoding=”UTF-8”或者useBodyEncodingForURI=true</connector></p>
-<h4 id="POST">POST</h4>
-<p>Header中<code>Content-Type</code>中需指明字符集，比如application/x-www-form-urlencoded; charset=UTF-8。<br>没有指定的话，按照HTTP协议中POST默认字符集为<code>ISO-8859-1</code>，会把中文字符吞掉。<br>后台也可以利用Filter去设置request.setCharacterEncoding(“UTF-8”)，但只有在解析前设置有效。</p>
+        <p>众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。<br>一般输入输出流需要指明编码，防止出现环境不一样导致乱码问题。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="ma9i9009zwi738wg" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="9czkhuux8vi1hq53" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -548,7 +542,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="spprl9xavyvnh8ch" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="43mj939194sbm7u9" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
 
@@ -594,7 +588,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/15/世界杯直播/" data-id="77tcme91gray7c3l" data-title="世界杯直播" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/15/世界杯直播/" data-id="saj998cfjw26g7nb" data-title="世界杯直播" class="article-share-link">分享</a>
       
     </footer>
   </div>
@@ -638,7 +632,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/13/翻墙/" data-id="xd7an2t4zejazupp" data-title="翻墙" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/13/翻墙/" data-id="74pfgvh87dy8h3mm" data-title="翻墙" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Google/">Google</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hosts/">hosts</a></li></ul>
 
@@ -684,7 +678,7 @@ passwd = <span class="string">""</span>
 <p>本地默认会创建一个master分支，拿平时开发项目为例，我们还需要建立MS分支：</p>
 <figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
+</pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span> <span class="variable">#branch</span>为要切换的目的分支
 Switched <span class="keyword">to</span> a <span class="literal">new</span> branch <span class="string">'vs-ezine-4.2.0-MS20140702'</span>
 </pre></td></tr></table></figure><br>
         
@@ -695,7 +689,7 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="5oo8q77m5rd3uy04" data-title="Git日常操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="nturbmj8gkff5gvv" data-title="Git日常操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
 
@@ -741,7 +735,7 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/04/12/Linode退钱/" data-id="o4nt6xcj3tqbu1xn" data-title="Linode退钱" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/04/12/Linode退钱/" data-id="2330hc5ai4qe8zdn" data-title="Linode退钱" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linode/">Linode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li></ul>
 
@@ -817,7 +811,7 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2014 何帅<br>
+      &copy; 2015 何帅<br>
       Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
     </div>
   </div>

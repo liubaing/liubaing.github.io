@@ -5,24 +5,15 @@
   
   <title>HTTP常见乱码问题 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于浏览器或者服务器的默认编码。
-平时Java项目容易出现乱码的几个地方：
-HTML页面
-1、&lt;head&gt;中声明&lt;meta charset=&quot;utf-8&quot;&gt;或者&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;tex">
+  <meta name="description" content="众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。一般输入输出流需要指明编码，防止出现环境不一样导致乱码问题。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP常见乱码问题">
 <meta property="og:url" content="http://liubaing.com/2014/06/27/HTTP常见乱码问题/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于浏览器或者服务器的默认编码。
-平时Java项目容易出现乱码的几个地方：
-HTML页面
-1、&lt;head&gt;中声明&lt;meta charset=&quot;utf-8&quot;&gt;或者&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;tex">
+<meta property="og:description" content="众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。一般输入输出流需要指明编码，防止出现环境不一样导致乱码问题。">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP常见乱码问题">
-<meta name="twitter:description" content="众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于浏览器或者服务器的默认编码。
-平时Java项目容易出现乱码的几个地方：
-HTML页面
-1、&lt;head&gt;中声明&lt;meta charset=&quot;utf-8&quot;&gt;或者&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;tex">
+<meta name="twitter:description" content="众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。一般输入输出流需要指明编码，防止出现环境不一样导致乱码问题。">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -112,19 +103,12 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于浏览器或者服务器的默认编码。</p>
-<p>平时Java项目容易出现乱码的几个地方：</p>
-<h4 id="HTML页面">HTML页面</h4>
-<p>1、<code>&lt;head&gt;</code>中声明<br><code>&lt;meta charset=&quot;utf-8&quot;&gt;</code><br>或者<br><code>&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;</code><br>2、响应中设置<br><code>response.setContentType(&quot;text/html; charset=UTF-8&quot;)</code><br>或者<br><code>response.setCharacterEncoding(&quot;UTF-8&quot;)</code></p>
-<h4 id="GET">GET</h4>
-<p>由于URL中没有默认字符集，之前一些浏览器考虑<code>ISO-8859-1</code>字符码和ASCII兼容，大多数会使用<code>ISO-8859-1</code>作为默认字符集。<br>现在已经有许多浏览器开始将<code>UTF-8</code>代替<code>ISO-8859-1</code>，也有利用当前页面编码作为默认URL编码的，同时HTML 4.0也推荐使用<code>UTF-8</code>来编码URL。<br>一般情况，GET请求中请求参数要经利用JS的encodeURI处理过，后台java.net.URLDecoder.decode()。<br>(注)如果没有指明编码，Tomcat7及以下版本的URIEncoding为<code>ISO-8859-1</code>，Tomcat8才更改为<code>UTF-8</code>。<br>解决方案为设置server.xml中<connector>标签下URIEncoding=”UTF-8”或者useBodyEncodingForURI=true</connector></p>
-<h4 id="POST">POST</h4>
-<p>Header中<code>Content-Type</code>中需指明字符集，比如application/x-www-form-urlencoded; charset=UTF-8。<br>没有指定的话，按照HTTP协议中POST默认字符集为<code>ISO-8859-1</code>，会把中文字符吞掉。<br>后台也可以利用Filter去设置request.setCharacterEncoding(“UTF-8”)，但只有在解析前设置有效。</p>
+        <p>众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。<br>一般输入输出流需要指明编码，防止出现环境不一样导致乱码问题。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="ma9i9009zwi738wg" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="9czkhuux8vi1hq53" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -221,7 +205,7 @@ var _hmt = _hmt || [];
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2014 何帅<br>
+      &copy; 2015 何帅<br>
       Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
     </div>
   </div>

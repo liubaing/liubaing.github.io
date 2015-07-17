@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2014-12-10T11:50:25.298Z</updated>
+  <updated>2015-07-17T10:53:27.343Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -370,9 +370,10 @@
     <link href="http://liubaing.com/2014/07/26/%E5%B8%B8%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%8B%E8%B0%83%E8%AF%95/"/>
     <id>http://liubaing.com/2014/07/26/常用浏览器下调试/</id>
     <published>2014-07-26T07:41:31.000Z</published>
-    <updated>2014-10-29T04:09:25.000Z</updated>
-    <content type="html"><![CDATA[<p>Safari下显示开发者调试工具方法:<br>Preferences - Advanced - Show Develop menu in menu bar</p>
-<p>Chrome下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)</p>
+    <updated>2014-12-12T05:51:31.000Z</updated>
+    <content type="html"><![CDATA[<p><strong>Safari</strong>下显示开发者调试工具方法:<br>Preferences - Advanced - Show Develop menu in menu bar</p>
+<p><strong>Firefox</strong>本身包含开发者工具，当然Firebug插件大家更常用。</p>
+<p><strong>Chrome</strong>下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)</p>
 <h2 id="Console">Console</h2>
 <p>使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。</p>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -395,8 +396,9 @@
 <h2 id="Elements">Elements</h2>
 <p>查看页面节点信息，可以手动调整DOM，也可以更改CSS，观察渲染样式，查看节点监听事件。</p>
 ]]></content>
-    <summary type="html"><![CDATA[<p>Safari下显示开发者调试工具方法:<br>Preferences - Advanced - Show Develop menu in menu bar</p>
-<p>Chrome下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)</p>
+    <summary type="html"><![CDATA[<p><strong>Safari</strong>下显示开发者调试工具方法:<br>Preferences - Advanced - Show Develop menu in menu bar</p>
+<p><strong>Firefox</strong>本身包含开发者工具，当然Firebug插件大家更常用。</p>
+<p><strong>Chrome</strong>下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)</p>
 <h2 id="Console">Console</h2>
 <p>使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。</p>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -423,15 +425,8 @@
     <link href="http://liubaing.com/2014/06/27/HTTP%E5%B8%B8%E8%A7%81%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/"/>
     <id>http://liubaing.com/2014/06/27/HTTP常见乱码问题/</id>
     <published>2014-06-27T07:42:03.000Z</published>
-    <updated>2014-12-10T11:45:25.000Z</updated>
-    <content type="html"><![CDATA[<p>众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于浏览器或者服务器的默认编码。</p>
-<p>平时Java项目容易出现乱码的几个地方：</p>
-<h4 id="HTML页面">HTML页面</h4>
-<p>1、<code>&lt;head&gt;</code>中声明<br><code>&lt;meta charset=&quot;utf-8&quot;&gt;</code><br>或者<br><code>&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;</code><br>2、响应中设置<br><code>response.setContentType(&quot;text/html; charset=UTF-8&quot;)</code><br>或者<br><code>response.setCharacterEncoding(&quot;UTF-8&quot;)</code></p>
-<h4 id="GET">GET</h4>
-<p>由于URL中没有默认字符集，之前一些浏览器考虑<code>ISO-8859-1</code>字符码和ASCII兼容，大多数会使用<code>ISO-8859-1</code>作为默认字符集。<br>现在已经有许多浏览器开始将<code>UTF-8</code>代替<code>ISO-8859-1</code>，也有利用当前页面编码作为默认URL编码的，同时HTML 4.0也推荐使用<code>UTF-8</code>来编码URL。<br>一般情况，GET请求中请求参数要经利用JS的encodeURI处理过，后台java.net.URLDecoder.decode()。<br>(注)如果没有指明编码，Tomcat7及以下版本的URIEncoding为<code>ISO-8859-1</code>，Tomcat8才更改为<code>UTF-8</code>。<br>解决方案为设置server.xml中<connector>标签下URIEncoding=”UTF-8”或者useBodyEncodingForURI=true</connector></p>
-<h4 id="POST">POST</h4>
-<p>Header中<code>Content-Type</code>中需指明字符集，比如application/x-www-form-urlencoded; charset=UTF-8。<br>没有指定的话，按照HTTP协议中POST默认字符集为<code>ISO-8859-1</code>，会把中文字符吞掉。<br>后台也可以利用Filter去设置request.setCharacterEncoding(“UTF-8”)，但只有在解析前设置有效。</p>
+    <updated>2015-07-17T10:52:38.000Z</updated>
+    <content type="html"><![CDATA[<p>众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。<br>一般输入输出流需要指明编码，防止出现环境不一样导致乱码问题。</p>
 ]]></content>
     
     
@@ -812,7 +807,7 @@ passwd = <span class="string">""</span>
     <link href="http://liubaing.com/2014/05/02/Git%E6%97%A5%E5%B8%B8%E6%93%8D%E4%BD%9C/"/>
     <id>http://liubaing.com/2014/05/02/Git日常操作/</id>
     <published>2014-05-02T07:05:24.000Z</published>
-    <updated>2014-10-29T04:04:06.000Z</updated>
+    <updated>2015-07-17T10:52:38.000Z</updated>
     <content type="html"><![CDATA[<p>平时使用git依赖于IDE图形化界面插件，用起来倒没什么问题，但觉得还是有必要总结下常用的git命令，<a href="http://git-scm.com/book/zh" target="_blank" rel="external">点击查看Git中文文档</a>。</p>
 <p>一般我们clone已有的项目，默认就是git协议，URL后面可以指定目录：</p>
 <figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
@@ -822,26 +817,27 @@ passwd = <span class="string">""</span>
 <p>本地默认会创建一个master分支，拿平时开发项目为例，我们还需要建立MS分支：</p>
 <figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
+</pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span> <span class="variable">#branch</span>为要切换的目的分支
 Switched <span class="keyword">to</span> a <span class="literal">new</span> branch <span class="string">'vs-ezine-4.2.0-MS20140702'</span>
 </pre></td></tr></table></figure><br><a id="more"></a><br><br>现在我们来看下本地分支:<br><figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
 2
 3
-</pre></td><td class="code"><pre>$ git branch
+</pre></td><td class="code"><pre>$ git branch <span class="attribute">-a</span> 查看所有分支
   master
 <span class="subst">*</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
 </pre></td></tr></table></figure>
 
-<p>如果要删除上一版本远程分支：</p>
-<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="variable">$ </span>git push origin <span class="symbol">:vs-ezine-</span><span class="number">4.1</span>.<span class="number">1</span>-<span class="constant">MS20140617</span>
-</pre></td></tr></table></figure>
-
-<p>开发过程中多利用<code>git status</code>的命令输出提示，需要提交时：</p>
+<p>开发过程中需要提交时：</p>
 <figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
 2
 3
-</pre></td><td class="code"><pre><span class="variable">$ </span>git add -<span class="constant">A</span>
+4
+5
+6
+</pre></td><td class="code"><pre><span class="variable">$ </span>git pull <span class="comment">#更新代码</span>
+<span class="variable">$ </span>git status  <span class="comment">#查看当前分支的状态，是否有冲突或未提交的文件</span>
+<span class="variable">$ </span>git log  <span class="comment">#查看当前分支的commit log，看看是否与远程分支一致</span>
+<span class="variable">$ </span>git add -<span class="constant">A</span>
 <span class="variable">$ </span>git commit -m <span class="string">"xxx"</span>
 <span class="variable">$ </span>git push origin vs-ezine-<span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span><span class="symbol">:vs-ezine-</span><span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span>
 </pre></td></tr></table></figure>
@@ -851,9 +847,11 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
 <figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
 2
 3
-</pre></td><td class="code"><pre>$ git checkout master
-$ git merge vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
-$ git branch <span class="attribute">-D</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
+4
+</pre></td><td class="code"><pre><span class="variable">$ </span>git checkout master
+<span class="variable">$ </span>git merge vs-ezine-<span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span>
+<span class="variable">$ </span>git branch -<span class="constant">D</span> vs-ezine-<span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span> <span class="comment">#注意：这是是强制删除，但尽量不能删除当前分支，分支如果有commit未合并也不要删除</span>
+<span class="variable">$ </span>git push origin <span class="symbol">:vs-ezine-</span><span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span> <span class="comment">#删除远程分支</span>
 </pre></td></tr></table></figure>]]></content>
     <summary type="html"><![CDATA[<p>平时使用git依赖于IDE图形化界面插件，用起来倒没什么问题，但觉得还是有必要总结下常用的git命令，<a href="http://git-scm.com/book/zh" target="_blank" rel="external">点击查看Git中文文档</a>。</p>
 <p>一般我们clone已有的项目，默认就是git协议，URL后面可以指定目录：</p>
@@ -864,7 +862,7 @@ $ git branch <span class="attribute">-D</span> vs<span class="attribute">-ezine<
 <p>本地默认会创建一个master分支，拿平时开发项目为例，我们还需要建立MS分支：</p>
 <figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
+</pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span> <span class="variable">#branch</span>为要切换的目的分支
 Switched <span class="keyword">to</span> a <span class="literal">new</span> branch <span class="string">'vs-ezine-4.2.0-MS20140702'</span>
 </pre></td></tr></table></figure><br>]]></summary>
     
@@ -899,7 +897,7 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
     <link href="http://liubaing.com/2014/03/03/Vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
     <id>http://liubaing.com/2014/03/03/Vim基本操作/</id>
     <published>2014-03-03T03:16:05.000Z</published>
-    <updated>2014-10-29T04:12:28.000Z</updated>
+    <updated>2015-07-17T10:39:22.000Z</updated>
     <content type="html"><![CDATA[<p>废话不多说，直入主题吧。</p>
 <p>1、平时常用操作</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -912,16 +910,24 @@ i 进入插入模式
 &lt;<span class="constant">Esc</span>&gt; 回到编辑模式
 <span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
 <span class="symbol">:q</span> 退出vim
-</pre></td></tr></table></figure><br><a id="more"></a><br>2、批量删除<br><figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure><br><a id="more"></a><br>2、删除<br><figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
 4
 5
+6
+7
+8
+9
 </pre></td><td class="code"><pre><span class="tag">vim</span> <span class="tag">filename</span>
 <span class="pseudo">:set</span> <span class="tag">nu</span> 显示行号
 <span class="pseudo">:n</span> 移动到第<span class="tag">n</span>行
 <span class="pseudo">:1</span>,5<span class="tag">d</span> 回车后，删除1<span class="tag">-5</span>行
 <span class="pseudo">:u</span> 恢复
+<span class="pseudo">:dG</span> 删除所有行
+<span class="pseudo">:dd</span> 剪切光标所在整行
+<span class="pseudo">:dw</span> 删除该单词
+<span class="pseudo">:d0</span> 删除该行开始到当前光标
 </pre></td></tr></table></figure>
 
 <p>3、移动光标</p>
@@ -931,16 +937,12 @@ i 进入插入模式
 4
 5
 6
-7
-8
 </pre></td><td class="code"><pre>/kw 向前搜索kw
 ?kw 向后搜索kw
 <span class="number">0</span> 跳到行首
 <span class="variable">$ </span>跳到行尾
 gg 跳到首行
-dG 删除所有行
 <span class="constant">G</span> 跳到文件末尾
-dd 剪切光标所在整行
 </pre></td></tr></table></figure>
 
 <p>4、批量加注释</p>
@@ -980,8 +982,8 @@ i 进入插入模式
     <link href="http://liubaing.com/2014/02/08/hello-world/"/>
     <id>http://liubaing.com/2014/02/08/hello-world/</id>
     <published>2014-02-07T23:56:29.000Z</published>
-    <updated>2014-10-29T04:04:06.000Z</updated>
-    <content type="html"><![CDATA[<p>迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。<br><a id="more"></a><br>之前零零散散也分享过，比如网易的LOFTER、开源中国，都没坚持多久就荒废了，然后在微博上偶尔也会唠叨几句自己遇到的问题，最近想着自己能把博客坚持写下去，多少也是对码农生涯一个见证。</p>
+    <updated>2015-07-17T10:24:28.000Z</updated>
+    <content type="html"><![CDATA[<p>迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。<br><a id="more"></a><br>之前零零散散也分享过，但都没坚持多久就荒废了，然后在微博上偶尔也会唠叨几句自己遇到的问题，最近想着自己能把博客坚持写下去，多少也是对码农生涯一个见证。</p>
 ]]></content>
     <summary type="html"><![CDATA[<p>迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。<br>]]></summary>
     
