@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2015-07-20T07:41:39.028Z</updated>
+  <updated>2015-07-20T10:55:49.039Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -13,6 +13,25 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Java中常用集合类]]></title>
+    <link href="http://liubaing.com/2015/03/20/Java%E4%B8%AD%E5%B8%B8%E7%94%A8%E9%9B%86%E5%90%88%E7%B1%BB/"/>
+    <id>http://liubaing.com/2015/03/20/Java中常用集合类/</id>
+    <published>2015-03-20T10:16:38.000Z</published>
+    <updated>2015-07-20T10:53:55.000Z</updated>
+    <content type="html"><![CDATA[<p>JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。</p>
+<p>TODO</p>
+]]></content>
+    
+    
+      <category term="Java" scheme="http://liubaing.com/tags/Java/"/>
+    
+      <category term="HTTP" scheme="http://liubaing.com/tags/HTTP/"/>
+    
+      <category term="编程" scheme="http://liubaing.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Web下文件下载]]></title>
