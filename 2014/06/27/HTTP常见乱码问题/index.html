@@ -5,15 +5,18 @@
   
   <title>HTTP常见乱码问题 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。一般输入输出流需要指明编码，防止出现环境不一样导致乱码问题。">
+  <meta name="description" content="众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。
+比如使用Spring MVC时需要配置org.springframework.http.converter.StringHttpMessageConverter的defaultCharset；还有使用HttpClient时注意响应中ByteArray反序列化时也要指明charsetName，否则读取JVM参数f">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP常见乱码问题">
 <meta property="og:url" content="http://liubaing.com/2014/06/27/HTTP常见乱码问题/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。一般输入输出流需要指明编码，防止出现环境不一样导致乱码问题。">
+<meta property="og:description" content="众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。
+比如使用Spring MVC时需要配置org.springframework.http.converter.StringHttpMessageConverter的defaultCharset；还有使用HttpClient时注意响应中ByteArray反序列化时也要指明charsetName，否则读取JVM参数f">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP常见乱码问题">
-<meta name="twitter:description" content="众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。一般输入输出流需要指明编码，防止出现环境不一样导致乱码问题。">
+<meta name="twitter:description" content="众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。
+比如使用Spring MVC时需要配置org.springframework.http.converter.StringHttpMessageConverter的defaultCharset；还有使用HttpClient时注意响应中ByteArray反序列化时也要指明charsetName，否则读取JVM参数f">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -103,12 +106,14 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。<br>一般输入输出流需要指明编码，防止出现环境不一样导致乱码问题。</p>
+        <p>众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。</p>
+<p>比如使用Spring MVC时需要配置org.springframework.http.converter.StringHttpMessageConverter的defaultCharset；<br>还有使用HttpClient时注意响应中ByteArray反序列化时也要指明charsetName，否则读取JVM参数file.encoding。</p>
+<p>总结下就是一般输入输出流尽量指明编码，防止出现环境不一样导致乱码问题。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="9czkhuux8vi1hq53" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="o609rz7gctw21tvp" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 

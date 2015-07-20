@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2015-07-17T10:53:27.343Z</updated>
+  <updated>2015-07-20T07:41:39.028Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -425,8 +425,10 @@
     <link href="http://liubaing.com/2014/06/27/HTTP%E5%B8%B8%E8%A7%81%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/"/>
     <id>http://liubaing.com/2014/06/27/HTTP常见乱码问题/</id>
     <published>2014-06-27T07:42:03.000Z</published>
-    <updated>2015-07-17T10:52:38.000Z</updated>
-    <content type="html"><![CDATA[<p>众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。<br>一般输入输出流需要指明编码，防止出现环境不一样导致乱码问题。</p>
+    <updated>2015-07-20T07:41:22.000Z</updated>
+    <content type="html"><![CDATA[<p>众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。</p>
+<p>比如使用Spring MVC时需要配置org.springframework.http.converter.StringHttpMessageConverter的defaultCharset；<br>还有使用HttpClient时注意响应中ByteArray反序列化时也要指明charsetName，否则读取JVM参数file.encoding。</p>
+<p>总结下就是一般输入输出流尽量指明编码，防止出现环境不一样导致乱码问题。</p>
 ]]></content>
     
     
