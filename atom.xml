@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2015-07-24T07:35:46.897Z</updated>
+  <updated>2015-07-24T10:56:46.714Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -37,15 +37,181 @@
     <link href="http://liubaing.com/2015/03/20/Java%E4%B8%AD%E5%B8%B8%E7%94%A8%E9%9B%86%E5%90%88%E7%B1%BB/"/>
     <id>http://liubaing.com/2015/03/20/Java中常用集合类/</id>
     <published>2015-03-20T10:16:38.000Z</published>
-    <updated>2015-07-21T09:57:41.000Z</updated>
+    <updated>2015-07-24T10:56:31.000Z</updated>
     <content type="html"><![CDATA[<p>JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。<br>下面简单总结下常用的集合类。</p>
 <h3 id="Collection">Collection</h3>
-<h4 id="List">List</h4>
-<h5 id="ArrayList">ArrayList</h5>
-<h5 id="LinkedList">LinkedList</h5>
-<h4 id="Set">Set</h4>
-<h4 id="Queue">Queue</h4>
 <h3 id="Map">Map</h3>
+<h6 id="HashMap">HashMap</h6>
+<p>首先要说得HashMap就是数组和链表得结合体，先看源码</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="comment">/**
+ * 默认初始化容量，必须是2的N次方
+ */</span>
+<span class="keyword">static</span> <span class="keyword">final</span> int DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span>
+<span class="keyword">static</span> <span class="keyword">final</span> Entry<span class="preprocessor">&lt;?</span>,<span class="preprocessor">?&gt;</span>[] EMPTY_TABLE = {};
+transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
+<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; {</span>
+    <span class="keyword">final</span> K key;
+    V value;
+    Entry&lt;K,V&gt; next;
+    int hash;
+    ......
+}
+</pre></td></tr></table></figure><br>底层就是Entry数组，每个Entry持有next引用，构成链表。</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+</pre></td><td class="code"><pre><span class="keyword">public</span> V <span class="title">put</span>(K key, V <span class="keyword">value</span>) {
+    <span class="comment">//初次执行创建2的N次方容量的数组</span>
+    <span class="keyword">if</span> (table == EMPTY_TABLE) {
+        inflateTable(threshold);
+    }
+    <span class="comment">//null键直接存在table[0]</span>
+    <span class="keyword">if</span> (key == <span class="keyword">null</span>)
+        <span class="keyword">return</span> putForNullKey(<span class="keyword">value</span>);
+    <span class="comment">//计算所在数组索引</span>
+    <span class="keyword">int</span> hash = hash(key);
+    <span class="keyword">int</span> i = indexFor(hash, table.length);
+    <span class="comment">//链表头部开始迭代，如果key的hash值和引用同一个对象或者实现equals方法相等，直接替换value，并返回旧value</span>
+    <span class="keyword">for</span> (Entry&lt;K,V&gt; e = table[i]; e != <span class="keyword">null</span>; e = e.next) {
+        Object k;
+        <span class="keyword">if</span> (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
+            V oldValue = e.<span class="keyword">value</span>;
+            e.<span class="keyword">value</span> = <span class="keyword">value</span>;
+            e.recordAccess(<span class="keyword">this</span>);
+            <span class="keyword">return</span> oldValue;
+        }
+    }
+    <span class="comment">//更改次数，实现fast-fail</span>
+    modCount++;
+    addEntry(hash, key, <span class="keyword">value</span>, i);
+    <span class="keyword">return</span> <span class="keyword">null</span>;
+}
+
+<span class="keyword">void</span> addEntry(<span class="keyword">int</span> hash, K key, V <span class="keyword">value</span>, <span class="keyword">int</span> bucketIndex) {
+    <span class="comment">//扩容</span>
+    <span class="keyword">if</span> ((size &gt;= threshold) && (<span class="keyword">null</span> != table[bucketIndex])) {
+        resize(<span class="number">2</span> * table.length);
+        hash = (<span class="keyword">null</span> != key) ? hash(key) : <span class="number">0</span>;
+        bucketIndex = indexFor(hash, table.length);
+    }
+
+    createEntry(hash, key, <span class="keyword">value</span>, bucketIndex);
+}
+
+<span class="keyword">void</span> createEntry(<span class="keyword">int</span> hash, K key, V <span class="keyword">value</span>, <span class="keyword">int</span> bucketIndex) {
+    Entry&lt;K,V&gt; e = table[bucketIndex];
+    table[bucketIndex] = <span class="keyword">new</span> Entry&lt;&gt;(hash, key, <span class="keyword">value</span>, e);
+    size++;
+}
+
+final <span class="keyword">int</span> hash(Object k) {
+    <span class="keyword">int</span> h = hashSeed;
+    <span class="keyword">if</span> (<span class="number">0</span> != h && k instanceof String) {
+        <span class="keyword">return</span> sun.misc.Hashing.stringHash32((String) k);
+    }
+
+    h ^= k.hashCode();
+    <span class="comment">//减少碰撞</span>
+    h ^= (h &gt;&gt;&gt; <span class="number">20</span>) ^ (h &gt;&gt;&gt; <span class="number">12</span>);
+    <span class="keyword">return</span> h ^ (h &gt;&gt;&gt; <span class="number">7</span>) ^ (h &gt;&gt;&gt; <span class="number">4</span>);
+}
+
+<span class="keyword">static</span> <span class="keyword">int</span> indexFor(<span class="keyword">int</span> h, <span class="keyword">int</span> length) {
+    <span class="comment">//注意这里没有采用%，这样实现有个前提length必须是2的N次方，</span>
+    <span class="comment">//具体原因网上搜索下后得知 &操作用了3mov+1and+1sub，%操作用了2mov+1cdp+1idiv</span>
+    <span class="comment">//前者只需5个CPU周期，而后者至少需要26个CPU周期</span>
+    <span class="keyword">return</span> h & (length-<span class="number">1</span>);
+}
+</pre></td></tr></table></figure><br>当我们往HashMap中put元素的时候，计算key的hash值，根据hash值对数组长度取模运算得到在数组中的位置，如果数组该位置上已经存放有其他元素了，那么在这个位置上的元素将以链表的形式存放，新加入的放在链头，最先加入的放在链尾。</p>
+<p>前面说过HashMap的数据结构是数组和链表的结合，所以我们当然希望这个HashMap里面的 元素位置尽量的分布均匀些，尽量使得每个位置上的元素数量只有一个，那么当我们用hash算法求得这个位置的时候，马上就可以知道对应位置的元素就是我们要的，而不用再去遍历链表，这样就大大优化了查询的效率。</p>
+<p>那之前强调的保证length为2的N次方，原因就是为了充分利用数组空间，元素尽量散列些，具体就是而当数组长度为16时，即为2的n次方时，2n-1得到的二进制数的每个位上的值都为1，这使得在低位上&amp;时，得到的和原hash的低位相同，加之hash(int h)方法对key的hashCode的进一步优化，加入了高位计算，就使得只有相同的hash值的两个值才会被放到数组中的同一个位置上形成链表。</p>
+<p>所以说，当数组长度为2的n次幂的时候，不同的key算得得index相同的几率较小，那么数据在数组上分布就比较均匀，也就是说碰撞的几率小，相对的，查询的时候就不用遍历某个位置上的链表，这样查询效率也就较高了。</p>
+<h6 id="ConcurrentHashMap">ConcurrentHashMap</h6>
+<h4 id="List">List</h4>
+<h6 id="ArrayList">ArrayList</h6>
+<p>数组</p>
+<h6 id="LinkedList">LinkedList</h6>
+<p>双向链表</p>
+<h4 id="Set">Set</h4>
+<p>value为new Object()</p>
+<h6 id="HashSet">HashSet</h6>
+<h6 id="TreeSet">TreeSet</h6>
+<h4 id="Queue">Queue</h4>
+<h6 id="ArrayBlockingQueue">ArrayBlockingQueue</h6>
+<h5 id="Deque">Deque</h5>
+<h6 id="LinkedBlockingDeque">LinkedBlockingDeque</h6>
 ]]></content>
     
     
