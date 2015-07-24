@@ -179,7 +179,7 @@ body {
   background: #eee;
 }
 .mobile-nav-on #wrap {
-  left: 280px;
+  left: 80px;
 }
 @media screen and (min-width: 768px) {
   #main {
@@ -1309,7 +1309,7 @@ pre .javascript .function {
     position: absolute;
     top: 0;
     left: 0;
-    width: 280px;
+    width: 80px;
     height: 100%;
     background: #191919;
     border-right: 1px solid #fff;
