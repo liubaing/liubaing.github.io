@@ -40,9 +40,9 @@ var _hmt = _hmt || [];
   <div id="container">
     <div id="wrap">
       <header id="header">
-  <div id="banner"></div>
+  <!-- <div id="banner"></div>-->
   <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
+    <!-- <div id="header-title" class="inner">
       <h1 id="logo-wrap">
         <a href="/" id="logo">六八ing的博客</a>
       </h1>
@@ -53,31 +53,89 @@ var _hmt = _hmt || [];
       
     </div>
     <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">主页</a>
-        
-          <a class="main-nav-link" href="/archives">归档</a>
-        
-          <a class="main-nav-link" href="/about">关于</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        <a id="nav-github-link" class="nav-icon" href="https://github.com/liubaing" title="Github" target="_blank"></a>
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://liubaing.com"></form>
-      </div>
-    </div>
+
+    </div> -->
+    <nav id="main-nav">
+            <a id="main-nav-toggle" class="nav-icon"></a>
+            
+              <a class="main-nav-link" href="/">主页</a>
+            
+              <a class="main-nav-link" href="/archives">归档</a>
+            
+              <a class="main-nav-link" href="/about">关于</a>
+            
+          </nav>
+          <nav id="sub-nav">
+            <a id="nav-github-link" class="nav-icon" href="https://github.com/liubaing" title="Github" target="_blank"></a>
+            
+              <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+            
+            <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+          </nav>
+          <div id="search-form-wrap">
+            <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://liubaing.com"></form>
+          </div>
   </div>
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-Git日常操作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/05/02/Git日常操作/" class="article-date">
+  <time datetime="2014-05-02T07:05:24.000Z" itemprop="datePublished">5月 2 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/工具/">工具</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/05/02/Git日常操作/">Git日常操作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>平时使用git依赖于IDE图形化界面插件，用起来倒没什么问题，但觉得还是有必要总结下常用的git命令，<a href="http://git-scm.com/book/zh" target="_blank" rel="external">点击查看Git中文文档</a>。</p>
+<p>一般我们clone已有的项目，默认就是git协议，URL后面可以指定目录：</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">$ </span>git clone git<span class="variable">@github</span>.<span class="symbol">com:</span>liubaing/galaxy.git galaxy
+</pre></td></tr></table></figure>
+
+<p>本地默认会创建一个master分支，拿平时开发项目为例，我们还需要建立MS分支：</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span> <span class="variable">#branch</span>为要切换的目的分支
+Switched <span class="keyword">to</span> a <span class="literal">new</span> branch <span class="string">'vs-ezine-4.2.0-MS20140702'</span>
+</pre></td></tr></table></figure><br>
+        
+          <p class="article-more-link">
+            <a href="/2014/05/02/Git日常操作/">全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="es7mjxipyhy2zagt" data-title="Git日常操作" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-Linode退钱" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -114,7 +172,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/04/12/Linode退钱/" data-id="9vb6080qe2nzm7vh" data-title="Linode退钱" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/04/12/Linode退钱/" data-id="i7yi8ljjx5satyxk" data-title="Linode退钱" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linode/">Linode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/">VPS</a></li></ul>
 
@@ -152,7 +210,7 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <p>废话不多说，直入主题吧。</p>
-<p>1、平时常用操作</p>
+<h4 id="1、平时常用操作">1、平时常用操作</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -163,16 +221,60 @@ i 进入插入模式
 &lt;<span class="constant">Esc</span>&gt; 回到编辑模式
 <span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
 <span class="symbol">:q</span> 退出vim
-</pre></td></tr></table></figure><br>
-        
-          <p class="article-more-link">
-            <a href="/2014/03/03/Vim基本操作/">全文</a>
-          </p>
-        
+</pre></td></tr></table></figure>
+
+<h4 id="2、删除">2、删除</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre><span class="tag">vim</span> <span class="tag">filename</span>
+<span class="pseudo">:set</span> <span class="tag">nu</span> 显示行号
+<span class="pseudo">:n</span> 移动到第<span class="tag">n</span>行
+<span class="pseudo">:1</span>,5<span class="tag">d</span> 回车后，删除1<span class="tag">-5</span>行
+<span class="pseudo">:u</span> 恢复
+<span class="pseudo">:dG</span> 删除所有行
+<span class="pseudo">:dd</span> 剪切光标所在整行
+<span class="pseudo">:dw</span> 删除该单词
+<span class="pseudo">:d0</span> 删除该行开始到当前光标
+</pre></td></tr></table></figure>
+
+<h4 id="3、移动光标">3、移动光标</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>/kw 向前搜索kw
+?kw 向后搜索kw
+<span class="number">0</span> 跳到行首
+<span class="variable">$ </span>跳到行尾
+gg 跳到首行
+<span class="constant">G</span> 跳到文件末尾
+</pre></td></tr></table></figure>
+
+<h4 id="4、批量加注释">4、批量加注释</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>编辑模式下，按下Ctrl + v，进入列（也叫区块）模式
+使用上下键（shift可翻页）选择需要注释的多行
+按下键盘（大写）<span class="keyword">I</span>键，进入插入模式
+然后输入注释符
+最后按下esc键才会出现注释
+</pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="bcp3v63iqabnqhd2" data-title="Vim基本操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="2cev0mxcmwkg8sqc" data-title="Vim基本操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
 
@@ -218,7 +320,7 @@ i 进入插入模式
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/02/08/hello-world/" data-id="wu4zsg6cw5q3dlou" data-title="Hello World" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/02/08/hello-world/" data-id="bq41cvqex94exqlv" data-title="Hello World" class="article-share-link">分享</a>
       
     </footer>
   </div>
@@ -252,6 +354,10 @@ i 进入插入模式
       <ul>
         
           <li>
+            <a href="/2015/07/21/MySQL-JDBC-Driver版本Bug/">MySQL JDBC Driver版本Bug</a>
+          </li>
+        
+          <li>
             <a href="/2015/03/20/Java中常用集合类/">Java中常用集合类</a>
           </li>
         
@@ -265,10 +371,6 @@ i 进入插入模式
         
           <li>
             <a href="/2014/09/18/Java中常用的时间格式化注意点/">Java中常用的时间格式化注意点</a>
-          </li>
-        
-          <li>
-            <a href="/2014/07/26/常用浏览器下调试/">常用浏览器下调试</a>
           </li>
         
       </ul>

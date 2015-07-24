@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2015-07-20T10:57:10.569Z</updated>
+  <updated>2015-07-24T03:47:20.517Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -15,13 +15,37 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[MySQL JDBC Driver版本Bug]]></title>
+    <link href="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver%E7%89%88%E6%9C%ACBug/"/>
+    <id>http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/</id>
+    <published>2015-07-21T09:12:15.000Z</published>
+    <updated>2015-07-21T09:53:30.000Z</updated>
+    <content type="html"><![CDATA[<p>上周发现线上的CTR信息不准确，影响到广告投放概率。</p>
+<p>经过同事的排查发现是数据库实例连接错了，在jdbcUrl中指定的端口是是3307，但实际上是读写3306默认端口的数据库。</p>
+<p>跟踪确定是Driver本身的Bug，Google了下官方已经有<a href="https://bugs.mysql.com/bug.php?id=47494" target="_blank" rel="external">相关Bug反馈</a>了，解决方案就是把mysql-connector-java的版本从5.1.9调整为5.1.18。</p>
+]]></content>
+    
+    
+      <category term="Java" scheme="http://liubaing.com/tags/Java/"/>
+    
+      <category term="编程" scheme="http://liubaing.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Java中常用集合类]]></title>
     <link href="http://liubaing.com/2015/03/20/Java%E4%B8%AD%E5%B8%B8%E7%94%A8%E9%9B%86%E5%90%88%E7%B1%BB/"/>
     <id>http://liubaing.com/2015/03/20/Java中常用集合类/</id>
     <published>2015-03-20T10:16:38.000Z</published>
-    <updated>2015-07-20T10:56:42.000Z</updated>
-    <content type="html"><![CDATA[<p>JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。</p>
-<p>TODO</p>
+    <updated>2015-07-21T09:57:41.000Z</updated>
+    <content type="html"><![CDATA[<p>JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。<br>下面简单总结下常用的集合类。</p>
+<h3 id="Collection">Collection</h3>
+<h4 id="List">List</h4>
+<h5 id="ArrayList">ArrayList</h5>
+<h5 id="LinkedList">LinkedList</h5>
+<h4 id="Set">Set</h4>
+<h4 id="Queue">Queue</h4>
+<h3 id="Map">Map</h3>
 ]]></content>
     
     
@@ -826,7 +850,7 @@ passwd = <span class="string">""</span>
     <link href="http://liubaing.com/2014/05/02/Git%E6%97%A5%E5%B8%B8%E6%93%8D%E4%BD%9C/"/>
     <id>http://liubaing.com/2014/05/02/Git日常操作/</id>
     <published>2014-05-02T07:05:24.000Z</published>
-    <updated>2015-07-17T10:52:38.000Z</updated>
+    <updated>2015-07-21T10:10:28.000Z</updated>
     <content type="html"><![CDATA[<p>平时使用git依赖于IDE图形化界面插件，用起来倒没什么问题，但觉得还是有必要总结下常用的git命令，<a href="http://git-scm.com/book/zh" target="_blank" rel="external">点击查看Git中文文档</a>。</p>
 <p>一般我们clone已有的项目，默认就是git协议，URL后面可以指定目录：</p>
 <figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
@@ -838,7 +862,7 @@ passwd = <span class="string">""</span>
 2
 </pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span> <span class="variable">#branch</span>为要切换的目的分支
 Switched <span class="keyword">to</span> a <span class="literal">new</span> branch <span class="string">'vs-ezine-4.2.0-MS20140702'</span>
-</pre></td></tr></table></figure><br><a id="more"></a><br><br>现在我们来看下本地分支:<br><figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure><br><a id="more"></a><br><br><br>现在我们来看下本地分支:<br><figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
 2
 3
 </pre></td><td class="code"><pre>$ git branch <span class="attribute">-a</span> 查看所有分支
@@ -916,9 +940,9 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
     <link href="http://liubaing.com/2014/03/03/Vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
     <id>http://liubaing.com/2014/03/03/Vim基本操作/</id>
     <published>2014-03-03T03:16:05.000Z</published>
-    <updated>2015-07-17T10:39:22.000Z</updated>
+    <updated>2015-07-21T10:05:07.000Z</updated>
     <content type="html"><![CDATA[<p>废话不多说，直入主题吧。</p>
-<p>1、平时常用操作</p>
+<h4 id="1、平时常用操作">1、平时常用操作</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -929,7 +953,10 @@ i 进入插入模式
 &lt;<span class="constant">Esc</span>&gt; 回到编辑模式
 <span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
 <span class="symbol">:q</span> 退出vim
-</pre></td></tr></table></figure><br><a id="more"></a><br>2、删除<br><figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure>
+
+<h4 id="2、删除">2、删除</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -949,7 +976,7 @@ i 进入插入模式
 <span class="pseudo">:d0</span> 删除该行开始到当前光标
 </pre></td></tr></table></figure>
 
-<p>3、移动光标</p>
+<h4 id="3、移动光标">3、移动光标</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -964,7 +991,7 @@ gg 跳到首行
 <span class="constant">G</span> 跳到文件末尾
 </pre></td></tr></table></figure>
 
-<p>4、批量加注释</p>
+<h4 id="4、批量加注释">4、批量加注释</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -976,19 +1003,7 @@ gg 跳到首行
 然后输入注释符
 最后按下esc键才会出现注释
 </pre></td></tr></table></figure>]]></content>
-    <summary type="html"><![CDATA[<p>废话不多说，直入主题吧。</p>
-<p>1、平时常用操作</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre>vim 启动vim
-i 进入插入模式
-&lt;<span class="constant">Esc</span>&gt; 回到编辑模式
-<span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
-<span class="symbol">:q</span> 退出vim
-</pre></td></tr></table></figure><br>]]></summary>
+    
     
       <category term="Vim" scheme="http://liubaing.com/tags/Vim/"/>
     
