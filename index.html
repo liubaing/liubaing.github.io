@@ -80,6 +80,69 @@ var _hmt = _hmt || [];
       <div class="outer">
         <section id="main">
   
+    <article id="post-排查Java进程CPU占有率高" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/07/27/排查Java进程CPU占有率高/" class="article-date">
+  <time datetime="2015-07-27T08:35:56.000Z" itemprop="datePublished">2015年7月27日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/编程/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/07/27/排查Java进程CPU占有率高/">排查Java进程CPU占有率高</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近尝试在项目中利用<code>com.sun.management.OperatingSystemMXBean</code>增加些调试信息，发现测试环境Java进程CPU占有率很高，Google后总结一些解决过程。</p>
+<p>1.根据top命令，发现占有率高的Java的PID。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="preprocessor">#top</span>
+</pre></td></tr></table></figure>
+
+
+<p>2.找到该PID后，首先显示线程列表，并按照CPU占用高的线程排序。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">#ps</span> <span class="attribute">-mp</span> <span class="variable">$PID</span> <span class="attribute">-o</span> <span class="keyword">THREAD</span>,tid,time <span class="subst">|</span> sort <span class="attribute">-rn</span>
+</pre></td></tr></table></figure>
+
+
+<p>3.然后找到耗时最多的线程TID，将需要的TID转换为16进制格式。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="symbol">#printf</span> <span class="comment">"%x\n"</span> <span class="char">$T</span>ID
+</pre></td></tr></table></figure>
+
+
+<p>4.打印线程的堆栈信息。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="symbol">#jstack</span> <span class="char">$P</span>ID |grep <span class="char">$0</span>xTID -<span class="class">A</span> <span class="number">30</span>
+</pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="dk1ik7uj86zrelas" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-MySQL-JDBC-Driver版本Bug" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/07/21/MySQL-JDBC-Driver版本Bug/" class="article-date">
@@ -113,7 +176,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="xus9yg66kfhlopsq" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="bvgtn7oj8o7b05c3" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -124,9 +187,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-Java中常用集合类" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-源码理解-Map" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/03/20/Java中常用集合类/" class="article-date">
+    <a href="/2015/03/20/源码理解-Map/" class="article-date">
   <time datetime="2015-03-20T10:16:38.000Z" itemprop="datePublished">2015年3月20日</time>
 </a>
     
@@ -142,7 +205,7 @@ var _hmt = _hmt || [];
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/20/Java中常用集合类/">Java中常用集合类</a>
+      <a class="article-title" href="/2015/03/20/源码理解-Map/">源码理解-Map</a>
     </h1>
   
 
@@ -150,9 +213,7 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。<br>下面简单总结下常用的集合类。</p>
-<h3 id="Collection">Collection</h3>
-<h3 id="Map">Map</h3>
+        <h3 id="Map">Map</h3>
 <h6 id="HashMap">HashMap</h6>
 <p>首先要说得HashMap就是数组和链表得结合体，先看源码</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -186,13 +247,69 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
 <p>底层就是Entry数组，每个Entry持有next引用，构成链表。<br>
         
           <p class="article-more-link">
-            <a href="/2015/03/20/Java中常用集合类/">全文</a>
+            <a href="/2015/03/20/源码理解-Map/">全文</a>
           </p>
         
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/03/20/Java中常用集合类/" data-id="4eu4lf2ol04ihh7j" data-title="Java中常用集合类" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/03/20/源码理解-Map/" data-id="lzprrr3znz965c5e" data-title="源码理解-Map" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-源码理解-Collection" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/03/17/源码理解-Collection/" class="article-date">
+  <time datetime="2015-03-17T05:44:23.000Z" itemprop="datePublished">2015年3月17日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/编程/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/17/源码理解-Collection/">源码理解-Collection</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。<br>下面简单总结下常用的集合类。</p>
+<h3 id="Collection">Collection</h3>
+<h4 id="List">List</h4>
+<h6 id="ArrayList">ArrayList</h6>
+<p>数组</p>
+<h6 id="LinkedList">LinkedList</h6>
+<p>双向链表</p>
+<h4 id="Set">Set</h4>
+<p>value为new Object()</p>
+<h6 id="HashSet">HashSet</h6>
+<h6 id="TreeSet">TreeSet</h6>
+<h4 id="Queue">Queue</h4>
+<h6 id="ArrayBlockingQueue">ArrayBlockingQueue</h6>
+<h5 id="Deque">Deque</h5>
+<h6 id="LinkedBlockingDeque">LinkedBlockingDeque</h6>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liubaing.com/2015/03/17/源码理解-Collection/" data-id="q7qi481zc18kot0s" data-title="源码理解-Collection" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -238,7 +355,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="lc3pd9s2mdu3gvgi" data-title="Web下文件下载" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="q52pq5gu05sdzgjt" data-title="Web下文件下载" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
 
@@ -338,7 +455,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="g5hqb15mov2c8re4" data-title="Java中的单例模式" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="wb28268w2um99i43" data-title="Java中的单例模式" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -381,7 +498,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
 <p>但恰恰就因为这个成员变量，并且format方法又没有同步，所以这个工具类在多线程下风险很高。</p>
 <p>这个问题在网上也看到很多解决方案，参考JDK中注释。</p>
 <blockquote>
-<p> Date formats are not synchronized.<br> It is recommended to create separate format instances for each thread.<br> If multiple threads access a format concurrently, it must be synchronized<br> externally</p>
+<p> Date formats are not synchronized. It is recommended to create separate format instances for each thread. If multiple threads access a format concurrently, it must be synchronized externally</p>
 </blockquote>
 <h4 id="同步SimpleDateFormat对象">同步SimpleDateFormat对象</h4>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -436,7 +553,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="6sxif5ja83em6s24" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="bykq32ln5s91kwau" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -496,10 +613,8 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/07/26/常用浏览器下调试/" data-id="cjicex9bi81xr1tm" data-title="常用浏览器下调试" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/07/26/常用浏览器下调试/" data-id="95btuoqs7j8e98z3" data-title="常用浏览器下调试" class="article-share-link">分享</a>
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Chrome/">Chrome</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Safari/">Safari</a></li></ul>
-
     </footer>
   </div>
   
@@ -540,7 +655,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="2i114l1qzlbbhw7u" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="1uypdktwhv3asvj9" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -668,99 +783,9 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="bxh7tgdsewmuinvx" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="ocq3d3o3oklvi2s0" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-世界杯直播" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/06/15/世界杯直播/" class="article-date">
-  <time datetime="2014-06-15T03:10:39.000Z" itemprop="datePublished">2014年6月15日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/生活/">生活</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/06/15/世界杯直播/">世界杯直播</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>感谢世界杯给我们带来如此精彩的比赛，感谢CCTV节目组和解说嘉宾，更要感谢我们身边那个支持我们熬夜看球的人，但不用谢我，我只是搬运工。<br>
-        
-          <p class="article-more-link">
-            <a href="/2014/06/15/世界杯直播/">全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/15/世界杯直播/" data-id="1cxpwdotqmplhy0w" data-title="世界杯直播" class="article-share-link">分享</a>
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-翻墙" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/06/13/翻墙/" class="article-date">
-  <time datetime="2014-06-13T08:38:14.000Z" itemprop="datePublished">2014年6月13日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/工具/">工具</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/06/13/翻墙/">翻墙</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近Google访问不了，各种403和连接被重置。<br>
-        
-          <p class="article-more-link">
-            <a href="/2014/06/13/翻墙/">全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/13/翻墙/" data-id="lt3k3nfb8tg94bdw" data-title="翻墙" class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Google/">Google</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hosts/">hosts</a></li></ul>
 
     </footer>
   </div>
@@ -782,7 +807,7 @@ passwd = <span class="string">""</span>
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Chrome/" style="font-size: 10.00px;">Chrome</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/HTTP/" style="font-size: 15.00px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/Safari/" style="font-size: 10.00px;">Safari</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/VPS/" style="font-size: 10.00px;">VPS</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
+      <a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/HTTP/" style="font-size: 15.00px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Linux/" style="font-size: 10.00px;">Linux</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
     </div>
   </div>
 
@@ -794,23 +819,23 @@ passwd = <span class="string">""</span>
       <ul>
         
           <li>
+            <a href="/2015/07/27/排查Java进程CPU占有率高/">排查Java进程CPU占有率高</a>
+          </li>
+        
+          <li>
             <a href="/2015/07/21/MySQL-JDBC-Driver版本Bug/">MySQL JDBC Driver版本Bug</a>
           </li>
         
           <li>
-            <a href="/2015/03/20/Java中常用集合类/">Java中常用集合类</a>
+            <a href="/2015/03/20/源码理解-Map/">源码理解-Map</a>
+          </li>
+        
+          <li>
+            <a href="/2015/03/17/源码理解-Collection/">源码理解-Collection</a>
           </li>
         
           <li>
             <a href="/2014/12/10/Web下文件下载/">Web下文件下载</a>
-          </li>
-        
-          <li>
-            <a href="/2014/10/19/Java中的单例模式/">Java中的单例模式</a>
-          </li>
-        
-          <li>
-            <a href="/2014/09/18/Java中常用的时间格式化注意点/">Java中常用的时间格式化注意点</a>
           </li>
         
       </ul>
@@ -849,7 +874,12 @@ passwd = <span class="string">""</span>
     <a href="/about" class="mobile-nav-link">关于</a>
   
 </nav>
-    
+    <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+<!-- totop end -->
+
 <script type="text/javascript">
   var duoshuoQuery = { short_name: 'liubaing' };
   (function() {

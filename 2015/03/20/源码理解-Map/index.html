@@ -3,11 +3,9 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Java中常用集合类 | 六八ing的博客</title>
+  <title>源码理解-Map | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。下面简单总结下常用的集合类。
-Collection
-Map
+  <meta name="description" content="Map
 HashMap
 首先要说得HashMap就是数组和链表得结合体，先看源码
 1
@@ -26,14 +24,13 @@ HashMap
 /**
  * 默认初始化容量，必须是2的N次方
  */
-static final int DEFAULT_INITIAL_CAPACITY">
+static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; // aka 16
+static final Entry&lt;?,?&gt;[] E">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java中常用集合类">
-<meta property="og:url" content="http://liubaing.com/2015/03/20/Java中常用集合类/">
+<meta property="og:title" content="源码理解-Map">
+<meta property="og:url" content="http://liubaing.com/2015/03/20/源码理解-Map/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。下面简单总结下常用的集合类。
-Collection
-Map
+<meta property="og:description" content="Map
 HashMap
 首先要说得HashMap就是数组和链表得结合体，先看源码
 1
@@ -52,12 +49,11 @@ HashMap
 /**
  * 默认初始化容量，必须是2的N次方
  */
-static final int DEFAULT_INITIAL_CAPACITY">
+static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; // aka 16
+static final Entry&lt;?,?&gt;[] E">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java中常用集合类">
-<meta name="twitter:description" content="JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。下面简单总结下常用的集合类。
-Collection
-Map
+<meta name="twitter:title" content="源码理解-Map">
+<meta name="twitter:description" content="Map
 HashMap
 首先要说得HashMap就是数组和链表得结合体，先看源码
 1
@@ -76,7 +72,8 @@ HashMap
 /**
  * 默认初始化容量，必须是2的N次方
  */
-static final int DEFAULT_INITIAL_CAPACITY">
+static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; // aka 16
+static final Entry&lt;?,?&gt;[] E">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -141,9 +138,9 @@ var _hmt = _hmt || [];
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-Java中常用集合类" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-源码理解-Map" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/03/20/Java中常用集合类/" class="article-date">
+    <a href="/2015/03/20/源码理解-Map/" class="article-date">
   <time datetime="2015-03-20T10:16:38.000Z" itemprop="datePublished">2015年3月20日</time>
 </a>
     
@@ -159,7 +156,7 @@ var _hmt = _hmt || [];
         
   
     <h1 class="article-title" itemprop="name">
-      Java中常用集合类
+      源码理解-Map
     </h1>
   
 
@@ -167,9 +164,7 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。<br>下面简单总结下常用的集合类。</p>
-<h3 id="Collection">Collection</h3>
-<h3 id="Map">Map</h3>
+        <h3 id="Map">Map</h3>
 <h6 id="HashMap">HashMap</h6>
 <p>首先要说得HashMap就是数组和链表得结合体，先看源码</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -244,6 +239,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
 41
 42
 43
+44
 </pre></td><td class="code"><pre><span class="keyword">public</span> V <span class="title">put</span>(K key, V <span class="keyword">value</span>) {
     <span class="comment">//初次执行创建2的N次方容量的数组</span>
     <span class="keyword">if</span> (table == EMPTY_TABLE) {
@@ -261,6 +257,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
         <span class="keyword">if</span> (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
             V oldValue = e.<span class="keyword">value</span>;
             e.<span class="keyword">value</span> = <span class="keyword">value</span>;
+            <span class="comment">//LinkedHashMap维护链表顺序</span>
             e.recordAccess(<span class="keyword">this</span>);
             <span class="keyword">return</span> oldValue;
         }
@@ -272,7 +269,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
 }
 
 <span class="keyword">void</span> addEntry(<span class="keyword">int</span> hash, K key, V <span class="keyword">value</span>, <span class="keyword">int</span> bucketIndex) {
-    <span class="comment">//扩容</span>
+    <span class="comment">//2倍扩容，如果在构造前明确容量需求，尽量指定避免扩容和重新映射</span>
     <span class="keyword">if</span> ((size &gt;= threshold) && (<span class="keyword">null</span> != table[bucketIndex])) {
         resize(<span class="number">2</span> * table.length);
         hash = (<span class="keyword">null</span> != key) ? hash(key) : <span class="number">0</span>;
@@ -290,7 +287,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
 </pre></td></tr></table></figure>
 
 <p>当我们往HashMap中put元素的时候，计算key的hash值，根据hash值对数组长度取模运算得到在数组中的位置，如果数组该位置上已经存放有其他元素了，那么在这个位置上的元素将以链表的形式存放，新加入的放在链头，最先加入的放在链尾。</p>
-<p>前面说过HashMap的数据结构是数组和链表的结合，所以我们当然希望这个HashMap里面的 元素位置尽量的分布均匀些，尽量使得每个位置上的元素数量只有一个，那么当我们用hash算法求得这个位置的时候，马上就可以知道对应位置的元素就是我们要的，而不用再去遍历链表，这样就大大优化了查询的效率。</p>
+<p>前面说过HashMap的数据结构是数组和链表的结合，所以我们当然希望这个HashMap里面的元素位置尽量的分布均匀些，尽量使得每个位置上的元素数量只有一个，那么当我们用hash算法求得这个位置的时候，马上就可以知道对应位置的元素就是我们要的，而不用再去遍历链表，这样就大大优化了查询的效率。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -322,7 +319,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
 }
 
 <span class="keyword">static</span> <span class="keyword">int</span> indexFor(<span class="keyword">int</span> h, <span class="keyword">int</span> length) {
-    <span class="comment">//注意这里没有采用%，这样实现有个前提length必须是2的N次方，</span>
+    <span class="comment">//注意这里没有采用%，而&实现有个前提length必须是2的N次方，</span>
     <span class="comment">//具体原因网上搜索下后得知 &操作用了3mov+1and+1sub，%操作用了2mov+1cdp+1idiv</span>
     <span class="comment">//前者只需5个CPU周期，而后者至少需要26个CPU周期</span>
     <span class="keyword">return</span> h & (length-<span class="number">1</span>);
@@ -332,24 +329,11 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
 <p>那之前强调的保证length为2的N次方，原因就是为了充分利用数组空间，元素尽量散列些，具体就是而当数组长度为16时，即为2的n次方时，2n-1得到的二进制数的每个位上的值都为1，这使得在低位上&amp;时，得到的和原hash的低位相同，加之hash(int h)方法对key的hashCode的进一步优化，加入了高位计算，就使得只有相同的hash值的两个值才会被放到数组中的同一个位置上形成链表。</p>
 <p>所以说，当数组长度为2的n次幂的时候，不同的key算得得index相同的几率较小，那么数据在数组上分布就比较均匀，也就是说碰撞的几率小，相对的，查询的时候就不用遍历某个位置上的链表，这样查询效率也就较高了。</p>
 <h6 id="ConcurrentHashMap">ConcurrentHashMap</h6>
-<h4 id="List">List</h4>
-<h6 id="ArrayList">ArrayList</h6>
-<p>数组</p>
-<h6 id="LinkedList">LinkedList</h6>
-<p>双向链表</p>
-<h4 id="Set">Set</h4>
-<p>value为new Object()</p>
-<h6 id="HashSet">HashSet</h6>
-<h6 id="TreeSet">TreeSet</h6>
-<h4 id="Queue">Queue</h4>
-<h6 id="ArrayBlockingQueue">ArrayBlockingQueue</h6>
-<h5 id="Deque">Deque</h5>
-<h6 id="LinkedBlockingDeque">LinkedBlockingDeque</h6>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/03/20/Java中常用集合类/" data-id="4eu4lf2ol04ihh7j" data-title="Java中常用集合类" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/03/20/源码理解-Map/" data-id="lzprrr3znz965c5e" data-title="源码理解-Map" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -369,9 +353,9 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
     </a>
   
   
-    <a href="/2014/12/10/Web下文件下载/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/03/17/源码理解-Collection/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">Web下文件下载</div>
+      <div class="article-nav-title">源码理解-Collection</div>
     </a>
   
 </nav>
@@ -382,7 +366,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
 
 
 <section id="comment">
-  <div class="ds-thread" data-title="Java中常用集合类">
+  <div class="ds-thread" data-title="源码理解-Map">
   </div>
 </section>
 
@@ -394,7 +378,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Chrome/" style="font-size: 10.00px;">Chrome</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/HTTP/" style="font-size: 15.00px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/Safari/" style="font-size: 10.00px;">Safari</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/VPS/" style="font-size: 10.00px;">VPS</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
+      <a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/HTTP/" style="font-size: 15.00px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Linux/" style="font-size: 10.00px;">Linux</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
     </div>
   </div>
 
@@ -406,23 +390,23 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       <ul>
         
           <li>
+            <a href="/2015/07/27/排查Java进程CPU占有率高/">排查Java进程CPU占有率高</a>
+          </li>
+        
+          <li>
             <a href="/2015/07/21/MySQL-JDBC-Driver版本Bug/">MySQL JDBC Driver版本Bug</a>
           </li>
         
           <li>
-            <a href="/2015/03/20/Java中常用集合类/">Java中常用集合类</a>
+            <a href="/2015/03/20/源码理解-Map/">源码理解-Map</a>
+          </li>
+        
+          <li>
+            <a href="/2015/03/17/源码理解-Collection/">源码理解-Collection</a>
           </li>
         
           <li>
             <a href="/2014/12/10/Web下文件下载/">Web下文件下载</a>
-          </li>
-        
-          <li>
-            <a href="/2014/10/19/Java中的单例模式/">Java中的单例模式</a>
-          </li>
-        
-          <li>
-            <a href="/2014/09/18/Java中常用的时间格式化注意点/">Java中常用的时间格式化注意点</a>
           </li>
         
       </ul>
@@ -461,7 +445,12 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
     <a href="/about" class="mobile-nav-link">关于</a>
   
 </nav>
-    
+    <!-- totop start -->
+<div id="totop">
+<a title="totop"><img src="/img/scrollup.png"/></a>
+</div>
+<!-- totop end -->
+
 <script type="text/javascript">
   var duoshuoQuery = { short_name: 'liubaing' };
   (function() {
