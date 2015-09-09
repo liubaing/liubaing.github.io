@@ -5,27 +5,40 @@
   
   <title>常用浏览器下调试 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Safari下显示开发者调试工具方法:Preferences - Advanced - Show Develop menu in menu bar
-Firefox本身包含开发者工具，当然Firebug插件大家更常用。
-Chrome下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)
-Console
-使用alert调试在迭代输出时很不方便，">
+  <meta name="description" content="2015-9-9更新：Android设备进入开发者选项，启用USB调试后，Terminal输入
+1
+2
+3
+heshuai-MacBookPro:~ heshuai$ adb devices
+List of devices attached
+01ce8d6a1858745f	device
+检查设备是否成功连接，然后在Chrome 45在地址栏输入 chrome://inspect/
+应该能看到当前">
 <meta property="og:type" content="article">
 <meta property="og:title" content="常用浏览器下调试">
 <meta property="og:url" content="http://liubaing.com/2014/07/26/常用浏览器下调试/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="Safari下显示开发者调试工具方法:Preferences - Advanced - Show Develop menu in menu bar
-Firefox本身包含开发者工具，当然Firebug插件大家更常用。
-Chrome下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)
-Console
-使用alert调试在迭代输出时很不方便，">
+<meta property="og:description" content="2015-9-9更新：Android设备进入开发者选项，启用USB调试后，Terminal输入
+1
+2
+3
+heshuai-MacBookPro:~ heshuai$ adb devices
+List of devices attached
+01ce8d6a1858745f	device
+检查设备是否成功连接，然后在Chrome 45在地址栏输入 chrome://inspect/
+应该能看到当前">
+<meta property="og:image" content="http://7j1y6m.com1.z0.glb.clouddn.com/chrome-inspect.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="常用浏览器下调试">
-<meta name="twitter:description" content="Safari下显示开发者调试工具方法:Preferences - Advanced - Show Develop menu in menu bar
-Firefox本身包含开发者工具，当然Firebug插件大家更常用。
-Chrome下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)
-Console
-使用alert调试在迭代输出时很不方便，">
+<meta name="twitter:description" content="2015-9-9更新：Android设备进入开发者选项，启用USB调试后，Terminal输入
+1
+2
+3
+heshuai-MacBookPro:~ heshuai$ adb devices
+List of devices attached
+01ce8d6a1858745f	device
+检查设备是否成功连接，然后在Chrome 45在地址栏输入 chrome://inspect/
+应该能看到当前">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -118,7 +131,18 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>Safari</strong>下显示开发者调试工具方法:<br>Preferences - Advanced - Show Develop menu in menu bar</p>
+        <p>2015-9-9更新：<br>Android设备进入开发者选项，启用USB调试后，Terminal输入</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>heshuai-<span class="constant">MacBookPro</span><span class="symbol">:~</span> heshuai<span class="variable">$ </span>adb devices
+<span class="constant">List</span> of devices attached
+<span class="number">01</span>ce8d6a1858745f	device
+</pre></td></tr></table></figure><br>检查设备是否成功连接，然后在Chrome 45在地址栏输入 <code>chrome://inspect/</code></p>
+<p><img src="http://7j1y6m.com1.z0.glb.clouddn.com/chrome-inspect.png" alt="chrome://inspect/"><br>应该能看到当前连接的设备，找到要调试页面，点击inspect即可</p>
+<p><em>注：无需安装Chrome（Android 版）</em></p>
+<hr>
+<p><strong>Safari</strong>下显示开发者调试工具方法:<br>Preferences - Advanced - Show Develop menu in menu bar</p>
 <p><strong>Firefox</strong>本身包含开发者工具，当然Firebug插件大家更常用。</p>
 <p><strong>Chrome</strong>下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)</p>
 <h2 id="Console">Console</h2>
@@ -146,8 +170,10 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/07/26/常用浏览器下调试/" data-id="4nt8tmja46c9wl02" data-title="常用浏览器下调试" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/07/26/常用浏览器下调试/" data-id="oswtwj36n25cozma" data-title="常用浏览器下调试" class="article-share-link">分享</a>
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
+
     </footer>
   </div>
   
@@ -189,7 +215,7 @@ var _hmt = _hmt || [];
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/HTTP/" style="font-size: 15.00px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Linux/" style="font-size: 10.00px;">Linux</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
+      <a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/HTTP/" style="font-size: 15.00px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Linux/" style="font-size: 10.00px;">Linux</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
     </div>
   </div>
 
