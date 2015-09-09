@@ -82,6 +82,134 @@ var _hmt = _hmt || [];
       <div class="outer">
         <section id="main">
   
+    <article id="post-龙泉驾校约车脚本" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/06/18/龙泉驾校约车脚本/" class="article-date">
+  <time datetime="2014-06-18T08:20:49.000Z" itemprop="datePublished">2014年6月18日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/编程/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/06/18/龙泉驾校约车脚本/">龙泉驾校约车脚本</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近该学科目二，可一连几天都约不上车，开始琢磨写个脚本，看有没有效果。<br><!--more--></p>
+<p>抱怨驾校也是徒劳，谁让当时图便宜呢。脚本也是参考了其他同学的代码，调整后不是特别完善，不过龙泉的校友还是可以参考。</p>
+<p>下面是执行脚本，其中有些参数根据自己情况填写：</p>
+<figure class="highlight {python}"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+</pre></td><td class="code"><pre><span class="comment"># !/usr/bin/python</span>
+<span class="comment"># -*- coding: utf-8 -*-</span>
+
+<span class="keyword">import</span> lqjx
+<span class="keyword">import</span> sys
+<span class="keyword">import</span> time
+<span class="keyword">import</span> logging
+
+logging.basicConfig(level=logging.DEBUG,
+                    format=<span class="string">'%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s'</span>,
+                    datefmt=<span class="string">'%a, %d %b %Y %H:%M:%S'</span>)
+
+<span class="comment">#约车时段，全部、上午8-12、下午1-5、晚上5-8</span>
+xnsd = (<span class="string">"-1"</span>, <span class="string">"812"</span>, <span class="string">"15"</span>, <span class="string">"58"</span>)
+<span class="comment">#指定想约的教练</span>
+jlcbh = <span class="string">""</span>
+uname = <span class="string">""</span>
+passwd = <span class="string">""</span>
+
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    lq = lqjx.LQJX()
+    <span class="keyword">try</span>:
+        <span class="keyword">if</span> lq.login(uname, passwd):
+            <span class="keyword">while</span> <span class="number">1</span>:
+                cars = lq.get_bookable_car(xnsd[<span class="number">1</span>])
+                <span class="keyword">if</span> <span class="string">'null_0'</span> <span class="keyword">in</span> cars:
+                    logging.info(<span class="string">'没到时间或者没有可预订车辆！'</span>)
+                <span class="keyword">else</span>:
+                    result = lq.order_car(xnsd[<span class="number">1</span>], jlcbh)
+                    <span class="keyword">print</span> result
+                    <span class="keyword">if</span> <span class="string">u'成功'</span> <span class="keyword">in</span> result:
+                        logging.info(<span class="string">'\n 预定成功！'</span>)
+                        sys.exit(<span class="number">0</span>)
+                <span class="comment">#增加间隔时间，防止频繁请求，账号被封</span>
+                time.sleep(<span class="number">30</span>)
+    <span class="keyword">except</span> KeyboardInterrupt:
+        lq.logout()
+        logging.info(<span class="string">'退出约车系统！'</span>)
+</pre></td></tr></table></figure>
+
+<p>下面是核心模块：</p>
+<p>
+        
+          <p class="article-more-link">
+            <a href="/2014/06/18/龙泉驾校约车脚本/">全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="7e24vq6vlq5g823q" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-世界杯直播" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/06/15/世界杯直播/" class="article-date">
@@ -117,7 +245,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/15/世界杯直播/" data-id="lotoe2p95xt83u9o" data-title="世界杯直播" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/15/世界杯直播/" data-id="iaele4yis05jsa3w" data-title="世界杯直播" class="article-share-link">分享</a>
       
     </footer>
   </div>
@@ -161,7 +289,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/13/翻墙/" data-id="mv09zdrccuu5655b" data-title="翻墙" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/13/翻墙/" data-id="odumzyquy0rpvy95" data-title="翻墙" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Google/">Google</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hosts/">hosts</a></li></ul>
 
@@ -218,7 +346,7 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="3bye09jwgpyaawhn" data-title="Git日常操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="l1ped28ft9navv3z" data-title="Git日常操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
 
@@ -264,7 +392,7 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/04/12/Linode退钱/" data-id="973spk1m4jqafz9z" data-title="Linode退钱" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/04/12/Linode退钱/" data-id="lco37r25xp218yx6" data-title="Linode退钱" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linode/">Linode</a></li></ul>
 
@@ -366,7 +494,7 @@ gg 跳到首行
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="rgt46nouocf5a7qj" data-title="Vim基本操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="25k5d8sekxei1jum" data-title="Vim基本操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
 
@@ -412,7 +540,7 @@ gg 跳到首行
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/02/08/hello-world/" data-id="uauar8unfidrotps" data-title="Hello World" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/02/08/hello-world/" data-id="evado7780brm59ev" data-title="Hello World" class="article-share-link">分享</a>
       
     </footer>
   </div>
@@ -446,6 +574,10 @@ gg 跳到首行
       <ul>
         
           <li>
+            <a href="/2015/09/09/Tomcat优化/">Tomcat优化</a>
+          </li>
+        
+          <li>
             <a href="/2015/07/27/排查Java进程CPU占有率高/">排查Java进程CPU占有率高</a>
           </li>
         
@@ -459,10 +591,6 @@ gg 跳到首行
         
           <li>
             <a href="/2015/03/17/源码理解-Collection/">源码理解-Collection</a>
-          </li>
-        
-          <li>
-            <a href="/2014/12/10/Web下文件下载/">Web下文件下载</a>
           </li>
         
       </ul>

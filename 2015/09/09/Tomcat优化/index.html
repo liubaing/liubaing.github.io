@@ -3,17 +3,44 @@
 <head>
   <meta charset="utf-8">
   
-  <title>标签: Java | 六八ing的博客</title>
+  <title>Tomcat优化 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="屌丝码农，关注技术，分享生活">
-<meta property="og:type" content="website">
-<meta property="og:title" content="六八ing的博客">
-<meta property="og:url" content="http://liubaing.com/tags/Java/">
+  <meta name="description" content="这几天晚高峰报警比较多，排查了日志后，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。
+JVM参数
+在脚本中头部增加一行参数
+1
+2
+# vim /usr/local/tomcat/bin/catalina.sh
+JAVA_OPTS="-server -Xms512m -Xmx2048m -XX:PermSize=64m -XX:MaxPermSize=128m"
+
+
+Conn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tomcat优化">
+<meta property="og:url" content="http://liubaing.com/2015/09/09/Tomcat优化/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="屌丝码农，关注技术，分享生活">
+<meta property="og:description" content="这几天晚高峰报警比较多，排查了日志后，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。
+JVM参数
+在脚本中头部增加一行参数
+1
+2
+# vim /usr/local/tomcat/bin/catalina.sh
+JAVA_OPTS="-server -Xms512m -Xmx2048m -XX:PermSize=64m -XX:MaxPermSize=128m"
+
+
+Conn">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="六八ing的博客">
-<meta name="twitter:description" content="屌丝码农，关注技术，分享生活">
+<meta name="twitter:title" content="Tomcat优化">
+<meta name="twitter:description" content="这几天晚高峰报警比较多，排查了日志后，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。
+JVM参数
+在脚本中头部增加一行参数
+1
+2
+# vim /usr/local/tomcat/bin/catalina.sh
+JAVA_OPTS="-server -Xms512m -Xmx2048m -XX:PermSize=64m -XX:MaxPermSize=128m"
+
+
+Conn">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -80,182 +107,119 @@ var _hmt = _hmt || [];
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/09/09/Tomcat优化/" class="archive-article-date">
-  <time datetime="2015-09-09T10:06:36.000Z" itemprop="datePublished">9月 9</time>
+        <section id="main"><article id="post-Tomcat优化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/09/Tomcat优化/" class="article-date">
+  <time datetime="2015-09-09T10:06:36.000Z" itemprop="datePublished">2015年9月9日</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/编程/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/09/09/Tomcat优化/">Tomcat优化</a>
+    <h1 class="article-title" itemprop="name">
+      Tomcat优化
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/07/27/排查Java进程CPU占有率高/" class="archive-article-date">
-  <time datetime="2015-07-27T08:35:56.000Z" itemprop="datePublished">7月 27</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/07/27/排查Java进程CPU占有率高/">排查Java进程CPU占有率高</a>
-    </h1>
-  
+        <p>这几天晚高峰报警比较多，排查了日志后，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。</p>
+<h3 id="JVM参数">JVM参数</h3>
+<p>在脚本中头部增加一行参数</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
+JAVA_OPTS=<span class="string">"-server -Xms512m -Xmx2048m -XX:PermSize=64m -XX:MaxPermSize=128m"</span>
+</pre></td></tr></table></figure>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/07/21/MySQL-JDBC-Driver版本Bug/" class="archive-article-date">
-  <time datetime="2015-07-21T09:12:15.000Z" itemprop="datePublished">7月 21</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/07/21/MySQL-JDBC-Driver版本Bug/">MySQL JDBC Driver版本Bug</a>
-    </h1>
-  
+<h3 id="Connector协议由BIO调整为Apr">Connector协议由BIO调整为Apr</h3>
+<h5 id="安装Apr">安装Apr</h5>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="preprocessor"># yum -y install apr apr-devel</span>
+</pre></td></tr></table></figure>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/03/20/源码理解-Map/" class="archive-article-date">
-  <time datetime="2015-03-20T10:16:38.000Z" itemprop="datePublished">3月 20</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/03/20/源码理解-Map/">源码理解-Map</a>
-    </h1>
-  
+<h5 id="安装Native">安装Native</h5>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="preprocessor"># cd /usr/local/tomcat/bin/</span>
+<span class="preprocessor"># tar xvf tomcat-native.tar.gz</span>
+<span class="preprocessor"># cd tomcat-native-1.1.33-src/jni/native/</span>
+<span class="preprocessor"># ./configure --with-apr=/usr/bin/apr-1-config</span>
+<span class="preprocessor"># make && make install</span>
+</pre></td></tr></table></figure>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/03/17/源码理解-Collection/" class="archive-article-date">
-  <time datetime="2015-03-17T05:44:23.000Z" itemprop="datePublished">3月 17</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/03/17/源码理解-Collection/">源码理解-Collection</a>
-    </h1>
-  
+<p>安装完成之后 会出现如下提示信息</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>Libraries have been installed <span class="keyword">in</span>:
+    <span class="regexp">/usr/</span>local/apr/lib
+</pre></td></tr></table></figure>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-      
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2014/10/19/Java中的单例模式/" class="archive-article-date">
-  <time datetime="2014-10-19T10:28:54.000Z" itemprop="datePublished">10月 19</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/10/19/Java中的单例模式/">Java中的单例模式</a>
-    </h1>
-  
+<h5 id="设置Tomcat环境变量">设置Tomcat环境变量</h5>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
+CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</span>
+</pre></td></tr></table></figure><br>#####配置Connector<br><br>同时也参考 <a href="https://tomcat.apache.org/tomcat-8.0-doc/config" target="_blank" rel="external">Tomcat 8 Configuration Reference</a> 修改了线程数和Logs格式，便于统计平均响应时长。<br><br><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/conf/server.xml</span>
+&lt;Connector port=<span class="string">"8080"</span> protocol=<span class="string">"org.apache.coyote.http11.Http11AprProtocol"</span>
+           maxThreads=<span class="string">"1024"</span>
+           acceptCount=<span class="string">"1024"</span>
+           connectionTimeout=<span class="string">"2000"</span>
+           redirectPort=<span class="string">"8443"</span> /&gt;
+</pre></td></tr></table></figure>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2014/09/18/Java中常用的时间格式化注意点/" class="archive-article-date">
-  <time datetime="2014-09-18T09:29:24.000Z" itemprop="datePublished">9月 18</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/09/18/Java中常用的时间格式化注意点/">Java中常用的时间格式化注意点</a>
-    </h1>
-  
+<p>调整完并没有做压力测试，不过从运行情况看已经有了较大提高。</p>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2014/06/27/HTTP常见乱码问题/" class="archive-article-date">
-  <time datetime="2014-06-27T07:42:03.000Z" itemprop="datePublished">6月 27</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/06/27/HTTP常见乱码问题/">HTTP常见乱码问题</a>
-    </h1>
-  
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="lalq1v48aoj2zmlm" data-title="Tomcat优化" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
-    </header>
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/07/27/排查Java进程CPU占有率高/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">排查Java进程CPU占有率高</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
+
+
+<section id="comment">
+  <div class="ds-thread" data-title="Tomcat优化" data-thread-key="2015/09/09/Tomcat优化/">
+  </div>
+</section>
+
 </section>
         
           <aside id="sidebar">
