@@ -173,7 +173,11 @@ JAVA_OPTS=<span class="string">"-server -Xms512m -Xmx2048m -XX:PermSize=64m -XX:
 2
 </pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
 CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</span>
-</pre></td></tr></table></figure><br>#####配置Connector<br><br>同时也参考 <a href="https://tomcat.apache.org/tomcat-8.0-doc/config" target="_blank" rel="external">Tomcat 8 Configuration Reference</a> 修改了线程数和Logs格式，便于统计平均响应时长。<br><br><figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure>
+
+<h5 id="配置Connector">配置Connector</h5>
+<p>同时也参考 <a href="https://tomcat.apache.org/tomcat-8.0-doc/config" target="_blank" rel="external">Tomcat 8 Configuration Reference</a> 修改了线程数和Logs格式，便于统计平均响应时长。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -192,7 +196,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="lalq1v48aoj2zmlm" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="i98s5c5xefc86578" data-title="Tomcat优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
