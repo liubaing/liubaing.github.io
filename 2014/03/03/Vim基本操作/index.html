@@ -235,8 +235,12 @@ i 进入插入模式
 4
 5
 6
+7
+8
 </pre></td><td class="code"><pre>/kw 向前搜索kw
 ?kw 向后搜索kw
+n 向前匹配kw
+<span class="constant">N</span> 向后匹配kw
 <span class="number">0</span> 跳到行首
 <span class="variable">$ </span>跳到行尾
 gg 跳到首行
@@ -255,10 +259,17 @@ gg 跳到首行
 然后输入注释符
 最后按下esc键才会出现注释
 </pre></td></tr></table></figure>
+
+<h4 id="5、替换字符串">5、替换字符串</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>命令行模式下，按下<span class="function_or_atom">v</span>，进入可视化模式
+选中开始符后按下<span class="comment">%直接匹配到结束符，按下d删除后，按i后粘贴即可</span>
+</pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="d6z9nxrtsa9cv2tk" data-title="Vim基本操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="1o61d51gcknqm05p" data-title="Vim基本操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
 

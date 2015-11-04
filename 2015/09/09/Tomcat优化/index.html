@@ -5,42 +5,57 @@
   
   <title>Tomcat优化 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="这几天晚高峰报警比较多，排查了日志后，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。
-JVM参数
-在脚本中头部增加一行参数
+  <meta name="description" content="这几天晚高峰报警比较多，先排查JVM
 1
 2
-# vim /usr/local/tomcat/bin/catalina.sh
-JAVA_OPTS="-server -Xms512m -Xmx2048m -XX:PermSize=64m -XX:MaxPermSize=128m"
+# jstat -gcutil $PID
+# jstack $PID
 
 
-Conn">
+GC没发现什么问题，Thread Dump 也没看出什么，再排查网络
+1
+2
+# netstat -nat | awk '{print $6}' | sort | uniq -c | sort -n
+# netstat -nltp
+
+
+结合nginx和Tomcat的日志，定位问题">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Tomcat优化">
 <meta property="og:url" content="http://liubaing.com/2015/09/09/Tomcat优化/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="这几天晚高峰报警比较多，排查了日志后，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。
-JVM参数
-在脚本中头部增加一行参数
+<meta property="og:description" content="这几天晚高峰报警比较多，先排查JVM
 1
 2
-# vim /usr/local/tomcat/bin/catalina.sh
-JAVA_OPTS="-server -Xms512m -Xmx2048m -XX:PermSize=64m -XX:MaxPermSize=128m"
+# jstat -gcutil $PID
+# jstack $PID
 
 
-Conn">
+GC没发现什么问题，Thread Dump 也没看出什么，再排查网络
+1
+2
+# netstat -nat | awk '{print $6}' | sort | uniq -c | sort -n
+# netstat -nltp
+
+
+结合nginx和Tomcat的日志，定位问题">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tomcat优化">
-<meta name="twitter:description" content="这几天晚高峰报警比较多，排查了日志后，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。
-JVM参数
-在脚本中头部增加一行参数
+<meta name="twitter:description" content="这几天晚高峰报警比较多，先排查JVM
 1
 2
-# vim /usr/local/tomcat/bin/catalina.sh
-JAVA_OPTS="-server -Xms512m -Xmx2048m -XX:PermSize=64m -XX:MaxPermSize=128m"
+# jstat -gcutil $PID
+# jstack $PID
 
 
-Conn">
+GC没发现什么问题，Thread Dump 也没看出什么，再排查网络
+1
+2
+# netstat -nat | awk '{print $6}' | sort | uniq -c | sort -n
+# netstat -nltp
+
+
+结合nginx和Tomcat的日志，定位问题">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -133,7 +148,21 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>这几天晚高峰报警比较多，排查了日志后，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。</p>
+        <p>这几天晚高峰报警比较多，先排查JVM</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID</span>
+<span class="preprocessor"># jstack $PID</span>
+</pre></td></tr></table></figure>
+
+<p>GC没发现什么问题，Thread Dump 也没看出什么，再排查网络</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="preprocessor"># netstat -nat | awk '{print $6}' | sort | uniq -c | sort -n</span>
+<span class="preprocessor"># netstat -nltp</span>
+</pre></td></tr></table></figure>
+
+<p>结合nginx和Tomcat的日志，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。</p>
 <h3 id="JVM参数">JVM参数</h3>
 <p>在脚本中头部增加一行参数</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -196,7 +225,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="i98s5c5xefc86578" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="qzz3fa2cwsyei36a" data-title="Tomcat优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 

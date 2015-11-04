@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2015-09-10T02:29:41.770Z</updated>
+  <updated>2015-11-04T08:35:35.765Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -19,8 +19,22 @@
     <link href="http://liubaing.com/2015/09/09/Tomcat%E4%BC%98%E5%8C%96/"/>
     <id>http://liubaing.com/2015/09/09/Tomcat优化/</id>
     <published>2015-09-09T10:06:36.000Z</published>
-    <updated>2015-09-10T02:29:06.000Z</updated>
-    <content type="html"><![CDATA[<p>这几天晚高峰报警比较多，排查了日志后，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。</p>
+    <updated>2015-09-15T08:41:15.000Z</updated>
+    <content type="html"><![CDATA[<p>这几天晚高峰报警比较多，先排查JVM</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID</span>
+<span class="preprocessor"># jstack $PID</span>
+</pre></td></tr></table></figure>
+
+<p>GC没发现什么问题，Thread Dump 也没看出什么，再排查网络</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="preprocessor"># netstat -nat | awk '{print $6}' | sort | uniq -c | sort -n</span>
+<span class="preprocessor"># netstat -nltp</span>
+</pre></td></tr></table></figure>
+
+<p>结合nginx和Tomcat的日志，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。</p>
 <h3 id="JVM参数">JVM参数</h3>
 <p>在脚本中头部增加一行参数</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -557,7 +571,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
     <link href="http://liubaing.com/2015/03/17/%E6%BA%90%E7%A0%81%E7%90%86%E8%A7%A3-Collection/"/>
     <id>http://liubaing.com/2015/03/17/源码理解-Collection/</id>
     <published>2015-03-17T05:44:23.000Z</published>
-    <updated>2015-07-27T08:24:29.000Z</updated>
+    <updated>2015-09-11T03:10:01.000Z</updated>
     <content type="html"><![CDATA[<p>JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。<br>下面简单总结下常用的集合类。</p>
 <h3 id="Collection">Collection</h3>
 <h4 id="List">List</h4>
@@ -572,7 +586,6 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
 <h4 id="Queue">Queue</h4>
 <h6 id="ArrayBlockingQueue">ArrayBlockingQueue</h6>
 <h5 id="Deque">Deque</h5>
-<h6 id="LinkedBlockingDeque">LinkedBlockingDeque</h6>
 ]]></content>
     
     
@@ -1487,7 +1500,7 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
     <link href="http://liubaing.com/2014/03/03/Vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
     <id>http://liubaing.com/2014/03/03/Vim基本操作/</id>
     <published>2014-03-03T03:16:05.000Z</published>
-    <updated>2015-07-27T08:39:12.000Z</updated>
+    <updated>2015-11-04T08:35:21.000Z</updated>
     <content type="html"><![CDATA[<p>废话不多说，直入主题吧。</p>
 <h4 id="1、平时常用操作">1、平时常用操作</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -1530,8 +1543,12 @@ i 进入插入模式
 4
 5
 6
+7
+8
 </pre></td><td class="code"><pre>/kw 向前搜索kw
 ?kw 向后搜索kw
+n 向前匹配kw
+<span class="constant">N</span> 向后匹配kw
 <span class="number">0</span> 跳到行首
 <span class="variable">$ </span>跳到行尾
 gg 跳到首行
@@ -1549,6 +1566,13 @@ gg 跳到首行
 按下键盘（大写）<span class="keyword">I</span>键，进入插入模式
 然后输入注释符
 最后按下esc键才会出现注释
+</pre></td></tr></table></figure>
+
+<h4 id="5、替换字符串">5、替换字符串</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>命令行模式下，按下<span class="function_or_atom">v</span>，进入可视化模式
+选中开始符后按下<span class="comment">%直接匹配到结束符，按下d删除后，按i后粘贴即可</span>
 </pre></td></tr></table></figure>]]></content>
     
     
