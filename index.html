@@ -111,15 +111,15 @@ var _hmt = _hmt || [];
         <p>这几天晚高峰报警比较多，先排查JVM</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID</span>
-<span class="preprocessor"># jstack $PID</span>
+</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID &gt; jstat.txt</span>
+<span class="preprocessor"># jstack $PID &gt; jstack.txt</span>
 </pre></td></tr></table></figure>
 
 <p>GC没发现什么问题，Thread Dump 也没看出什么，再排查网络</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre><span class="preprocessor"># netstat -nat | awk '{print $6}' | sort | uniq -c | sort -n</span>
-<span class="preprocessor"># netstat -nltp</span>
+<span class="preprocessor"># ss -an | grep :8080 | wc -l</span>
 </pre></td></tr></table></figure>
 
 <p>结合nginx和Tomcat的日志，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。</p>
@@ -128,7 +128,7 @@ var _hmt = _hmt || [];
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
-JAVA_OPTS=<span class="string">"-server -Xms512m -Xmx2048m -XX:PermSize=64m -XX:MaxPermSize=128m"</span>
+JAVA_OPTS=<span class="string">"-server -Xms2048m -Xmx2048m -XX:PermSize=64m -XX:MaxPermSize=128m"</span>
 </pre></td></tr></table></figure>
 
 <h3 id="Connector协议由BIO调整为Apr">Connector协议由BIO调整为Apr</h3>
@@ -172,20 +172,26 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
 4
 5
 6
-</pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/conf/server.xml</span>
-&lt;Connector port=<span class="string">"8080"</span> protocol=<span class="string">"org.apache.coyote.http11.Http11AprProtocol"</span>
-           maxThreads=<span class="string">"1024"</span>
-           acceptCount=<span class="string">"1024"</span>
-           connectionTimeout=<span class="string">"2000"</span>
-           redirectPort=<span class="string">"8443"</span> /&gt;
+7
+8
+9
+</pre></td><td class="code"><pre><span class="xml"># vim /usr/local/tomcat/conf/server.xml
+<span class="tag">&lt;<span class="title">Connector</span> <span class="attribute">port</span>=<span class="value">"8080"</span> <span class="attribute">protocol</span>=<span class="value">"org.apache.coyote.http11.Http11AprProtocol"</span>
+           &lt;!<span class="attribute">--</span> 最大线程数，<span class="attribute">Apr</span>的默认连接数 <span class="attribute">--</span>&gt;</span>
+           maxThreads="1024"
+           <span class="comment">&lt;!-- 队列大小 --&gt;</span>
+           acceptCount="1024"
+           <span class="comment">&lt;!-- 单位毫秒，请求连接超时，keepAliveTimeout参数未设置按此参数 --&gt;</span>
+           connectionTimeout="1000"
+           redirectPort="8443" /&gt;</span>
 </pre></td></tr></table></figure>
 
-<p>调整完并没有做压力测试，不过从运行情况看已经有了较大提高。</p>
+<p>调整过程中也建议使用ab简单压测下，及时观察调整效果。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="qzz3fa2cwsyei36a" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="65xeaglots7a14lj" data-title="Tomcat优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -248,7 +254,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="byjfrszd1s3hc9qu" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="9p8zi1xzh2576umc" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
 
@@ -292,7 +298,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="d47m6tcawgqjv8b0" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="4k0yef0xoavxzn4g" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -369,7 +375,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/03/20/源码理解-Map/" data-id="6um80rz3yspp1i3p" data-title="源码理解-Map" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/03/20/源码理解-Map/" data-id="zx63mlor6gl00iny" data-title="源码理解-Map" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -424,7 +430,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/03/17/源码理解-Collection/" data-id="p9x6gdxm7ezn2jo5" data-title="源码理解-Collection" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/03/17/源码理解-Collection/" data-id="h53g5fipnwuet70v" data-title="源码理解-Collection" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -470,7 +476,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="khgzb3ci75lccfug" data-title="Web下文件下载" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="do7brz06huaauqom" data-title="Web下文件下载" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
 
@@ -570,7 +576,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="ue1mvmtpzkzm7fen" data-title="Java中的单例模式" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="9v6en4c9w8ickeye" data-title="Java中的单例模式" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -668,7 +674,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="3hgoo56dw5gece3x" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="msk3w5x11qlbkbgs" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -739,7 +745,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/07/26/常用浏览器下调试/" data-id="h8bvt5w89921so62" data-title="常用浏览器下调试" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/07/26/常用浏览器下调试/" data-id="ckq0w4mu4cwr5x9b" data-title="常用浏览器下调试" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
 
@@ -783,7 +789,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="ryya8711aws9m3jc" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="j9kauo2joyewjxfm" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -859,7 +865,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2015 何帅<br>
+      &copy; 2016 何帅<br>
       Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
     </div>
   </div>

@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2015-11-04T08:35:35.765Z</updated>
+  <updated>2016-01-03T13:46:59.236Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -19,19 +19,19 @@
     <link href="http://liubaing.com/2015/09/09/Tomcat%E4%BC%98%E5%8C%96/"/>
     <id>http://liubaing.com/2015/09/09/Tomcat优化/</id>
     <published>2015-09-09T10:06:36.000Z</published>
-    <updated>2015-09-15T08:41:15.000Z</updated>
+    <updated>2016-01-03T13:46:33.000Z</updated>
     <content type="html"><![CDATA[<p>这几天晚高峰报警比较多，先排查JVM</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID</span>
-<span class="preprocessor"># jstack $PID</span>
+</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID &gt; jstat.txt</span>
+<span class="preprocessor"># jstack $PID &gt; jstack.txt</span>
 </pre></td></tr></table></figure>
 
 <p>GC没发现什么问题，Thread Dump 也没看出什么，再排查网络</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre><span class="preprocessor"># netstat -nat | awk '{print $6}' | sort | uniq -c | sort -n</span>
-<span class="preprocessor"># netstat -nltp</span>
+<span class="preprocessor"># ss -an | grep :8080 | wc -l</span>
 </pre></td></tr></table></figure>
 
 <p>结合nginx和Tomcat的日志，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。</p>
@@ -40,7 +40,7 @@
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
-JAVA_OPTS=<span class="string">"-server -Xms512m -Xmx2048m -XX:PermSize=64m -XX:MaxPermSize=128m"</span>
+JAVA_OPTS=<span class="string">"-server -Xms2048m -Xmx2048m -XX:PermSize=64m -XX:MaxPermSize=128m"</span>
 </pre></td></tr></table></figure>
 
 <h3 id="Connector协议由BIO调整为Apr">Connector协议由BIO调整为Apr</h3>
@@ -84,15 +84,21 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
 4
 5
 6
-</pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/conf/server.xml</span>
-&lt;Connector port=<span class="string">"8080"</span> protocol=<span class="string">"org.apache.coyote.http11.Http11AprProtocol"</span>
-           maxThreads=<span class="string">"1024"</span>
-           acceptCount=<span class="string">"1024"</span>
-           connectionTimeout=<span class="string">"2000"</span>
-           redirectPort=<span class="string">"8443"</span> /&gt;
+7
+8
+9
+</pre></td><td class="code"><pre><span class="xml"># vim /usr/local/tomcat/conf/server.xml
+<span class="tag">&lt;<span class="title">Connector</span> <span class="attribute">port</span>=<span class="value">"8080"</span> <span class="attribute">protocol</span>=<span class="value">"org.apache.coyote.http11.Http11AprProtocol"</span>
+           &lt;!<span class="attribute">--</span> 最大线程数，<span class="attribute">Apr</span>的默认连接数 <span class="attribute">--</span>&gt;</span>
+           maxThreads="1024"
+           <span class="comment">&lt;!-- 队列大小 --&gt;</span>
+           acceptCount="1024"
+           <span class="comment">&lt;!-- 单位毫秒，请求连接超时，keepAliveTimeout参数未设置按此参数 --&gt;</span>
+           connectionTimeout="1000"
+           redirectPort="8443" /&gt;</span>
 </pre></td></tr></table></figure>
 
-<p>调整完并没有做压力测试，不过从运行情况看已经有了较大提高。</p>
+<p>调整过程中也建议使用ab简单压测下，及时观察调整效果。</p>
 ]]></content>
     
     
