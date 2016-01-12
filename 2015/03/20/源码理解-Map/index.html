@@ -378,44 +378,6 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
 16
 17
 18
-</pre></td><td class="code"><pre><span class="keyword">public</span> V <span class="title">get</span>(Object key) {
-    Segment&lt;K,V&gt; s;
-    HashEntry&lt;K,V&gt;[] tab;
-    <span class="keyword">int</span> h = hash(key);
-    <span class="keyword">long</span> u = (((h &gt;&gt;&gt; segmentShift) & segmentMask) &lt;&lt; SSHIFT) + SBASE;
-    <span class="comment">//注意一下，这里并没有同步，而是采用UNSAFE本地方法</span>
-    <span class="keyword">if</span> ((s = (Segment&lt;K,V&gt;)UNSAFE.getObjectVolatile(segments, u)) != <span class="keyword">null</span> &&
-        (tab = s.table) != <span class="keyword">null</span>) {
-        <span class="keyword">for</span> (HashEntry&lt;K,V&gt; e = (HashEntry&lt;K,V&gt;) UNSAFE.getObjectVolatile
-                 (tab, ((<span class="keyword">long</span>)(((tab.length - <span class="number">1</span>) & h)) &lt;&lt; TSHIFT) + TBASE);
-             e != <span class="keyword">null</span>; e = e.next) {
-            K k;
-            <span class="keyword">if</span> ((k = e.key) == key || (e.hash == h && key.equals(k)))
-                <span class="keyword">return</span> e.<span class="keyword">value</span>;
-        }
-    }
-    <span class="keyword">return</span> <span class="keyword">null</span>;
-}
-</pre></td></tr></table></figure>
-
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
 19
 20
 21
@@ -461,7 +423,45 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
 61
 62
 63
-</pre></td><td class="code"><pre><span class="keyword">public</span> V <span class="title">put</span>(K key, V <span class="keyword">value</span>) {
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+</pre></td><td class="code"><pre><span class="keyword">public</span> V <span class="title">get</span>(Object key) {
+    Segment&lt;K,V&gt; s;
+    HashEntry&lt;K,V&gt;[] tab;
+    <span class="keyword">int</span> h = hash(key);
+    <span class="keyword">long</span> u = (((h &gt;&gt;&gt; segmentShift) & segmentMask) &lt;&lt; SSHIFT) + SBASE;
+    <span class="comment">//注意一下，这里并没有同步，而是采用UNSAFE本地方法</span>
+    <span class="keyword">if</span> ((s = (Segment&lt;K,V&gt;)UNSAFE.getObjectVolatile(segments, u)) != <span class="keyword">null</span> &&
+        (tab = s.table) != <span class="keyword">null</span>) {
+        <span class="keyword">for</span> (HashEntry&lt;K,V&gt; e = (HashEntry&lt;K,V&gt;) UNSAFE.getObjectVolatile
+                 (tab, ((<span class="keyword">long</span>)(((tab.length - <span class="number">1</span>) & h)) &lt;&lt; TSHIFT) + TBASE);
+             e != <span class="keyword">null</span>; e = e.next) {
+            K k;
+            <span class="keyword">if</span> ((k = e.key) == key || (e.hash == h && key.equals(k)))
+                <span class="keyword">return</span> e.<span class="keyword">value</span>;
+        }
+    }
+    <span class="keyword">return</span> <span class="keyword">null</span>;
+}
+
+<span class="keyword">public</span> V <span class="title">put</span>(K key, V <span class="keyword">value</span>) {
     Segment&lt;K,V&gt; s;
     <span class="comment">//在使用过程中需要注意K/V都不支持null，否则抛NullPointerException</span>
     <span class="keyword">if</span> (<span class="keyword">value</span> == <span class="keyword">null</span>)
@@ -531,7 +531,7 @@ final V put(K key, <span class="keyword">int</span> hash, V <span class="keyword
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/03/20/源码理解-Map/" data-id="vc4qgwxha5lizjdp" data-title="源码理解-Map" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/03/20/源码理解-Map/" data-id="we15hv2kshxdqv5z" data-title="源码理解-Map" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 

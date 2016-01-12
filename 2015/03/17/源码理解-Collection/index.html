@@ -142,7 +142,7 @@ var _hmt = _hmt || [];
 </pre></td></tr></table></figure>
 
 <p>底层由数组实现，所以根据index获取元素效率较高，但涉及到<code>System.arraycopy()</code>的方法效率会差些。</p>
-<p>这里简单说下平时有在迭代集合是删除元素的需求，一般也知道由于快速失败(fail-fast)策略，不能在迭代时直接调用List<code>remove()</code>方法，只能用Iterator<code>remove()</code>方法，否则会抛出<code>ConcurrentModificationException</code>异常。<br>但这里还有个坑，在迭代到倒数第二个元素时，去调用List<code>remove()</code>方法也不会抛异常，是因为删除元素后列表size直接-1，执行到<code>hasNext()</code>方法是，会直接忽略最后一个元素。</p>
+<p>这里简单说下平时有在迭代集合是删除元素的需求，一般也知道由于快速失败(fail-fast)策略，不能在迭代时直接调用List<code>remove()</code>方法，只能用Iterator<code>remove()</code>方法，否则会抛出<code>ConcurrentModificationException</code>异常。<br>但这里还有个坑，在迭代到倒数第二个元素时，去调用List<code>remove()</code>方法也不会抛异常，是因为删除元素后列表size直接-1，执行到<code>hasNext()</code>方法是，会直接忽略最后一个元素。<br><a id="more"></a></p>
 <h6 id="LinkedList">LinkedList</h6>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -320,7 +320,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/03/17/源码理解-Collection/" data-id="774itrqukf7r4rrh" data-title="源码理解-Collection" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/03/17/源码理解-Collection/" data-id="6io7fzovus7x8agc" data-title="源码理解-Collection" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
