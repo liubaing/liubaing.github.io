@@ -199,7 +199,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="pb56g0jw5cu6vio0" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="1z61ditrhhwjbzce" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
 
@@ -245,7 +245,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/15/世界杯直播/" data-id="son5zlw0ozs2ja1j" data-title="世界杯直播" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/15/世界杯直播/" data-id="q65bl5igtagu9j1e" data-title="世界杯直播" class="article-share-link">分享</a>
       
     </footer>
   </div>
@@ -289,7 +289,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/13/翻墙/" data-id="7bd3hlkkgnh0yytz" data-title="翻墙" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/13/翻墙/" data-id="z2fy0znbi138qpqf" data-title="翻墙" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Google/">Google</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hosts/">hosts</a></li></ul>
 
@@ -332,12 +332,15 @@ passwd = <span class="string">""</span>
 </pre></td><td class="code"><pre><span class="variable">$ </span>git clone git<span class="variable">@github</span>.<span class="symbol">com:</span>liubaing/galaxy.git galaxy
 </pre></td></tr></table></figure>
 
-<p>本地默认会创建一个master分支，拿平时开发项目为例，我们还需要建立MS分支：</p>
-<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span> <span class="variable">#branch</span>为要切换的目的分支
-Switched <span class="keyword">to</span> a <span class="literal">new</span> branch <span class="string">'vs-ezine-4.2.0-MS20140702'</span>
-</pre></td></tr></table></figure><br>
+<p>如果本地已经存在的项目</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">$ </span>git init
+</pre></td></tr></table></figure>
+
+<p>这时我们发现本地仓库有个隐藏目录.git，里面通常会有：</p>
+<p>工作目录(working directory)我们实际持有的文件；<br>缓存区(index/stage)临时保存我们所做的修改；<br>HEAD指向我们最后一次提交的结果。</p>
+<p>整个变化过程是这样的：working directory -&gt; “git add” -&gt; index -&gt; “git commit” -&gt; HEAD</p>
+
         
           <p class="article-more-link">
             <a href="/2014/05/02/Git日常操作/">全文</a>
@@ -346,7 +349,7 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="oorlmn0l5ppyyp9m" data-title="Git日常操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="y4hhrph7xtomjvvz" data-title="Git日常操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
 
@@ -392,7 +395,7 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/04/12/Linode退钱/" data-id="plscu6grbi1nj334" data-title="Linode退钱" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/04/12/Linode退钱/" data-id="dsp91cj57udtkv9v" data-title="Linode退钱" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linode/">Linode</a></li></ul>
 
@@ -436,9 +439,11 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
 3
 4
 5
+6
 </pre></td><td class="code"><pre>vim 启动vim
 i 进入插入模式
-&lt;<span class="constant">Esc</span>&gt; 回到编辑模式
+&lt;<span class="constant">Esc</span>&gt; 进入命令行模式
+v 进入可视化模式
 <span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
 <span class="symbol">:q</span> 退出vim
 </pre></td></tr></table></figure>
@@ -453,15 +458,17 @@ i 进入插入模式
 7
 8
 9
+10
 </pre></td><td class="code"><pre><span class="tag">vim</span> <span class="tag">filename</span>
 <span class="pseudo">:set</span> <span class="tag">nu</span> 显示行号
 <span class="pseudo">:n</span> 移动到第<span class="tag">n</span>行
 <span class="pseudo">:1</span>,5<span class="tag">d</span> 回车后，删除1<span class="tag">-5</span>行
-<span class="pseudo">:u</span> 恢复
-<span class="pseudo">:dG</span> 删除所有行
-<span class="pseudo">:dd</span> 剪切光标所在整行
-<span class="pseudo">:dw</span> 删除该单词
-<span class="pseudo">:d0</span> 删除该行开始到当前光标
+<span class="tag">p</span> 粘贴
+<span class="tag">u</span> 恢复
+<span class="tag">dG</span> 删除当前行后所有行
+<span class="tag">dd</span> 剪切光标所在整行
+<span class="tag">dw</span> 删除该单词
+<span class="tag">d0</span> 删除该行开始到当前光标
 </pre></td></tr></table></figure>
 
 <h4 id="3、移动光标">3、移动光标</h4>
@@ -489,23 +496,25 @@ gg 跳到首行
 3
 4
 5
-</pre></td><td class="code"><pre>编辑模式下，按下Ctrl + v，进入列（也叫区块）模式
+</pre></td><td class="code"><pre>进入可视化模式(v)
 使用上下键（shift可翻页）选择需要注释的多行
-按下键盘（大写）<span class="keyword">I</span>键，进入插入模式
+进入插入模式(i)
 然后输入注释符
-最后按下esc键才会出现注释
+进入编辑模式(<span class="tag">&lt;<span class="title">Esc</span>&gt;</span>)
 </pre></td></tr></table></figure>
 
 <h4 id="5、替换字符串">5、替换字符串</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre>命令行模式下，按下<span class="function_or_atom">v</span>，进入可视化模式
-选中开始符后按下<span class="comment">%直接匹配到结束符，按下d删除后，按i后粘贴即可</span>
+3
+</pre></td><td class="code"><pre>进入可视化模式(v)
+选中开始符后按下<span class="escape">`%</span><span class="escape">`直</span>接匹配到结束符，
+按下<span class="escape">`d</span><span class="escape">`删</span>除后，按<span class="escape">`i</span><span class="escape">`后</span>粘贴即可
 </pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="uw4m9oerfcl4emwi" data-title="Vim基本操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="co3xk11x5cvz42x4" data-title="Vim基本操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
 
@@ -551,7 +560,7 @@ gg 跳到首行
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/02/08/hello-world/" data-id="hcuusdz2i43cj8i0" data-title="Hello World" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/02/08/hello-world/" data-id="om40kpggm7qopnel" data-title="Hello World" class="article-share-link">分享</a>
       
     </footer>
   </div>

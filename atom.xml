@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2016-01-12T09:22:41.941Z</updated>
+  <updated>2016-01-19T04:01:07.999Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://liubaing.com/2015/09/09/Tomcat%E4%BC%98%E5%8C%96/"/>
     <id>http://liubaing.com/2015/09/09/Tomcat优化/</id>
     <published>2015-09-09T10:06:36.000Z</published>
-    <updated>2016-01-03T13:46:33.000Z</updated>
+    <updated>2016-01-12T09:35:59.000Z</updated>
     <content type="html"><![CDATA[<p>这几天晚高峰报警比较多，先排查JVM</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -1596,22 +1596,36 @@ passwd = <span class="string">""</span>
     <link href="http://liubaing.com/2014/05/02/Git%E6%97%A5%E5%B8%B8%E6%93%8D%E4%BD%9C/"/>
     <id>http://liubaing.com/2014/05/02/Git日常操作/</id>
     <published>2014-05-02T07:05:24.000Z</published>
-    <updated>2015-07-21T10:10:28.000Z</updated>
+    <updated>2016-01-19T03:09:57.000Z</updated>
     <content type="html"><![CDATA[<p>平时使用git依赖于IDE图形化界面插件，用起来倒没什么问题，但觉得还是有必要总结下常用的git命令，<a href="http://git-scm.com/book/zh" target="_blank" rel="external">点击查看Git中文文档</a>。</p>
 <p>一般我们clone已有的项目，默认就是git协议，URL后面可以指定目录：</p>
 <figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="variable">$ </span>git clone git<span class="variable">@github</span>.<span class="symbol">com:</span>liubaing/galaxy.git galaxy
 </pre></td></tr></table></figure>
 
+<p>如果本地已经存在的项目</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">$ </span>git init
+</pre></td></tr></table></figure>
+
+<p>这时我们发现本地仓库有个隐藏目录.git，里面通常会有：</p>
+<p>工作目录(working directory)我们实际持有的文件；<br>缓存区(index/stage)临时保存我们所做的修改；<br>HEAD指向我们最后一次提交的结果。</p>
+<p>整个变化过程是这样的：working directory -&gt; “git add” -&gt; index -&gt; “git commit” -&gt; HEAD</p>
+<a id="more"></a>
+
+
 <p>本地默认会创建一个master分支，拿平时开发项目为例，我们还需要建立MS分支：</p>
 <figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span> <span class="variable">#branch</span>为要切换的目的分支
 Switched <span class="keyword">to</span> a <span class="literal">new</span> branch <span class="string">'vs-ezine-4.2.0-MS20140702'</span>
-</pre></td></tr></table></figure><br><a id="more"></a><br><br><br>现在我们来看下本地分支:<br><figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure>
+
+<p>现在我们来看下本地分支:</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
 2
 3
-</pre></td><td class="code"><pre>$ git branch <span class="attribute">-a</span> 查看所有分支
+</pre></td><td class="code"><pre>$ git branch <span class="attribute">-av</span> 查看所有分支，PS大家表邪恶
   master
 <span class="subst">*</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span>
 </pre></td></tr></table></figure>
@@ -1623,15 +1637,27 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
 4
 5
 6
-</pre></td><td class="code"><pre><span class="variable">$ </span>git pull <span class="comment">#更新代码</span>
-<span class="variable">$ </span>git status  <span class="comment">#查看当前分支的状态，是否有冲突或未提交的文件</span>
-<span class="variable">$ </span>git log  <span class="comment">#查看当前分支的commit log，看看是否与远程分支一致</span>
+7
+</pre></td><td class="code"><pre><span class="variable">$ </span>git mv 重命名，这块在<span class="constant">OSX</span>下会有文件名大小写的问题
+<span class="variable">$ </span>git pull 更新代码
+<span class="variable">$ </span>git status  查看当前分支的状态，是否有冲突或未提交的文件
+<span class="variable">$ </span>git log  查看当前分支的commit log，看看是否与远程分支一致
 <span class="variable">$ </span>git add -<span class="constant">A</span>
 <span class="variable">$ </span>git commit -m <span class="string">"xxx"</span>
 <span class="variable">$ </span>git push origin vs-ezine-<span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span><span class="symbol">:vs-ezine-</span><span class="number">4.2</span>.<span class="number">0</span>-<span class="constant">MS20140702</span>
 </pre></td></tr></table></figure>
 
-<p>开发过程中文件revert有两种方式：<br>用<code>git reset HEAD &lt;file&gt;...</code>来取消暂存文件，<br>用<code>git checkout -- &lt;file&gt;...</code>来取消文件修改。</p>
+<p>开发过程中文件撤销有几种方式：</p>
+<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>$ git reset HEAD &lt;file&gt;<span class="keyword">...</span>  保留本地修改，取消index
+$ git checkout - &lt;file&gt;<span class="keyword">...</span>  放弃本地修改，将index移到working directory
+$ git reset –hard &lt;commit-id&gt;  回退到某个commit-id，包括commit/index信息
+$ git reset –soft &lt;commit-id&gt;  回退到某个commit-id，只是commit不包括index
+</pre></td></tr></table></figure>
+
 <p>开发结束后要把分支代码合并到master，并删除分支：</p>
 <figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
 2
@@ -1648,12 +1674,15 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
 </pre></td><td class="code"><pre><span class="variable">$ </span>git clone git<span class="variable">@github</span>.<span class="symbol">com:</span>liubaing/galaxy.git galaxy
 </pre></td></tr></table></figure>
 
-<p>本地默认会创建一个master分支，拿平时开发项目为例，我们还需要建立MS分支：</p>
-<figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre>$ git checkout <span class="attribute">-b</span> vs<span class="attribute">-ezine</span><span class="subst">-</span><span class="number">4.2</span><span class="number">.0</span><span class="attribute">-MS20140702</span> <span class="variable">#branch</span>为要切换的目的分支
-Switched <span class="keyword">to</span> a <span class="literal">new</span> branch <span class="string">'vs-ezine-4.2.0-MS20140702'</span>
-</pre></td></tr></table></figure><br>]]></summary>
+<p>如果本地已经存在的项目</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="variable">$ </span>git init
+</pre></td></tr></table></figure>
+
+<p>这时我们发现本地仓库有个隐藏目录.git，里面通常会有：</p>
+<p>工作目录(working directory)我们实际持有的文件；<br>缓存区(index/stage)临时保存我们所做的修改；<br>HEAD指向我们最后一次提交的结果。</p>
+<p>整个变化过程是这样的：working directory -&gt; “git add” -&gt; index -&gt; “git commit” -&gt; HEAD</p>
+]]></summary>
     
       <category term="Git" scheme="http://liubaing.com/tags/Git/"/>
     
@@ -1684,7 +1713,7 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
     <link href="http://liubaing.com/2014/03/03/Vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
     <id>http://liubaing.com/2014/03/03/Vim基本操作/</id>
     <published>2014-03-03T03:16:05.000Z</published>
-    <updated>2015-11-04T08:35:21.000Z</updated>
+    <updated>2016-01-19T03:11:31.000Z</updated>
     <content type="html"><![CDATA[<p>废话不多说，直入主题吧。</p>
 <h4 id="1、平时常用操作">1、平时常用操作</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -1692,9 +1721,11 @@ Switched <span class="keyword">to</span> a <span class="literal">new</span> bran
 3
 4
 5
+6
 </pre></td><td class="code"><pre>vim 启动vim
 i 进入插入模式
-&lt;<span class="constant">Esc</span>&gt; 回到编辑模式
+&lt;<span class="constant">Esc</span>&gt; 进入命令行模式
+v 进入可视化模式
 <span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
 <span class="symbol">:q</span> 退出vim
 </pre></td></tr></table></figure>
@@ -1709,15 +1740,17 @@ i 进入插入模式
 7
 8
 9
+10
 </pre></td><td class="code"><pre><span class="tag">vim</span> <span class="tag">filename</span>
 <span class="pseudo">:set</span> <span class="tag">nu</span> 显示行号
 <span class="pseudo">:n</span> 移动到第<span class="tag">n</span>行
 <span class="pseudo">:1</span>,5<span class="tag">d</span> 回车后，删除1<span class="tag">-5</span>行
-<span class="pseudo">:u</span> 恢复
-<span class="pseudo">:dG</span> 删除所有行
-<span class="pseudo">:dd</span> 剪切光标所在整行
-<span class="pseudo">:dw</span> 删除该单词
-<span class="pseudo">:d0</span> 删除该行开始到当前光标
+<span class="tag">p</span> 粘贴
+<span class="tag">u</span> 恢复
+<span class="tag">dG</span> 删除当前行后所有行
+<span class="tag">dd</span> 剪切光标所在整行
+<span class="tag">dw</span> 删除该单词
+<span class="tag">d0</span> 删除该行开始到当前光标
 </pre></td></tr></table></figure>
 
 <h4 id="3、移动光标">3、移动光标</h4>
@@ -1745,18 +1778,20 @@ gg 跳到首行
 3
 4
 5
-</pre></td><td class="code"><pre>编辑模式下，按下Ctrl + v，进入列（也叫区块）模式
+</pre></td><td class="code"><pre>进入可视化模式(v)
 使用上下键（shift可翻页）选择需要注释的多行
-按下键盘（大写）<span class="keyword">I</span>键，进入插入模式
+进入插入模式(i)
 然后输入注释符
-最后按下esc键才会出现注释
+进入编辑模式(<span class="tag">&lt;<span class="title">Esc</span>&gt;</span>)
 </pre></td></tr></table></figure>
 
 <h4 id="5、替换字符串">5、替换字符串</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre>命令行模式下，按下<span class="function_or_atom">v</span>，进入可视化模式
-选中开始符后按下<span class="comment">%直接匹配到结束符，按下d删除后，按i后粘贴即可</span>
+3
+</pre></td><td class="code"><pre>进入可视化模式(v)
+选中开始符后按下<span class="escape">`%</span><span class="escape">`直</span>接匹配到结束符，
+按下<span class="escape">`d</span><span class="escape">`删</span>除后，按<span class="escape">`i</span><span class="escape">`后</span>粘贴即可
 </pre></td></tr></table></figure>]]></content>
     
     
