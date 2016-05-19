@@ -82,6 +82,62 @@ var _hmt = _hmt || [];
       <div class="outer">
         <section id="main">
   
+    <article id="post-初次接触Go编程踩到的坑" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/19/初次接触Go编程踩到的坑/" class="article-date">
+  <time datetime="2016-05-19T09:58:35.000Z" itemprop="datePublished">2016年5月19日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/编程/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/19/初次接触Go编程踩到的坑/">初次接触Go编程踩到的坑</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近想利用Go来写切图服务，没什么经验，遇到的问题比较多，下面就简单总结下，看到的同学们可以参考下吧。</p>
+<h3 id="1-_设置HTTP_response_header不生效">1. 设置HTTP response header不生效</h3>
+<p>由于响应的数据格式为JSON，所以想设置下<code>Content-Type : application/json</code>，代码如下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>w<span class="preprocessor">.WriteHeader</span>(http<span class="preprocessor">.StatusOK</span>)
+w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</span>(<span class="string">"Content-Type"</span>, <span class="string">"application/json"</span>)
+</pre></td></tr></table></figure>
+
+<p>结果在Header始终看不到期望结果，跟踪源码发现<code>response</code>中有<code>wroteHeader</code>字段标示。<br>得出结论，如果这两行代码都需要调用，就必须让 w.WriteHeader 在所有的 w.Header.Set 之后执行，才能生效。</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2016/05/19/初次接触Go编程踩到的坑/">全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="4s12sl942xxcdup2" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-多线程顺序输出字符" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/01/22/多线程顺序输出字符/" class="article-date">
@@ -282,7 +338,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="1txgoq3t67nbvnem" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="dy8w4d883yqeg2t9" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -402,7 +458,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="4q63fa53uf4lfjdj" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="4x1gr9g70nidjx10" data-title="Tomcat优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -465,7 +521,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="v9lcyvn74jn8znpi" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="stl59w0q8y61sq5b" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
 
@@ -509,7 +565,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="olgjsh9ier842kmv" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="a1xh28fifvmt4b9q" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -586,7 +642,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/03/20/源码理解-Map/" data-id="d1rlfxbmixuwj6yv" data-title="源码理解-Map" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/03/20/源码理解-Map/" data-id="k6dowofopebzdc8t" data-title="源码理解-Map" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -641,7 +697,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/03/17/源码理解-Collection/" data-id="vtqwak612fhly2a9" data-title="源码理解-Collection" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/03/17/源码理解-Collection/" data-id="ztuq4fkwhairgn80" data-title="源码理解-Collection" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -687,7 +743,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="77vacme2n9o60it0" data-title="Web下文件下载" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="qzdcixauzb7g0rbu" data-title="Web下文件下载" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
 
@@ -787,7 +843,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="zvo52y6ltf2zrard" data-title="Java中的单例模式" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="woxwe87yaypkltor" data-title="Java中的单例模式" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -885,80 +941,9 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="9qp7s0qx6443vggs" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="rp7grjto9z8cwfbe" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-常用浏览器下调试" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/07/26/常用浏览器下调试/" class="article-date">
-  <time datetime="2014-07-26T07:41:31.000Z" itemprop="datePublished">2014年7月26日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/工具/">工具</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/07/26/常用浏览器下调试/">常用浏览器下调试</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>2015-9-9更新：<br>Android设备进入开发者选项，启用USB调试后，Terminal输入</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre>heshuai-<span class="constant">MacBookPro</span><span class="symbol">:~</span> heshuai<span class="variable">$ </span>adb devices
-<span class="constant">List</span> of devices attached
-<span class="number">01</span>ce8d6a1858745f	device
-</pre></td></tr></table></figure><br>检查设备是否成功连接，然后在Chrome 45在地址栏输入 <code>chrome://inspect/</code></p>
-<p><img src="http://7j1y6m.com1.z0.glb.clouddn.com/chrome-inspect.png" alt="chrome://inspect/"><br>应该能看到当前连接的设备，找到要调试页面，点击inspect即可</p>
-<p><em>注：无需安装Chrome（Android 版）</em></p>
-<hr>
-<p><strong>Safari</strong>下显示开发者调试工具方法:<br>Preferences - Advanced - Show Develop menu in menu bar</p>
-<p><strong>Firefox</strong>本身包含开发者工具，当然Firebug插件大家更常用。</p>
-<p><strong>Chrome</strong>下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)</p>
-<h2 id="Console">Console</h2>
-<p>使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre>&gt; console.<span class="keyword">log</span>(<span class="string">'hello world'</span>);
-  hello world
-&gt; console.<span class="keyword">warn</span>(<span class="string">'warning info'</span>);
-&gt; console.<span class="keyword">warn</span>(<span class="string">'error message'</span>)
-</pre></td></tr></table></figure><br>平时在Sources标签下对JS方法设置断点Debug时，可以查看作用域内的变量，也可以利用在Console中直接输入变量名查看。</p>
-
-        
-          <p class="article-more-link">
-            <a href="/2014/07/26/常用浏览器下调试/">全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/07/26/常用浏览器下调试/" data-id="h07srid8t5y3zt3c" data-title="常用浏览器下调试" class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
 
     </footer>
   </div>
@@ -980,7 +965,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/HTTP/" style="font-size: 15.00px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Linux/" style="font-size: 10.00px;">Linux</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
+      <a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Go/" style="font-size: 10.00px;">Go</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/HTTP/" style="font-size: 15.00px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Linux/" style="font-size: 10.00px;">Linux</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
     </div>
   </div>
 
@@ -990,6 +975,10 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
     <h3 class="widget-title">最新发表</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/05/19/初次接触Go编程踩到的坑/">初次接触Go编程踩到的坑</a>
+          </li>
         
           <li>
             <a href="/2016/01/22/多线程顺序输出字符/">多线程顺序输出字符</a>
@@ -1005,10 +994,6 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
         
           <li>
             <a href="/2015/07/21/MySQL-JDBC-Driver版本Bug/">MySQL JDBC Driver版本Bug</a>
-          </li>
-        
-          <li>
-            <a href="/2015/03/20/源码理解-Map/">源码理解-Map</a>
           </li>
         
       </ul>

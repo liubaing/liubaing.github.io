@@ -82,6 +82,77 @@ var _hmt = _hmt || [];
       <div class="outer">
         <section id="main">
   
+    <article id="post-常用浏览器下调试" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/07/26/常用浏览器下调试/" class="article-date">
+  <time datetime="2014-07-26T07:41:31.000Z" itemprop="datePublished">2014年7月26日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/工具/">工具</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/07/26/常用浏览器下调试/">常用浏览器下调试</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>2015-9-9更新：<br>Android设备进入开发者选项，启用USB调试后，Terminal输入</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>heshuai-<span class="constant">MacBookPro</span><span class="symbol">:~</span> heshuai<span class="variable">$ </span>adb devices
+<span class="constant">List</span> of devices attached
+<span class="number">01</span>ce8d6a1858745f	device
+</pre></td></tr></table></figure><br>检查设备是否成功连接，然后在Chrome 45在地址栏输入 <code>chrome://inspect/</code></p>
+<p><img src="http://7j1y6m.com1.z0.glb.clouddn.com/chrome-inspect.png" alt="chrome://inspect/"><br>应该能看到当前连接的设备，找到要调试页面，点击inspect即可</p>
+<p><em>注：无需安装Chrome（Android 版）</em></p>
+<hr>
+<p><strong>Safari</strong>下显示开发者调试工具方法:<br>Preferences - Advanced - Show Develop menu in menu bar</p>
+<p><strong>Firefox</strong>本身包含开发者工具，当然Firebug插件大家更常用。</p>
+<p><strong>Chrome</strong>下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)</p>
+<h2 id="Console">Console</h2>
+<p>使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。</p>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>&gt; console.<span class="keyword">log</span>(<span class="string">'hello world'</span>);
+  hello world
+&gt; console.<span class="keyword">warn</span>(<span class="string">'warning info'</span>);
+&gt; console.<span class="keyword">warn</span>(<span class="string">'error message'</span>)
+</pre></td></tr></table></figure><br>平时在Sources标签下对JS方法设置断点Debug时，可以查看作用域内的变量，也可以利用在Console中直接输入变量名查看。</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2014/07/26/常用浏览器下调试/">全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liubaing.com/2014/07/26/常用浏览器下调试/" data-id="t2epbk9hed9idpqr" data-title="常用浏览器下调试" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-HTTP常见乱码问题" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/06/27/HTTP常见乱码问题/" class="article-date">
@@ -115,7 +186,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="0skbsqhpa5d7zlj9" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="iaredeiz7iro1cv7" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -243,7 +314,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="q2mzod9el7d8m76h" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="m7jzm5zhsep85uhi" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
 
@@ -289,7 +360,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/15/世界杯直播/" data-id="vdkj8i10gf1u87zq" data-title="世界杯直播" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/15/世界杯直播/" data-id="qryx1n01rtwmyf9d" data-title="世界杯直播" class="article-share-link">分享</a>
       
     </footer>
   </div>
@@ -333,7 +404,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/13/翻墙/" data-id="nwrjlbkd51o8u91j" data-title="翻墙" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/13/翻墙/" data-id="xl9mi16s7y46651x" data-title="翻墙" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Google/">Google</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hosts/">hosts</a></li></ul>
 
@@ -393,7 +464,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="kfthy8c6d1v71y7i" data-title="Git日常操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="hu8nc4474lx09bhk" data-title="Git日常操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
 
@@ -439,7 +510,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/04/12/Linode退钱/" data-id="rec68xl4sbhej3gf" data-title="Linode退钱" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/04/12/Linode退钱/" data-id="bk0296o8172sa4e1" data-title="Linode退钱" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linode/">Linode</a></li></ul>
 
@@ -558,7 +629,7 @@ gg 跳到首行
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="jz9tsq8eakjg0r7l" data-title="Vim基本操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="yt89zb5xrnhshg6u" data-title="Vim基本操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
 
@@ -604,7 +675,7 @@ gg 跳到首行
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/02/08/hello-world/" data-id="ltbb9wp3il8eeo15" data-title="Hello World" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/02/08/hello-world/" data-id="a4eyzw48qo2xqqsk" data-title="Hello World" class="article-share-link">分享</a>
       
     </footer>
   </div>
@@ -626,7 +697,7 @@ gg 跳到首行
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/HTTP/" style="font-size: 15.00px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Linux/" style="font-size: 10.00px;">Linux</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
+      <a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Go/" style="font-size: 10.00px;">Go</a><a href="/tags/Google/" style="font-size: 10.00px;">Google</a><a href="/tags/HTTP/" style="font-size: 15.00px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linode/" style="font-size: 10.00px;">Linode</a><a href="/tags/Linux/" style="font-size: 10.00px;">Linux</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a><a href="/tags/hosts/" style="font-size: 10.00px;">hosts</a>
     </div>
   </div>
 
@@ -636,6 +707,10 @@ gg 跳到首行
     <h3 class="widget-title">最新发表</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/05/19/初次接触Go编程踩到的坑/">初次接触Go编程踩到的坑</a>
+          </li>
         
           <li>
             <a href="/2016/01/22/多线程顺序输出字符/">多线程顺序输出字符</a>
@@ -651,10 +726,6 @@ gg 跳到首行
         
           <li>
             <a href="/2015/07/21/MySQL-JDBC-Driver版本Bug/">MySQL JDBC Driver版本Bug</a>
-          </li>
-        
-          <li>
-            <a href="/2015/03/20/源码理解-Map/">源码理解-Map</a>
           </li>
         
       </ul>

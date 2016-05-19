@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2016-04-19T10:37:27.875Z</updated>
+  <updated>2016-05-19T10:51:16.327Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -13,6 +13,79 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[初次接触Go编程踩到的坑]]></title>
+    <link href="http://liubaing.com/2016/05/19/%E5%88%9D%E6%AC%A1%E6%8E%A5%E8%A7%A6Go%E7%BC%96%E7%A8%8B%E8%B8%A9%E5%88%B0%E7%9A%84%E5%9D%91/"/>
+    <id>http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/</id>
+    <published>2016-05-19T09:58:35.000Z</published>
+    <updated>2016-05-19T10:51:08.000Z</updated>
+    <content type="html"><![CDATA[<p>最近想利用Go来写切图服务，没什么经验，遇到的问题比较多，下面就简单总结下，看到的同学们可以参考下吧。</p>
+<h3 id="1-_设置HTTP_response_header不生效">1. 设置HTTP response header不生效</h3>
+<p>由于响应的数据格式为JSON，所以想设置下<code>Content-Type : application/json</code>，代码如下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>w<span class="preprocessor">.WriteHeader</span>(http<span class="preprocessor">.StatusOK</span>)
+w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</span>(<span class="string">"Content-Type"</span>, <span class="string">"application/json"</span>)
+</pre></td></tr></table></figure>
+
+<p>结果在Header始终看不到期望结果，跟踪源码发现<code>response</code>中有<code>wroteHeader</code>字段标示。<br>得出结论，如果这两行代码都需要调用，就必须让 w.WriteHeader 在所有的 w.Header.Set 之后执行，才能生效。</p>
+<a id="more"></a>
+
+<h3 id="2-_执行os-MkdirAll(&quot;xx/xx/&quot;,_0666)_返回_permission_denied错误">2. 执行<code>os.MkdirAll(&quot;xx/xx/&quot;, 0666)</code> 返回 <code>permission denied</code>错误</h3>
+<p>在<code>$HOME</code>目录下，本地执行Shell命令<code>mkdir -p xx/xx/</code>却成功创建，更改第二个参数<code>FileMode</code>为<code>os.ModePerm</code>也无济于事。<br>Google各种搜索后，尝试增加了两行代码，解决了问题，但目前还不清楚为什么，待解。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>mask := <span class="keyword">syscall</span>.Umask(<span class="number">0</span>)
+defer <span class="keyword">syscall</span>.Umask(mask)
+</pre></td></tr></table></figure>
+
+<h3 id="3-_切图后image保存到本地抛出invalid_memory_address_or_nil_pointer_dereference异常">3. 切图后<code>image</code>保存到本地抛出<code>invalid memory address or nil pointer dereference</code>异常</h3>
+<p>经过切图后得到<code>thumb image.Image</code>对象，已经定义好保存路径<code>thumbPath string</code>，保存到本地代码如下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>buffer := new(bytes<span class="preprocessor">.Buffer</span>)
+if err := jpeg<span class="preprocessor">.Encode</span>(buffer, thumb, nil)<span class="comment">; err != nil {</span>
+    log<span class="preprocessor">.Fatalln</span>(<span class="string">"unable to encode image."</span>)
+}
+_ = ioutil<span class="preprocessor">.WriteFile</span>(thumbPath, buffer<span class="preprocessor">.Bytes</span>(), <span class="number">0666</span>)
+</pre></td></tr></table></figure><br>在上传JPG图片是运行良好，但在处理PNG格式的图片时，出现error，解决方案是增加<br><br><figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="function"><span class="title">import</span> <span class="params">(<span class="variable">_</span><span class="string">"image/png"</span>)</span></span>
+</pre></td></tr></table></figure>
+
+
+<h3 id="4-_保存原图内容为空">4. 保存原图内容为空</h3>
+<p>保存原图时，想通过md5得到HASH字符串的文件名，之后再把文件保存在指定目录下。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>md5h := md5<span class="preprocessor">.New</span>()
+io<span class="preprocessor">.Copy</span>(md5h, file)
+name := hex<span class="preprocessor">.EncodeToString</span>(md5h<span class="preprocessor">.Sum</span>([]byte(<span class="string">""</span>)))
+</pre></td></tr></table></figure>
+
+<p>结果发现保存的原图内容是0字节，怀疑就是这里把文件流读到末尾了。<br>改造代码就是在保存图片前调用<code>file.Seek(0, 0)</code>，把<code>offset</code>设置为0恢复文件流。</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>最近想利用Go来写切图服务，没什么经验，遇到的问题比较多，下面就简单总结下，看到的同学们可以参考下吧。</p>
+<h3 id="1-_设置HTTP_response_header不生效">1. 设置HTTP response header不生效</h3>
+<p>由于响应的数据格式为JSON，所以想设置下<code>Content-Type : application/json</code>，代码如下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>w<span class="preprocessor">.WriteHeader</span>(http<span class="preprocessor">.StatusOK</span>)
+w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</span>(<span class="string">"Content-Type"</span>, <span class="string">"application/json"</span>)
+</pre></td></tr></table></figure>
+
+<p>结果在Header始终看不到期望结果，跟踪源码发现<code>response</code>中有<code>wroteHeader</code>字段标示。<br>得出结论，如果这两行代码都需要调用，就必须让 w.WriteHeader 在所有的 w.Header.Set 之后执行，才能生效。</p>
+]]></summary>
+    
+      <category term="Go" scheme="http://liubaing.com/tags/Go/"/>
+    
+      <category term="编程" scheme="http://liubaing.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[多线程顺序输出字符]]></title>

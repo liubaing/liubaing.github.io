@@ -3,18 +3,35 @@
 <head>
   <meta charset="utf-8">
   
-  <title>翻墙 | 六八ing的博客</title>
+  <title>初次接触Go编程踩到的坑 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近Google访问不了，各种403和连接被重置。">
+  <meta name="description" content="最近想利用Go来写切图服务，没什么经验，遇到的问题比较多，下面就简单总结下，看到的同学们可以参考下吧。
+1. 设置HTTP response header不生效
+由于响应的数据格式为JSON，所以想设置下Content-Type : application/json，代码如下
+1
+2
+w.WriteHeader(http.StatusOK)
+w.Header().Set("Content-Type">
 <meta property="og:type" content="article">
-<meta property="og:title" content="翻墙">
-<meta property="og:url" content="http://liubaing.com/2014/06/13/翻墙/">
+<meta property="og:title" content="初次接触Go编程踩到的坑">
+<meta property="og:url" content="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="最近Google访问不了，各种403和连接被重置。">
-<meta property="og:image" content="http://liubaing.qiniudn.com/ssh_proxy.jpeg">
+<meta property="og:description" content="最近想利用Go来写切图服务，没什么经验，遇到的问题比较多，下面就简单总结下，看到的同学们可以参考下吧。
+1. 设置HTTP response header不生效
+由于响应的数据格式为JSON，所以想设置下Content-Type : application/json，代码如下
+1
+2
+w.WriteHeader(http.StatusOK)
+w.Header().Set("Content-Type">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="翻墙">
-<meta name="twitter:description" content="最近Google访问不了，各种403和连接被重置。">
+<meta name="twitter:title" content="初次接触Go编程踩到的坑">
+<meta name="twitter:description" content="最近想利用Go来写切图服务，没什么经验，遇到的问题比较多，下面就简单总结下，看到的同学们可以参考下吧。
+1. 设置HTTP response header不生效
+由于响应的数据格式为JSON，所以想设置下Content-Type : application/json，代码如下
+1
+2
+w.WriteHeader(http.StatusOK)
+w.Header().Set("Content-Type">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -81,14 +98,14 @@ var _hmt = _hmt || [];
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-翻墙" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-初次接触Go编程踩到的坑" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/06/13/翻墙/" class="article-date">
-  <time datetime="2014-06-13T08:38:14.000Z" itemprop="datePublished">2014年6月13日</time>
+    <a href="/2016/05/19/初次接触Go编程踩到的坑/" class="article-date">
+  <time datetime="2016-05-19T09:58:35.000Z" itemprop="datePublished">2016年5月19日</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/工具/">工具</a>
+    <a class="article-category-link" href="/categories/编程/">编程</a>
   </div>
 
   </div>
@@ -99,7 +116,7 @@ var _hmt = _hmt || [];
         
   
     <h1 class="article-title" itemprop="name">
-      翻墙
+      初次接触Go编程踩到的坑
     </h1>
   
 
@@ -107,25 +124,61 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近Google访问不了，各种403和连接被重置。<br><a id="more"></a><br>这给平时工作带来很大的不便，至于原因大家心知肚明。</p>
-<p>之前由于改过hosts，遇到Google被墙对自己影响不大，但这次彻底歇菜了。</p>
-<p>选择VPN还得取决所在网络环境，L2TP方式经常连接不上，所以暂时先Pass。看微博上有推荐用SSH代理，去淘宝上搜了一家，10块一月，感觉价格可以接受，还是香港主机，下单吧。</p>
-<p>跟大家分享Mac下的方法，首先打开终端输入</p>
-<p><figure class="highlight {bash}"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>ssh <span class="attribute">-qTfnNv</span> <span class="attribute">-D</span> <span class="number">7070</span> username@host
-</pre></td></tr></table></figure><br>输入密码后在网络设置中增加代理，这里选择SOCKS Proxy，输入127.0.0.1:7070后点击应用。</p>
-<p><img src="http://liubaing.qiniudn.com/ssh_proxy.jpeg" alt="增加代理"></p>
-<p>现在，打开浏览器试试吧！</p>
-<hr>
-<p>2014-6-19更新：</p>
-<p>提供新版<a href="http://liubaing.qiniudn.com/hosts" target="_blank" rel="external">hosts</a>下载，大家自测。</p>
+        <p>最近想利用Go来写切图服务，没什么经验，遇到的问题比较多，下面就简单总结下，看到的同学们可以参考下吧。</p>
+<h3 id="1-_设置HTTP_response_header不生效">1. 设置HTTP response header不生效</h3>
+<p>由于响应的数据格式为JSON，所以想设置下<code>Content-Type : application/json</code>，代码如下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>w<span class="preprocessor">.WriteHeader</span>(http<span class="preprocessor">.StatusOK</span>)
+w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</span>(<span class="string">"Content-Type"</span>, <span class="string">"application/json"</span>)
+</pre></td></tr></table></figure>
+
+<p>结果在Header始终看不到期望结果，跟踪源码发现<code>response</code>中有<code>wroteHeader</code>字段标示。<br>得出结论，如果这两行代码都需要调用，就必须让 w.WriteHeader 在所有的 w.Header.Set 之后执行，才能生效。</p>
+<a id="more"></a>
+
+<h3 id="2-_执行os-MkdirAll(&quot;xx/xx/&quot;,_0666)_返回_permission_denied错误">2. 执行<code>os.MkdirAll(&quot;xx/xx/&quot;, 0666)</code> 返回 <code>permission denied</code>错误</h3>
+<p>在<code>$HOME</code>目录下，本地执行Shell命令<code>mkdir -p xx/xx/</code>却成功创建，更改第二个参数<code>FileMode</code>为<code>os.ModePerm</code>也无济于事。<br>Google各种搜索后，尝试增加了两行代码，解决了问题，但目前还不清楚为什么，待解。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>mask := <span class="keyword">syscall</span>.Umask(<span class="number">0</span>)
+defer <span class="keyword">syscall</span>.Umask(mask)
+</pre></td></tr></table></figure>
+
+<h3 id="3-_切图后image保存到本地抛出invalid_memory_address_or_nil_pointer_dereference异常">3. 切图后<code>image</code>保存到本地抛出<code>invalid memory address or nil pointer dereference</code>异常</h3>
+<p>经过切图后得到<code>thumb image.Image</code>对象，已经定义好保存路径<code>thumbPath string</code>，保存到本地代码如下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>buffer := new(bytes<span class="preprocessor">.Buffer</span>)
+if err := jpeg<span class="preprocessor">.Encode</span>(buffer, thumb, nil)<span class="comment">; err != nil {</span>
+    log<span class="preprocessor">.Fatalln</span>(<span class="string">"unable to encode image."</span>)
+}
+_ = ioutil<span class="preprocessor">.WriteFile</span>(thumbPath, buffer<span class="preprocessor">.Bytes</span>(), <span class="number">0666</span>)
+</pre></td></tr></table></figure><br>在上传JPG图片是运行良好，但在处理PNG格式的图片时，出现error，解决方案是增加<br><br><figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="function"><span class="title">import</span> <span class="params">(<span class="variable">_</span><span class="string">"image/png"</span>)</span></span>
+</pre></td></tr></table></figure>
+
+
+<h3 id="4-_保存原图内容为空">4. 保存原图内容为空</h3>
+<p>保存原图时，想通过md5得到HASH字符串的文件名，之后再把文件保存在指定目录下。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>md5h := md5<span class="preprocessor">.New</span>()
+io<span class="preprocessor">.Copy</span>(md5h, file)
+name := hex<span class="preprocessor">.EncodeToString</span>(md5h<span class="preprocessor">.Sum</span>([]byte(<span class="string">""</span>)))
+</pre></td></tr></table></figure>
+
+<p>结果发现保存的原图内容是0字节，怀疑就是这里把文件流读到末尾了。<br>改造代码就是在保存图片前调用<code>file.Seek(0, 0)</code>，把<code>offset</code>设置为0恢复文件流。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/13/翻墙/" data-id="xl9mi16s7y46651x" data-title="翻墙" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="4s12sl942xxcdup2" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Google/">Google</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hosts/">hosts</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
 
     </footer>
   </div>
@@ -133,19 +186,10 @@ var _hmt = _hmt || [];
     
 <nav id="article-nav">
   
-    <a href="/2014/06/15/世界杯直播/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          世界杯直播
-        
-      </div>
-    </a>
   
-  
-    <a href="/2014/05/02/Git日常操作/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/01/22/多线程顺序输出字符/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">Git日常操作</div>
+      <div class="article-nav-title">多线程顺序输出字符</div>
     </a>
   
 </nav>
@@ -156,7 +200,7 @@ var _hmt = _hmt || [];
 
 
 <section id="comment">
-  <div class="ds-thread" data-title="翻墙" data-thread-key="2014/06/13/翻墙/">
+  <div class="ds-thread" data-title="初次接触Go编程踩到的坑" data-thread-key="2016/05/19/初次接触Go编程踩到的坑/">
   </div>
 </section>
 
