@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2016-05-19T10:51:16.327Z</updated>
+  <updated>2016-06-03T07:11:03.084Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -416,620 +416,6 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
 <p>跟踪确定是Driver本身的Bug，Google了下官方已经有<a href="https://bugs.mysql.com/bug.php?id=47494" target="_blank" rel="external">相关Bug反馈</a>了，解决方案就是把mysql-connector-java的版本从5.1.9调整为5.1.18。</p>
 ]]></content>
     
-    
-      <category term="Java" scheme="http://liubaing.com/tags/Java/"/>
-    
-      <category term="编程" scheme="http://liubaing.com/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[源码理解-Map]]></title>
-    <link href="http://liubaing.com/2015/03/20/%E6%BA%90%E7%A0%81%E7%90%86%E8%A7%A3-Map/"/>
-    <id>http://liubaing.com/2015/03/20/源码理解-Map/</id>
-    <published>2015-03-20T10:16:38.000Z</published>
-    <updated>2016-01-12T09:21:38.000Z</updated>
-    <content type="html"><![CDATA[<h3 id="Map">Map</h3>
-<h6 id="HashMap">HashMap</h6>
-<p>首先要说得HashMap就是数组和链表得结合体，先看源码</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-</pre></td><td class="code"><pre><span class="comment">/**
- * 默认初始化容量，必须是2的N次方
- */</span>
-<span class="keyword">static</span> <span class="keyword">final</span> int DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span>
-<span class="keyword">static</span> <span class="keyword">final</span> Entry<span class="preprocessor">&lt;?</span>,<span class="preprocessor">?&gt;</span>[] EMPTY_TABLE = {};
-transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
-<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; {</span>
-    <span class="keyword">final</span> K key;
-    V value;
-    Entry&lt;K,V&gt; next;
-    int hash;
-    ......
-}
-</pre></td></tr></table></figure>
-
-<p>底层就是Entry数组，每个Entry持有next引用，构成链表。<br><a id="more"></a></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-</pre></td><td class="code"><pre><span class="keyword">public</span> V <span class="title">put</span>(K key, V <span class="keyword">value</span>) {
-    <span class="comment">//初次执行创建2的N次方容量的数组</span>
-    <span class="keyword">if</span> (table == EMPTY_TABLE) {
-        inflateTable(threshold);
-    }
-    <span class="comment">//null键直接存在table[0]</span>
-    <span class="keyword">if</span> (key == <span class="keyword">null</span>)
-        <span class="keyword">return</span> putForNullKey(<span class="keyword">value</span>);
-    <span class="comment">//计算所在数组索引</span>
-    <span class="keyword">int</span> hash = hash(key);
-    <span class="keyword">int</span> i = indexFor(hash, table.length);
-    <span class="comment">//链表头部开始迭代，如果key的hash值和引用同一个对象或者实现equals方法相等，直接替换value，并返回旧value</span>
-    <span class="keyword">for</span> (Entry&lt;K,V&gt; e = table[i]; e != <span class="keyword">null</span>; e = e.next) {
-        Object k;
-        <span class="keyword">if</span> (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
-            V oldValue = e.<span class="keyword">value</span>;
-            e.<span class="keyword">value</span> = <span class="keyword">value</span>;
-            <span class="comment">//LinkedHashMap维护链表顺序</span>
-            e.recordAccess(<span class="keyword">this</span>);
-            <span class="keyword">return</span> oldValue;
-        }
-    }
-    <span class="comment">//更改次数，实现fast-fail</span>
-    modCount++;
-    addEntry(hash, key, <span class="keyword">value</span>, i);
-    <span class="keyword">return</span> <span class="keyword">null</span>;
-}
-
-<span class="keyword">void</span> addEntry(<span class="keyword">int</span> hash, K key, V <span class="keyword">value</span>, <span class="keyword">int</span> bucketIndex) {
-    <span class="comment">//2倍扩容，如果在构造前明确容量需求，尽量指定避免扩容和重新映射</span>
-    <span class="keyword">if</span> ((size &gt;= threshold) && (<span class="keyword">null</span> != table[bucketIndex])) {
-        resize(<span class="number">2</span> * table.length);
-        hash = (<span class="keyword">null</span> != key) ? hash(key) : <span class="number">0</span>;
-        bucketIndex = indexFor(hash, table.length);
-    }
-
-    createEntry(hash, key, <span class="keyword">value</span>, bucketIndex);
-}
-
-<span class="keyword">void</span> createEntry(<span class="keyword">int</span> hash, K key, V <span class="keyword">value</span>, <span class="keyword">int</span> bucketIndex) {
-    Entry&lt;K,V&gt; e = table[bucketIndex];
-    table[bucketIndex] = <span class="keyword">new</span> Entry&lt;&gt;(hash, key, <span class="keyword">value</span>, e);
-    size++;
-}
-</pre></td></tr></table></figure>
-
-<p>当我们往HashMap中put元素的时候，计算key的hash值，根据hash值对数组长度取模运算得到在数组中的位置，如果数组该位置上已经存放有其他元素了，那么在这个位置上的元素将以链表的形式存放，新加入的放在链头，最先加入的放在链尾。</p>
-<p>前面说过HashMap的数据结构是数组和链表的结合，所以我们当然希望这个HashMap里面的元素位置尽量的分布均匀些，尽量使得每个位置上的元素数量只有一个，那么当我们用hash算法求得这个位置的时候，马上就可以知道对应位置的元素就是我们要的，而不用再去遍历链表，这样就大大优化了查询的效率。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-</pre></td><td class="code"><pre><span class="keyword">final</span> <span class="keyword">int</span> hash(Object k) {
-    <span class="keyword">int</span> h = hashSeed;
-    <span class="keyword">if</span> (<span class="number">0</span> != h && k <span class="keyword">instanceof</span> String) {
-        <span class="keyword">return</span> sun.misc.Hashing.stringHash32((String) k);
-    }
-
-    h ^= k.hashCode();
-    <span class="comment">//减少碰撞</span>
-    h ^= (h &gt;&gt;&gt; <span class="number">20</span>) ^ (h &gt;&gt;&gt; <span class="number">12</span>);
-    <span class="keyword">return</span> h ^ (h &gt;&gt;&gt; <span class="number">7</span>) ^ (h &gt;&gt;&gt; <span class="number">4</span>);
-}
-
-<span class="keyword">static</span> <span class="keyword">int</span> indexFor(<span class="keyword">int</span> h, <span class="keyword">int</span> length) {
-    <span class="comment">//注意这里没有采用%，而&实现有个前提length必须是2的N次方，</span>
-    <span class="comment">//具体原因网上搜索下后得知 &操作用了3mov+1and+1sub，%操作用了2mov+1cdp+1idiv</span>
-    <span class="comment">//前者只需5个CPU周期，而后者至少需要26个CPU周期</span>
-    <span class="keyword">return</span> h & (length-<span class="number">1</span>);
-}
-</pre></td></tr></table></figure>
-
-<p>那之前强调的保证length为2的N次方，原因就是为了充分利用数组空间，元素尽量散列些，具体就是而当数组长度为16时，即为2的n次方时，2n-1得到的二进制数的每个位上的值都为1，这使得在低位上&amp;时，得到的和原hash的低位相同，加之hash(int h)方法对key的hashCode的进一步优化，加入了高位计算，就使得只有相同的hash值的两个值才会被放到数组中的同一个位置上形成链表。</p>
-<p>所以说，当数组长度为2的n次幂的时候，不同的key算得得index相同的几率较小，那么数据在数组上分布就比较均匀，也就是说碰撞的几率小，相对的，查询的时候就不用遍历某个位置上的链表，这样查询效率也就较高了。</p>
-<p>简单理解存取原理后，在我们平时的使用过程中需要注意HashMap是非线程安全的，这个在文档中也有说明，所以要特别注意使用场景，需要的多线程同时读写时可以额外同步<code>Map m = Collections.synchronizedMap(new HashMap(...));</code>，类似于<code>HashTable</code>，不过更推荐使用下面要介绍的的并发Map。</p>
-<h6 id="ConcurrentHashMap">ConcurrentHashMap</h6>
-<p>看过<code>HashTable</code>源码同学都知道，它完全依赖synchronized关键字来实现线程安全，项目中一般不会采用，更倾向于性能更好的<code>ConcurrentHashMap</code>，这个实现机制我们也看下基本的结构</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-</pre></td><td class="code"><pre><span class="keyword">final</span> Segment&lt;K,V&gt;[] segments;
-<span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HashEntry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; {</span>
-    <span class="keyword">final</span> <span class="keyword">int</span> hash;
-    <span class="keyword">final</span> K key;
-    volatile V value;
-    volatile HashEntry&lt;K,V&gt; next;
-}
-<span class="comment">//类似于HashMap的结构，即内部拥有一个HashEntry数组，数组中的每个元素又是一个单向链表，同时拥有ReentrantLock可重入的互斥锁特性。</span>
-<span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Segment</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="inheritance"><span class="keyword">extends</span></span> <span class="title">ReentrantLock</span> <span class="inheritance"><span class="keyword">implements</span></span> <span class="title">Serializable</span> {</span>
-    transient volatile HashEntry&lt;K,V&gt;[] table;
-}
-</pre></td></tr></table></figure>
-
-<p>看了基本都明白了，ConcurrentHashMap采用了分段锁的设计，相比于对整个Map加锁的设计，分段锁大大的提高了高并发环境下的处理能力。</p>
-<p>不过ConcurrentHashMap中的HashEntry相对于HashMap中的Entry有一定的差异性，HashEntry中的value以及next都被volatile修饰，这样在多线程读写过程中能够保持它们的可见性。</p>
-<p>下面来看一下关注下常用的get/put方法。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-</pre></td><td class="code"><pre><span class="keyword">public</span> V <span class="title">get</span>(Object key) {
-    Segment&lt;K,V&gt; s;
-    HashEntry&lt;K,V&gt;[] tab;
-    <span class="keyword">int</span> h = hash(key);
-    <span class="keyword">long</span> u = (((h &gt;&gt;&gt; segmentShift) & segmentMask) &lt;&lt; SSHIFT) + SBASE;
-    <span class="comment">//注意一下，这里并没有同步，而是采用UNSAFE本地方法</span>
-    <span class="keyword">if</span> ((s = (Segment&lt;K,V&gt;)UNSAFE.getObjectVolatile(segments, u)) != <span class="keyword">null</span> &&
-        (tab = s.table) != <span class="keyword">null</span>) {
-        <span class="keyword">for</span> (HashEntry&lt;K,V&gt; e = (HashEntry&lt;K,V&gt;) UNSAFE.getObjectVolatile
-                 (tab, ((<span class="keyword">long</span>)(((tab.length - <span class="number">1</span>) & h)) &lt;&lt; TSHIFT) + TBASE);
-             e != <span class="keyword">null</span>; e = e.next) {
-            K k;
-            <span class="keyword">if</span> ((k = e.key) == key || (e.hash == h && key.equals(k)))
-                <span class="keyword">return</span> e.<span class="keyword">value</span>;
-        }
-    }
-    <span class="keyword">return</span> <span class="keyword">null</span>;
-}
-
-<span class="keyword">public</span> V <span class="title">put</span>(K key, V <span class="keyword">value</span>) {
-    Segment&lt;K,V&gt; s;
-    <span class="comment">//在使用过程中需要注意K/V都不支持null，否则抛NullPointerException</span>
-    <span class="keyword">if</span> (<span class="keyword">value</span> == <span class="keyword">null</span>)
-        <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();
-    <span class="keyword">int</span> hash = hash(key);
-    <span class="keyword">int</span> j = (hash &gt;&gt;&gt; segmentShift) & segmentMask;
-    <span class="comment">//如果找不到该Segment，则新建一个。</span>
-    <span class="keyword">if</span> ((s = (Segment&lt;K,V&gt;)UNSAFE.getObject          <span class="comment">// nonvolatile; recheck</span>
-         (segments, (j &lt;&lt; SSHIFT) + SBASE)) == <span class="keyword">null</span>) <span class="comment">// in ensureSegment</span>
-        s = ensureSegment(j);
-    <span class="keyword">return</span> s.put(key, hash, <span class="keyword">value</span>, <span class="keyword">false</span>);
-}
-
-<span class="comment">//这个是Segment的方法</span>
-final V put(K key, <span class="keyword">int</span> hash, V <span class="keyword">value</span>, boolean onlyIfAbsent) {
-    <span class="comment">//tryLock()获取锁，获取锁失败的话，则通过scanAndLockForPut()获取锁，并返回要插入的HashEntry。</span>
-    HashEntry&lt;K,V&gt; node = tryLock() ? <span class="keyword">null</span> :
-        scanAndLockForPut(key, hash, <span class="keyword">value</span>);
-    V oldValue;
-    <span class="keyword">try</span> {
-        HashEntry&lt;K,V&gt;[] tab = table;
-        <span class="keyword">int</span> index = (tab.length - <span class="number">1</span>) & hash;
-        HashEntry&lt;K,V&gt; first = entryAt(tab, index);
-        <span class="keyword">for</span> (HashEntry&lt;K,V&gt; e = first;;) {
-            <span class="keyword">if</span> (e != <span class="keyword">null</span>) {
-                K k;
-                <span class="comment">//当HashEntry中已经包含key时，先保存原有的值。如果onlyIfAbsent为true，即不存在时才插入，则直接退出，否则，用新的value值覆盖。</span>
-                <span class="keyword">if</span> ((k = e.key) == key ||
-                    (e.hash == hash && key.equals(k))) {
-                    oldValue = e.<span class="keyword">value</span>;
-                    <span class="keyword">if</span> (!onlyIfAbsent) {
-                        e.<span class="keyword">value</span> = <span class="keyword">value</span>;
-                        ++modCount;
-                    }
-                    <span class="keyword">break</span>;
-                }
-                e = e.next;
-            }
-            <span class="keyword">else</span> {
-                <span class="comment">// 如果node非空，则将node设置链表头，否则，新建HashEntry链表。</span>
-                <span class="keyword">if</span> (node != <span class="keyword">null</span>)
-                    node.setNext(first);
-                <span class="keyword">else</span>
-                    node = <span class="keyword">new</span> HashEntry&lt;K,V&gt;(hash, key, <span class="keyword">value</span>, first);
-                <span class="keyword">int</span> c = count + <span class="number">1</span>;
-                <span class="comment">//如果添加key-value键值对之后，Segment中的元素超过阈值，并且HashEntry数组的长度没超过限制，2倍rehash；否则，直接添加key-value键值对。</span>
-                <span class="keyword">if</span> (c &gt; threshold && tab.length &lt; MAXIMUM_CAPACITY)
-                    rehash(node);
-                <span class="keyword">else</span>
-                    setEntryAt(tab, index, node);
-                ++modCount;
-                count = c;
-                oldValue = <span class="keyword">null</span>;
-                <span class="keyword">break</span>;
-            }
-        }
-    } <span class="keyword">finally</span> {
-        <span class="comment">// 释放锁</span>
-        unlock();
-    }
-    <span class="keyword">return</span> oldValue;
-}
-</pre></td></tr></table></figure>
-
-
-]]></content>
-    <summary type="html"><![CDATA[<h3 id="Map">Map</h3>
-<h6 id="HashMap">HashMap</h6>
-<p>首先要说得HashMap就是数组和链表得结合体，先看源码</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-</pre></td><td class="code"><pre><span class="comment">/**
- * 默认初始化容量，必须是2的N次方
- */</span>
-<span class="keyword">static</span> <span class="keyword">final</span> int DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span>
-<span class="keyword">static</span> <span class="keyword">final</span> Entry<span class="preprocessor">&lt;?</span>,<span class="preprocessor">?&gt;</span>[] EMPTY_TABLE = {};
-transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
-<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; {</span>
-    <span class="keyword">final</span> K key;
-    V value;
-    Entry&lt;K,V&gt; next;
-    int hash;
-    ......
-}
-</pre></td></tr></table></figure>
-
-<p>底层就是Entry数组，每个Entry持有next引用，构成链表。<br>]]></summary>
-    
-      <category term="Java" scheme="http://liubaing.com/tags/Java/"/>
-    
-      <category term="编程" scheme="http://liubaing.com/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[源码理解-Collection]]></title>
-    <link href="http://liubaing.com/2015/03/17/%E6%BA%90%E7%A0%81%E7%90%86%E8%A7%A3-Collection/"/>
-    <id>http://liubaing.com/2015/03/17/源码理解-Collection/</id>
-    <published>2015-03-17T05:44:23.000Z</published>
-    <updated>2016-01-12T09:21:38.000Z</updated>
-    <content type="html"><![CDATA[<p>JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。<br>下面简单总结下常用的集合类。</p>
-<h3 id="Collection">Collection</h3>
-<h4 id="List">List</h4>
-<h6 id="ArrayList">ArrayList</h6>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="keyword">private</span> <span class="keyword">transient</span> Object[] elementData
-</pre></td></tr></table></figure>
-
-<p>底层由数组实现，所以根据index获取元素效率较高，但涉及到<code>System.arraycopy()</code>的方法效率会差些。</p>
-<p>这里简单说下平时有在迭代集合是删除元素的需求，一般也知道由于快速失败(fail-fast)策略，不能在迭代时直接调用List<code>remove()</code>方法，只能用Iterator<code>remove()</code>方法，否则会抛出<code>ConcurrentModificationException</code>异常。<br>但这里还有个坑，在迭代到倒数第二个元素时，去调用List<code>remove()</code>方法也不会抛异常，是因为删除元素后列表size直接-1，执行到<code>hasNext()</code>方法是，会直接忽略最后一个元素。<br><a id="more"></a></p>
-<h6 id="LinkedList">LinkedList</h6>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-</pre></td><td class="code"><pre><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> Node&lt;E&gt; {
-    E item;
-    Node&lt;E&gt; next;
-    Node&lt;E&gt; prev;
-
-    Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {
-        <span class="keyword">this</span>.item = element;
-        <span class="keyword">this</span>.next = next;
-        <span class="keyword">this</span>.prev = prev;
-    }
-}
-</pre></td></tr></table></figure>
-
-<p>双向链表，实现了Deque接口，也能作为队列、栈使用。<br>对比<code>ArrayList</code>，不能笼统说插入、删除效率要高很多，应该是在已知具体<code>node</code>的情况下，只需更改引用即可。</p>
-<h4 id="Set">Set</h4>
-<h6 id="HashSet">HashSet</h6>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre><span class="keyword">private</span> <span class="keyword">transient</span> HashMap&lt;E,Object&gt; map;
-<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object PRESENT = <span class="keyword">new</span> Object();
-</pre></td></tr></table></figure>
-
-<p>底层还是HashMap，只不过所有value都是PRESENT。</p>
-<h4 id="Queue">Queue</h4>
-<h6 id="ArrayBlockingQueue">ArrayBlockingQueue</h6>
-<p>本篇文章中唯一的线程安全的类，平时应用于线程池的任务队列中。<br>既然是Array家族，自然底层也是数组，看下源码：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="code"><pre><span class="keyword">final</span> Object[] items;
-<span class="keyword">int</span> takeIndex;
-<span class="keyword">int</span> putIndex;
-<span class="keyword">int</span> count;
-
-<span class="keyword">final</span> ReentrantLock lock;
-<span class="keyword">private</span> <span class="keyword">final</span> Condition notEmpty;
-<span class="keyword">private</span> <span class="keyword">final</span> Condition notFull;
-</pre></td></tr></table></figure>
-
-<p>简单看下出队入队源码说明吧：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-</pre></td><td class="code"><pre><span class="keyword">public</span> E <span class="title">take</span>() throws InterruptedException {
-   final ReentrantLock <span class="keyword">lock</span> = <span class="keyword">this</span>.<span class="keyword">lock</span>;
-   <span class="keyword">lock</span>.lockInterruptibly();
-   <span class="comment">//锁可中断</span>
-   <span class="keyword">try</span> {
-       <span class="comment">//如果队列为空，则所有符合此条件的消费者等待，否则取队首元素</span>
-       <span class="keyword">while</span> (count == <span class="number">0</span>)               
-           notEmpty.<span class="keyword">await</span>();
-       <span class="keyword">return</span> extract();
-   } <span class="keyword">finally</span> {
-       <span class="comment">//finally 解锁。</span>
-       <span class="keyword">lock</span>.unlock();
-   }
-    }
-
-    <span class="keyword">private</span> E <span class="title">extract</span>() {
-   final Object[] items = <span class="keyword">this</span>.items;
-   E x = <span class="keyword">this</span>.cast(items[takeIndex]);
-   <span class="comment">//将元素删除</span>
-   items[takeIndex] = <span class="keyword">null</span>;
-   <span class="comment">//更新出队索引，如果takeIndex=队列长度，则从0开始循环。</span>
-   takeIndex = inc(takeIndex);
-   <span class="comment">//当前队列中的元素大小</span>
-   --count;
-   <span class="comment">//通知生产者</span>
-   notFull.signal();
-   <span class="comment">//返回元素</span>
-        <span class="keyword">return</span> x;
-    }
-
-    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span>(E e) throws InterruptedException {
-   checkNotNull(e);
-   final ReentrantLock <span class="keyword">lock</span> = <span class="keyword">this</span>.<span class="keyword">lock</span>;
-   <span class="keyword">lock</span>.lockInterruptibly();
-   <span class="keyword">try</span> {
-       <span class="comment">//如果队列已满，所有符合此条件的生产者都等待阻塞。</span>
-       <span class="keyword">while</span> (count == items.length)
-           notFull.<span class="keyword">await</span>();
-         <span class="comment">//入队新元素</span>
-              insert(e);
-   } <span class="keyword">finally</span> {
-       <span class="keyword">lock</span>.unlock();
-   }
-    }
-
-    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">insert</span>(E x) {
-   <span class="comment">//添加元素</span>
-   items[putIndex] = x;
-   <span class="comment">//自增入队索引，如果等于队列长度，从0开始循环。</span>
-   putIndex = inc(putIndex);
-   <span class="comment">//队列中元素的数量</span>
-   ++count;
-   <span class="comment">//通知消费</span>
-   notEmpty.signal();
-    }
-</pre></td></tr></table></figure>
-
-<p>还有一份从网上找的方法的区别：</p>
-<table><thead><tr><th>异常</th><th>布尔值</th><th>阻塞</th><th>超时</th></tr></thead><tbody><tr><td>add(e)</td><td>offer(e)</td><td>put(e)</td><td>offer(e, timeout, unit)</td></tr><tr><td>remove()</td><td>poll()</td><td>take()</td><td>poll(timeout, unit)</td></tr><tr><td>element()</td><td>peek()</td><td>—</td><td>—</td></tr></tbody></table>
-
-<p>其实还有Deque双端队列，这里就不一一描述了。</p>
-]]></content>
-    <summary type="html"><![CDATA[<p>JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。<br>下面简单总结下常用的集合类。</p>
-<h3 id="Collection">Collection</h3>
-<h4 id="List">List</h4>
-<h6 id="ArrayList">ArrayList</h6>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="keyword">private</span> <span class="keyword">transient</span> Object[] elementData
-</pre></td></tr></table></figure>
-
-<p>底层由数组实现，所以根据index获取元素效率较高，但涉及到<code>System.arraycopy()</code>的方法效率会差些。</p>
-<p>这里简单说下平时有在迭代集合是删除元素的需求，一般也知道由于快速失败(fail-fast)策略，不能在迭代时直接调用List<code>remove()</code>方法，只能用Iterator<code>remove()</code>方法，否则会抛出<code>ConcurrentModificationException</code>异常。<br>但这里还有个坑，在迭代到倒数第二个元素时，去调用List<code>remove()</code>方法也不会抛异常，是因为删除元素后列表size直接-1，执行到<code>hasNext()</code>方法是，会直接忽略最后一个元素。<br>]]></summary>
     
       <category term="Java" scheme="http://liubaing.com/tags/Java/"/>
     
@@ -1963,6 +1349,592 @@ $ git reset –soft &lt;commit-id&gt;  回退到某个commit-id，只是commit�
       <category term="Linode" scheme="http://liubaing.com/tags/Linode/"/>
     
       <category term="扯淡" scheme="http://liubaing.com/categories/%E6%89%AF%E6%B7%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[集合类源码理解]]></title>
+    <link href="http://liubaing.com/2014/03/20/%E9%9B%86%E5%90%88%E7%B1%BB%E6%BA%90%E7%A0%81%E7%90%86%E8%A7%A3/"/>
+    <id>http://liubaing.com/2014/03/20/集合类源码理解/</id>
+    <published>2014-03-20T10:16:38.000Z</published>
+    <updated>2016-06-03T07:09:53.000Z</updated>
+    <content type="html"><![CDATA[<p>JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。</p>
+<h3 id="Map">Map</h3>
+<h6 id="HashMap">HashMap</h6>
+<p>首先要说得HashMap就是数组和链表得结合体，先看源码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="comment">/**
+ * 默认初始化容量，必须是2的N次方
+ */</span>
+<span class="keyword">static</span> <span class="keyword">final</span> int DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span>
+<span class="keyword">static</span> <span class="keyword">final</span> Entry<span class="preprocessor">&lt;?</span>,<span class="preprocessor">?&gt;</span>[] EMPTY_TABLE = {};
+transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
+<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; {</span>
+    <span class="keyword">final</span> K key;
+    V value;
+    Entry&lt;K,V&gt; next;
+    int hash;
+    ......
+}
+</pre></td></tr></table></figure>
+
+<p>底层就是Entry数组，每个Entry持有next引用，构成链表。<br><a id="more"></a></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+</pre></td><td class="code"><pre><span class="keyword">public</span> V <span class="title">put</span>(K key, V <span class="keyword">value</span>) {
+    <span class="comment">//初次执行创建2的N次方容量的数组</span>
+    <span class="keyword">if</span> (table == EMPTY_TABLE) {
+        inflateTable(threshold);
+    }
+    <span class="comment">//null键直接存在table[0]</span>
+    <span class="keyword">if</span> (key == <span class="keyword">null</span>)
+        <span class="keyword">return</span> putForNullKey(<span class="keyword">value</span>);
+    <span class="comment">//计算所在数组索引</span>
+    <span class="keyword">int</span> hash = hash(key);
+    <span class="keyword">int</span> i = indexFor(hash, table.length);
+    <span class="comment">//链表头部开始迭代，如果key的hash值和引用同一个对象或者实现equals方法相等，直接替换value，并返回旧value</span>
+    <span class="keyword">for</span> (Entry&lt;K,V&gt; e = table[i]; e != <span class="keyword">null</span>; e = e.next) {
+        Object k;
+        <span class="keyword">if</span> (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
+            V oldValue = e.<span class="keyword">value</span>;
+            e.<span class="keyword">value</span> = <span class="keyword">value</span>;
+            <span class="comment">//LinkedHashMap维护链表顺序</span>
+            e.recordAccess(<span class="keyword">this</span>);
+            <span class="keyword">return</span> oldValue;
+        }
+    }
+    <span class="comment">//更改次数，实现fast-fail</span>
+    modCount++;
+    addEntry(hash, key, <span class="keyword">value</span>, i);
+    <span class="keyword">return</span> <span class="keyword">null</span>;
+}
+
+<span class="keyword">void</span> addEntry(<span class="keyword">int</span> hash, K key, V <span class="keyword">value</span>, <span class="keyword">int</span> bucketIndex) {
+    <span class="comment">//2倍扩容，如果在构造前明确容量需求，尽量指定避免扩容和重新映射</span>
+    <span class="keyword">if</span> ((size &gt;= threshold) && (<span class="keyword">null</span> != table[bucketIndex])) {
+        resize(<span class="number">2</span> * table.length);
+        hash = (<span class="keyword">null</span> != key) ? hash(key) : <span class="number">0</span>;
+        bucketIndex = indexFor(hash, table.length);
+    }
+
+    createEntry(hash, key, <span class="keyword">value</span>, bucketIndex);
+}
+
+<span class="keyword">void</span> createEntry(<span class="keyword">int</span> hash, K key, V <span class="keyword">value</span>, <span class="keyword">int</span> bucketIndex) {
+    Entry&lt;K,V&gt; e = table[bucketIndex];
+    table[bucketIndex] = <span class="keyword">new</span> Entry&lt;&gt;(hash, key, <span class="keyword">value</span>, e);
+    size++;
+}
+</pre></td></tr></table></figure>
+
+<p>当我们往HashMap中put元素的时候，计算key的hash值，根据hash值对数组长度取模运算得到在数组中的位置，如果数组该位置上已经存放有其他元素了，那么在这个位置上的元素将以链表的形式存放，新加入的放在链头，最先加入的放在链尾。</p>
+<p>前面说过HashMap的数据结构是数组和链表的结合，所以我们当然希望这个HashMap里面的元素位置尽量的分布均匀些，尽量使得每个位置上的元素数量只有一个，那么当我们用hash算法求得这个位置的时候，马上就可以知道对应位置的元素就是我们要的，而不用再去遍历链表，这样就大大优化了查询的效率。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="code"><pre><span class="keyword">final</span> <span class="keyword">int</span> hash(Object k) {
+    <span class="keyword">int</span> h = hashSeed;
+    <span class="keyword">if</span> (<span class="number">0</span> != h && k <span class="keyword">instanceof</span> String) {
+        <span class="keyword">return</span> sun.misc.Hashing.stringHash32((String) k);
+    }
+
+    h ^= k.hashCode();
+    <span class="comment">//减少碰撞</span>
+    h ^= (h &gt;&gt;&gt; <span class="number">20</span>) ^ (h &gt;&gt;&gt; <span class="number">12</span>);
+    <span class="keyword">return</span> h ^ (h &gt;&gt;&gt; <span class="number">7</span>) ^ (h &gt;&gt;&gt; <span class="number">4</span>);
+}
+
+<span class="keyword">static</span> <span class="keyword">int</span> indexFor(<span class="keyword">int</span> h, <span class="keyword">int</span> length) {
+    <span class="comment">//注意这里没有采用%，而&实现有个前提length必须是2的N次方，</span>
+    <span class="comment">//具体原因网上搜索下后得知 &操作用了3mov+1and+1sub，%操作用了2mov+1cdp+1idiv</span>
+    <span class="comment">//前者只需5个CPU周期，而后者至少需要26个CPU周期</span>
+    <span class="keyword">return</span> h & (length-<span class="number">1</span>);
+}
+</pre></td></tr></table></figure>
+
+<p>那之前强调的保证length为2的N次方，原因就是为了充分利用数组空间，元素尽量散列些，具体就是而当数组长度为16时，即为2的n次方时，2n-1得到的二进制数的每个位上的值都为1，这使得在低位上&amp;时，得到的和原hash的低位相同，加之hash(int h)方法对key的hashCode的进一步优化，加入了高位计算，就使得只有相同的hash值的两个值才会被放到数组中的同一个位置上形成链表。</p>
+<p>所以说，当数组长度为2的n次幂的时候，不同的key算得得index相同的几率较小，那么数据在数组上分布就比较均匀，也就是说碰撞的几率小，相对的，查询的时候就不用遍历某个位置上的链表，这样查询效率也就较高了。</p>
+<p>简单理解存取原理后，在我们平时的使用过程中需要注意HashMap是非线程安全的，这个在文档中也有说明，所以要特别注意使用场景，需要的多线程同时读写时可以额外同步<code>Map m = Collections.synchronizedMap(new HashMap(...));</code>，类似于<code>HashTable</code>，不过更推荐使用下面要介绍的的并发Map。</p>
+<h6 id="ConcurrentHashMap">ConcurrentHashMap</h6>
+<p>看过<code>HashTable</code>源码同学都知道，它完全依赖synchronized关键字来实现线程安全，项目中一般不会采用，更倾向于性能更好的<code>ConcurrentHashMap</code>，这个实现机制我们也看下基本的结构</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre><span class="keyword">final</span> Segment&lt;K,V&gt;[] segments;
+<span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HashEntry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; {</span>
+    <span class="keyword">final</span> <span class="keyword">int</span> hash;
+    <span class="keyword">final</span> K key;
+    volatile V value;
+    volatile HashEntry&lt;K,V&gt; next;
+}
+<span class="comment">//类似于HashMap的结构，即内部拥有一个HashEntry数组，数组中的每个元素又是一个单向链表，同时拥有ReentrantLock可重入的互斥锁特性。</span>
+<span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Segment</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="inheritance"><span class="keyword">extends</span></span> <span class="title">ReentrantLock</span> <span class="inheritance"><span class="keyword">implements</span></span> <span class="title">Serializable</span> {</span>
+    transient volatile HashEntry&lt;K,V&gt;[] table;
+}
+</pre></td></tr></table></figure>
+
+<p>看了基本都明白了，ConcurrentHashMap采用了分段锁的设计，相比于对整个Map加锁的设计，分段锁大大的提高了高并发环境下的处理能力。</p>
+<p>不过ConcurrentHashMap中的HashEntry相对于HashMap中的Entry有一定的差异性，HashEntry中的value以及next都被volatile修饰，这样在多线程读写过程中能够保持它们的可见性。</p>
+<p>下面来看一下关注下常用的get/put方法。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+</pre></td><td class="code"><pre><span class="keyword">public</span> V <span class="title">get</span>(Object key) {
+    Segment&lt;K,V&gt; s;
+    HashEntry&lt;K,V&gt;[] tab;
+    <span class="keyword">int</span> h = hash(key);
+    <span class="keyword">long</span> u = (((h &gt;&gt;&gt; segmentShift) & segmentMask) &lt;&lt; SSHIFT) + SBASE;
+    <span class="comment">//注意一下，这里并没有同步，而是采用UNSAFE本地方法</span>
+    <span class="keyword">if</span> ((s = (Segment&lt;K,V&gt;)UNSAFE.getObjectVolatile(segments, u)) != <span class="keyword">null</span> &&
+        (tab = s.table) != <span class="keyword">null</span>) {
+        <span class="keyword">for</span> (HashEntry&lt;K,V&gt; e = (HashEntry&lt;K,V&gt;) UNSAFE.getObjectVolatile
+                 (tab, ((<span class="keyword">long</span>)(((tab.length - <span class="number">1</span>) & h)) &lt;&lt; TSHIFT) + TBASE);
+             e != <span class="keyword">null</span>; e = e.next) {
+            K k;
+            <span class="keyword">if</span> ((k = e.key) == key || (e.hash == h && key.equals(k)))
+                <span class="keyword">return</span> e.<span class="keyword">value</span>;
+        }
+    }
+    <span class="keyword">return</span> <span class="keyword">null</span>;
+}
+
+<span class="keyword">public</span> V <span class="title">put</span>(K key, V <span class="keyword">value</span>) {
+    Segment&lt;K,V&gt; s;
+    <span class="comment">//在使用过程中需要注意K/V都不支持null，否则抛NullPointerException</span>
+    <span class="keyword">if</span> (<span class="keyword">value</span> == <span class="keyword">null</span>)
+        <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();
+    <span class="keyword">int</span> hash = hash(key);
+    <span class="keyword">int</span> j = (hash &gt;&gt;&gt; segmentShift) & segmentMask;
+    <span class="comment">//如果找不到该Segment，则新建一个。</span>
+    <span class="keyword">if</span> ((s = (Segment&lt;K,V&gt;)UNSAFE.getObject          <span class="comment">// nonvolatile; recheck</span>
+         (segments, (j &lt;&lt; SSHIFT) + SBASE)) == <span class="keyword">null</span>) <span class="comment">// in ensureSegment</span>
+        s = ensureSegment(j);
+    <span class="keyword">return</span> s.put(key, hash, <span class="keyword">value</span>, <span class="keyword">false</span>);
+}
+
+<span class="comment">//这个是Segment的方法</span>
+final V put(K key, <span class="keyword">int</span> hash, V <span class="keyword">value</span>, boolean onlyIfAbsent) {
+    <span class="comment">//tryLock()获取锁，获取锁失败的话，则通过scanAndLockForPut()获取锁，并返回要插入的HashEntry。</span>
+    HashEntry&lt;K,V&gt; node = tryLock() ? <span class="keyword">null</span> :
+        scanAndLockForPut(key, hash, <span class="keyword">value</span>);
+    V oldValue;
+    <span class="keyword">try</span> {
+        HashEntry&lt;K,V&gt;[] tab = table;
+        <span class="keyword">int</span> index = (tab.length - <span class="number">1</span>) & hash;
+        HashEntry&lt;K,V&gt; first = entryAt(tab, index);
+        <span class="keyword">for</span> (HashEntry&lt;K,V&gt; e = first;;) {
+            <span class="keyword">if</span> (e != <span class="keyword">null</span>) {
+                K k;
+                <span class="comment">//当HashEntry中已经包含key时，先保存原有的值。如果onlyIfAbsent为true，即不存在时才插入，则直接退出，否则，用新的value值覆盖。</span>
+                <span class="keyword">if</span> ((k = e.key) == key ||
+                    (e.hash == hash && key.equals(k))) {
+                    oldValue = e.<span class="keyword">value</span>;
+                    <span class="keyword">if</span> (!onlyIfAbsent) {
+                        e.<span class="keyword">value</span> = <span class="keyword">value</span>;
+                        ++modCount;
+                    }
+                    <span class="keyword">break</span>;
+                }
+                e = e.next;
+            }
+            <span class="keyword">else</span> {
+                <span class="comment">// 如果node非空，则将node设置链表头，否则，新建HashEntry链表。</span>
+                <span class="keyword">if</span> (node != <span class="keyword">null</span>)
+                    node.setNext(first);
+                <span class="keyword">else</span>
+                    node = <span class="keyword">new</span> HashEntry&lt;K,V&gt;(hash, key, <span class="keyword">value</span>, first);
+                <span class="keyword">int</span> c = count + <span class="number">1</span>;
+                <span class="comment">//如果添加key-value键值对之后，Segment中的元素超过阈值，并且HashEntry数组的长度没超过限制，2倍rehash；否则，直接添加key-value键值对。</span>
+                <span class="keyword">if</span> (c &gt; threshold && tab.length &lt; MAXIMUM_CAPACITY)
+                    rehash(node);
+                <span class="keyword">else</span>
+                    setEntryAt(tab, index, node);
+                ++modCount;
+                count = c;
+                oldValue = <span class="keyword">null</span>;
+                <span class="keyword">break</span>;
+            }
+        }
+    } <span class="keyword">finally</span> {
+        <span class="comment">// 释放锁</span>
+        unlock();
+    }
+    <span class="keyword">return</span> oldValue;
+}
+</pre></td></tr></table></figure>
+
+<h3 id="Collection">Collection</h3>
+<h4 id="List">List</h4>
+<h6 id="ArrayList">ArrayList</h6>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="keyword">private</span> <span class="keyword">transient</span> Object[] elementData
+</pre></td></tr></table></figure>
+
+<p>底层由数组实现，所以根据index获取元素效率较高，但涉及到<code>System.arraycopy()</code>的方法效率会差些。</p>
+<p>这里简单说下平时有在迭代集合是删除元素的需求，一般也知道由于快速失败(fail-fast)策略，不能在迭代时直接调用List<code>remove()</code>方法，只能用Iterator<code>remove()</code>方法，否则会抛出<code>ConcurrentModificationException</code>异常。<br>但这里还有个坑，在迭代到倒数第二个元素时，去调用List<code>remove()</code>方法也不会抛异常，是因为删除元素后列表size直接-1，执行到<code>hasNext()</code>方法是，会直接忽略最后一个元素。</p>
+<h6 id="LinkedList">LinkedList</h6>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> Node&lt;E&gt; {
+    E item;
+    Node&lt;E&gt; next;
+    Node&lt;E&gt; prev;
+
+    Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {
+        <span class="keyword">this</span>.item = element;
+        <span class="keyword">this</span>.next = next;
+        <span class="keyword">this</span>.prev = prev;
+    }
+}
+</pre></td></tr></table></figure>
+
+<p>双向链表，实现了Deque接口，也能作为队列、栈使用。<br>对比<code>ArrayList</code>，不能笼统说插入、删除效率要高很多，应该是在已知具体<code>node</code>的情况下，只需更改引用即可。</p>
+<h4 id="Set">Set</h4>
+<h6 id="HashSet">HashSet</h6>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="keyword">private</span> <span class="keyword">transient</span> HashMap&lt;E,Object&gt; map;
+<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object PRESENT = <span class="keyword">new</span> Object();
+</pre></td></tr></table></figure>
+
+<p>底层还是HashMap，只不过所有value都是PRESENT。</p>
+<h4 id="Queue">Queue</h4>
+<h6 id="ArrayBlockingQueue">ArrayBlockingQueue</h6>
+<p>本篇文章中唯一的线程安全的类，平时应用于线程池的任务队列中。<br>既然是Array家族，自然底层也是数组，看下源码：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="keyword">final</span> Object[] items;
+<span class="keyword">int</span> takeIndex;
+<span class="keyword">int</span> putIndex;
+<span class="keyword">int</span> count;
+
+<span class="keyword">final</span> ReentrantLock lock;
+<span class="keyword">private</span> <span class="keyword">final</span> Condition notEmpty;
+<span class="keyword">private</span> <span class="keyword">final</span> Condition notFull;
+</pre></td></tr></table></figure>
+
+<p>简单看下出队入队源码说明吧：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+</pre></td><td class="code"><pre><span class="keyword">public</span> E <span class="title">take</span>() throws InterruptedException {
+   final ReentrantLock <span class="keyword">lock</span> = <span class="keyword">this</span>.<span class="keyword">lock</span>;
+   <span class="keyword">lock</span>.lockInterruptibly();
+   <span class="comment">//锁可中断</span>
+   <span class="keyword">try</span> {
+       <span class="comment">//如果队列为空，则所有符合此条件的消费者等待，否则取队首元素</span>
+       <span class="keyword">while</span> (count == <span class="number">0</span>)               
+           notEmpty.<span class="keyword">await</span>();
+       <span class="keyword">return</span> extract();
+   } <span class="keyword">finally</span> {
+       <span class="comment">//finally 解锁。</span>
+       <span class="keyword">lock</span>.unlock();
+   }
+    }
+
+    <span class="keyword">private</span> E <span class="title">extract</span>() {
+   final Object[] items = <span class="keyword">this</span>.items;
+   E x = <span class="keyword">this</span>.cast(items[takeIndex]);
+   <span class="comment">//将元素删除</span>
+   items[takeIndex] = <span class="keyword">null</span>;
+   <span class="comment">//更新出队索引，如果takeIndex=队列长度，则从0开始循环。</span>
+   takeIndex = inc(takeIndex);
+   <span class="comment">//当前队列中的元素大小</span>
+   --count;
+   <span class="comment">//通知生产者</span>
+   notFull.signal();
+   <span class="comment">//返回元素</span>
+        <span class="keyword">return</span> x;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span>(E e) throws InterruptedException {
+   checkNotNull(e);
+   final ReentrantLock <span class="keyword">lock</span> = <span class="keyword">this</span>.<span class="keyword">lock</span>;
+   <span class="keyword">lock</span>.lockInterruptibly();
+   <span class="keyword">try</span> {
+       <span class="comment">//如果队列已满，所有符合此条件的生产者都等待阻塞。</span>
+       <span class="keyword">while</span> (count == items.length)
+           notFull.<span class="keyword">await</span>();
+         <span class="comment">//入队新元素</span>
+              insert(e);
+   } <span class="keyword">finally</span> {
+       <span class="keyword">lock</span>.unlock();
+   }
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">insert</span>(E x) {
+   <span class="comment">//添加元素</span>
+   items[putIndex] = x;
+   <span class="comment">//自增入队索引，如果等于队列长度，从0开始循环。</span>
+   putIndex = inc(putIndex);
+   <span class="comment">//队列中元素的数量</span>
+   ++count;
+   <span class="comment">//通知消费</span>
+   notEmpty.signal();
+    }
+</pre></td></tr></table></figure>
+
+]]></content>
+    <summary type="html"><![CDATA[<p>JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。</p>
+<h3 id="Map">Map</h3>
+<h6 id="HashMap">HashMap</h6>
+<p>首先要说得HashMap就是数组和链表得结合体，先看源码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="comment">/**
+ * 默认初始化容量，必须是2的N次方
+ */</span>
+<span class="keyword">static</span> <span class="keyword">final</span> int DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span>
+<span class="keyword">static</span> <span class="keyword">final</span> Entry<span class="preprocessor">&lt;?</span>,<span class="preprocessor">?&gt;</span>[] EMPTY_TABLE = {};
+transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
+<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; {</span>
+    <span class="keyword">final</span> K key;
+    V value;
+    Entry&lt;K,V&gt; next;
+    int hash;
+    ......
+}
+</pre></td></tr></table></figure>
+
+<p>底层就是Entry数组，每个Entry持有next引用，构成链表。<br>]]></summary>
+    
+      <category term="Java" scheme="http://liubaing.com/tags/Java/"/>
+    
+      <category term="编程" scheme="http://liubaing.com/categories/%E7%BC%96%E7%A8%8B/"/>
     
   </entry>
   

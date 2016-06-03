@@ -82,121 +82,6 @@ var _hmt = _hmt || [];
       <div class="outer">
         <section id="main">
   
-    <article id="post-常用浏览器下调试" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/07/26/常用浏览器下调试/" class="article-date">
-  <time datetime="2014-07-26T07:41:31.000Z" itemprop="datePublished">2014年7月26日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/工具/">工具</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/07/26/常用浏览器下调试/">常用浏览器下调试</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>2015-9-9更新：<br>Android设备进入开发者选项，启用USB调试后，Terminal输入</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre>heshuai-<span class="constant">MacBookPro</span><span class="symbol">:~</span> heshuai<span class="variable">$ </span>adb devices
-<span class="constant">List</span> of devices attached
-<span class="number">01</span>ce8d6a1858745f	device
-</pre></td></tr></table></figure><br>检查设备是否成功连接，然后在Chrome 45在地址栏输入 <code>chrome://inspect/</code></p>
-<p><img src="http://7j1y6m.com1.z0.glb.clouddn.com/chrome-inspect.png" alt="chrome://inspect/"><br>应该能看到当前连接的设备，找到要调试页面，点击inspect即可</p>
-<p><em>注：无需安装Chrome（Android 版）</em></p>
-<hr>
-<p><strong>Safari</strong>下显示开发者调试工具方法:<br>Preferences - Advanced - Show Develop menu in menu bar</p>
-<p><strong>Firefox</strong>本身包含开发者工具，当然Firebug插件大家更常用。</p>
-<p><strong>Chrome</strong>下默认的Inspect Element(以下测试均在Chrome Version 36.0.1985.125下)</p>
-<h2 id="Console">Console</h2>
-<p>使用alert调试在迭代输出时很不方便，这时利用log可以很直观的观察运行状态。</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre>&gt; console.<span class="keyword">log</span>(<span class="string">'hello world'</span>);
-  hello world
-&gt; console.<span class="keyword">warn</span>(<span class="string">'warning info'</span>);
-&gt; console.<span class="keyword">warn</span>(<span class="string">'error message'</span>)
-</pre></td></tr></table></figure><br>平时在Sources标签下对JS方法设置断点Debug时，可以查看作用域内的变量，也可以利用在Console中直接输入变量名查看。</p>
-
-        
-          <p class="article-more-link">
-            <a href="/2014/07/26/常用浏览器下调试/">全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/07/26/常用浏览器下调试/" data-id="t2epbk9hed9idpqr" data-title="常用浏览器下调试" class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-HTTP常见乱码问题" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/06/27/HTTP常见乱码问题/" class="article-date">
-  <time datetime="2014-06-27T07:42:03.000Z" itemprop="datePublished">2014年6月27日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/编程/">编程</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/06/27/HTTP常见乱码问题/">HTTP常见乱码问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。</p>
-<p>比如使用Spring MVC时需要配置org.springframework.http.converter.StringHttpMessageConverter的defaultCharset；<br>还有使用HttpClient时注意响应中ByteArray反序列化时也要指明charsetName，否则读取JVM参数file.encoding。</p>
-<p>总结下就是一般输入输出流尽量指明编码，防止出现环境不一样导致乱码问题。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="iaredeiz7iro1cv7" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-龙泉驾校约车脚本" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/06/18/龙泉驾校约车脚本/" class="article-date">
@@ -314,7 +199,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="m7jzm5zhsep85uhi" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="khjfeuxu2noikhf9" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
 
@@ -360,7 +245,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/15/世界杯直播/" data-id="qryx1n01rtwmyf9d" data-title="世界杯直播" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/15/世界杯直播/" data-id="zz8sv2xxp5jmb5l2" data-title="世界杯直播" class="article-share-link">分享</a>
       
     </footer>
   </div>
@@ -404,7 +289,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/13/翻墙/" data-id="xl9mi16s7y46651x" data-title="翻墙" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/13/翻墙/" data-id="1fur49fm9c5gycui" data-title="翻墙" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Google/">Google</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/">VPN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hosts/">hosts</a></li></ul>
 
@@ -464,7 +349,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="hu8nc4474lx09bhk" data-title="Git日常操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="nkdyg8xc6tg19wnc" data-title="Git日常操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
 
@@ -510,9 +395,87 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/04/12/Linode退钱/" data-id="bk0296o8172sa4e1" data-title="Linode退钱" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/04/12/Linode退钱/" data-id="3hklptqtq619877z" data-title="Linode退钱" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linode/">Linode</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-集合类源码理解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/03/20/集合类源码理解/" class="article-date">
+  <time datetime="2014-03-20T10:16:38.000Z" itemprop="datePublished">2014年3月20日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/编程/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/20/集合类源码理解/">集合类源码理解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。</p>
+<h3 id="Map">Map</h3>
+<h6 id="HashMap">HashMap</h6>
+<p>首先要说得HashMap就是数组和链表得结合体，先看源码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="comment">/**
+ * 默认初始化容量，必须是2的N次方
+ */</span>
+<span class="keyword">static</span> <span class="keyword">final</span> int DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span>
+<span class="keyword">static</span> <span class="keyword">final</span> Entry<span class="preprocessor">&lt;?</span>,<span class="preprocessor">?&gt;</span>[] EMPTY_TABLE = {};
+transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
+<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; {</span>
+    <span class="keyword">final</span> K key;
+    V value;
+    Entry&lt;K,V&gt; next;
+    int hash;
+    ......
+}
+</pre></td></tr></table></figure>
+
+<p>底层就是Entry数组，每个Entry持有next引用，构成链表。<br>
+        
+          <p class="article-more-link">
+            <a href="/2014/03/20/集合类源码理解/">全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liubaing.com/2014/03/20/集合类源码理解/" data-id="rv88t24vbtx5vdbx" data-title="集合类源码理解" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
     </footer>
   </div>
@@ -629,7 +592,7 @@ gg 跳到首行
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="yt89zb5xrnhshg6u" data-title="Vim基本操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="rkb5363c5wn8pqhx" data-title="Vim基本操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
 
@@ -675,7 +638,7 @@ gg 跳到首行
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/02/08/hello-world/" data-id="a4eyzw48qo2xqqsk" data-title="Hello World" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/02/08/hello-world/" data-id="8zt8cg1rilebimm5" data-title="Hello World" class="article-share-link">分享</a>
       
     </footer>
   </div>
