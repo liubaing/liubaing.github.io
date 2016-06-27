@@ -3,50 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tomcat优化 | 六八ing的博客</title>
+  <title>利用OpenResty解决IP反作弊 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="这几天晚高峰报警比较多，先排查JVM
-1
-2
-# jstat -gcutil $PID &gt; jstat.txt
-# jstack $PID &gt; jstack.txt
-
-
-GC没发现什么问题，Thread Dump 也没看出什么，再排查网络
-1
-2
-# netstat -nat | awk '{print $6}' | sort | uniq -c | sort -n
-# ss -an">
+  <meta name="description" content="广告投放项目中Nginx起初有通过ngx_http_limit_req_module和ngx_stream_limit_conn_module配置来限制单个IP在同一时间段的访问和并发次数来防止CC攻击，但在解决一些作弊流量上有些力不从心了。
+比如有些IP的在没有展示或者展示时间过短的的情况下，模拟客户端(点击触摸参数宏替换)请求广告点击链接，之前这些非法流量是在离线处理才会过滤掉，没有及时的禁止">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Tomcat优化">
-<meta property="og:url" content="http://liubaing.com/2015/09/09/Tomcat优化/">
+<meta property="og:title" content="利用OpenResty解决IP反作弊">
+<meta property="og:url" content="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="这几天晚高峰报警比较多，先排查JVM
-1
-2
-# jstat -gcutil $PID &gt; jstat.txt
-# jstack $PID &gt; jstack.txt
-
-
-GC没发现什么问题，Thread Dump 也没看出什么，再排查网络
-1
-2
-# netstat -nat | awk '{print $6}' | sort | uniq -c | sort -n
-# ss -an">
+<meta property="og:description" content="广告投放项目中Nginx起初有通过ngx_http_limit_req_module和ngx_stream_limit_conn_module配置来限制单个IP在同一时间段的访问和并发次数来防止CC攻击，但在解决一些作弊流量上有些力不从心了。
+比如有些IP的在没有展示或者展示时间过短的的情况下，模拟客户端(点击触摸参数宏替换)请求广告点击链接，之前这些非法流量是在离线处理才会过滤掉，没有及时的禁止">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tomcat优化">
-<meta name="twitter:description" content="这几天晚高峰报警比较多，先排查JVM
-1
-2
-# jstat -gcutil $PID &gt; jstat.txt
-# jstack $PID &gt; jstack.txt
-
-
-GC没发现什么问题，Thread Dump 也没看出什么，再排查网络
-1
-2
-# netstat -nat | awk '{print $6}' | sort | uniq -c | sort -n
-# ss -an">
+<meta name="twitter:title" content="利用OpenResty解决IP反作弊">
+<meta name="twitter:description" content="广告投放项目中Nginx起初有通过ngx_http_limit_req_module和ngx_stream_limit_conn_module配置来限制单个IP在同一时间段的访问和并发次数来防止CC攻击，但在解决一些作弊流量上有些力不从心了。
+比如有些IP的在没有展示或者展示时间过短的的情况下，模拟客户端(点击触摸参数宏替换)请求广告点击链接，之前这些非法流量是在离线处理才会过滤掉，没有及时的禁止">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -113,10 +83,10 @@ var _hmt = _hmt || [];
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-Tomcat优化" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-利用OpenResty解决IP反作弊" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/09/09/Tomcat优化/" class="article-date">
-  <time datetime="2015-09-09T10:06:36.000Z" itemprop="datePublished">2015年9月9日</time>
+    <a href="/2016/06/25/利用OpenResty解决IP反作弊/" class="article-date">
+  <time datetime="2016-06-25T08:19:29.000Z" itemprop="datePublished">2016年6月25日</time>
 </a>
     
   <div class="article-category">
@@ -131,7 +101,7 @@ var _hmt = _hmt || [];
         
   
     <h1 class="article-title" itemprop="name">
-      Tomcat优化
+      利用OpenResty解决IP反作弊
     </h1>
   
 
@@ -139,64 +109,31 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>这几天晚高峰报警比较多，先排查JVM</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID &gt; jstat.txt</span>
-<span class="preprocessor"># jstack $PID &gt; jstack.txt</span>
-</pre></td></tr></table></figure>
+        <p>广告投放项目中Nginx起初有通过<code>ngx_http_limit_req_module</code>和<code>ngx_stream_limit_conn_module</code>配置来限制单个IP在同一时间段的访问和并发次数来防止CC攻击，但在解决一些作弊流量上有些力不从心了。</p>
+<p>比如有些IP的在没有展示或者展示时间过短的的情况下，模拟客户端(点击触摸参数宏替换)请求广告点击链接，之前这些非法流量是在离线处理才会过滤掉，没有及时的禁止访问，直接导致这些流量可能会被上游DSP反作弊命中影响收入，所以最近着手处理这个问题。</p>
+<p>目前的解决思路是，首先收集到异常IP列表入Redis并设置过期时间，在Nginx上利用Lua判断当前IP是否在黑名单中，从而达到反作弊功能。</p>
+<a id="more"></a>
 
-<p>GC没发现什么问题，Thread Dump 也没看出什么，再排查网络</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre><span class="preprocessor"># netstat -nat | awk '{print $6}' | sort | uniq -c | sort -n</span>
-<span class="preprocessor"># ss -an | grep :8080 | wc -l</span>
-</pre></td></tr></table></figure>
-
-<p>结合nginx和Tomcat的日志，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。</p>
-<h3 id="JVM参数">JVM参数</h3>
-<p>在脚本中头部增加一行参数</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
-JAVA_OPTS=<span class="string">"-server -Xms2048m -Xmx2048m -XX:PermSize=64m -XX:MaxPermSize=128m"</span>
-</pre></td></tr></table></figure>
-
-<h3 id="Connector协议由BIO调整为Apr">Connector协议由BIO调整为Apr</h3>
-<h5 id="安装Apr">安装Apr</h5>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="preprocessor"># yum -y install apr apr-devel</span>
-</pre></td></tr></table></figure>
-
-<h5 id="安装Native">安装Native</h5>
+<p>确定思路后，在测试环境搭建环境，Google下找到几个方案，对比之后感觉 <a href="http://openresty.org" target="_blank" rel="external">OpenResty</a> 可以满足，里面包含了需要的<code>Nginx</code> <code>Lua</code> <code>Redis</code>模块，且文档比较详细。</p>
+<p>具体的安装方法，在 <a href="http://openresty.org" target="_blank" rel="external">OpenResty</a> 有详细的说明，下面简单列出来。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
 4
 5
-</pre></td><td class="code"><pre><span class="preprocessor"># cd /usr/local/tomcat/bin/</span>
-<span class="preprocessor"># tar xvf tomcat-native.tar.gz</span>
-<span class="preprocessor"># cd tomcat-native-1.1.33-src/jni/native/</span>
-<span class="preprocessor"># ./configure --with-apr=/usr/bin/apr-1-config</span>
-<span class="preprocessor"># make && make install</span>
+6
+7
+</pre></td><td class="code"><pre><span class="char">$ </span>yum install readline-devel pcre-devel openssl-devel gcc
+<span class="char">$ </span>wget <span class="method">https:</span>//openresty.org/download/openresty-<span class="number">1.9</span><span class="number">.15</span><span class="number">.1</span>.tar.gz
+<span class="char">$ </span>tar xvf openresty-<span class="number">1.9</span><span class="number">.15</span><span class="number">.1</span>.tar.gz
+<span class="char">$ </span>cd openresty-<span class="number">1.9</span><span class="number">.15</span><span class="number">.1</span>
+<span class="char">$ </span>./configure
+<span class="char">$ </span>make
+<span class="char">$ </span>make install
 </pre></td></tr></table></figure>
 
-<p>安装完成之后 会出现如下提示信息</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre>Libraries have been installed <span class="keyword">in</span>:
-    <span class="regexp">/usr/</span>local/apr/lib
-</pre></td></tr></table></figure>
-
-<h5 id="设置Tomcat环境变量">设置Tomcat环境变量</h5>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
-CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</span>
-</pre></td></tr></table></figure>
-
-<h5 id="配置Connector">配置Connector</h5>
-<p>同时也参考 <a href="https://tomcat.apache.org/tomcat-8.0-doc/config" target="_blank" rel="external">Tomcat 8 Configuration Reference</a> 修改了线程数和Logs格式，便于统计平均响应时长。</p>
+<p>安装之后，会在 <code>/usr/local/openresty</code> 下面生成相关的文件，下面会有一个 <code>/usr/local/openresty/nginx/sbin/nginx</code>，我们可以使用这个来做代理。</p>
+<p>修改<code>nginx.conf</code>来让Lua大施拳脚。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -206,25 +143,74 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
 7
 8
 9
-</pre></td><td class="code"><pre><span class="xml"># vim /usr/local/tomcat/conf/server.xml
-<span class="tag">&lt;<span class="title">Connector</span> <span class="attribute">port</span>=<span class="value">"8080"</span> <span class="attribute">protocol</span>=<span class="value">"org.apache.coyote.http11.Http11AprProtocol"</span>
-           &lt;!<span class="attribute">--</span> 最大线程数，<span class="attribute">Apr</span>的默认连接数 <span class="attribute">--</span>&gt;</span>
-           maxThreads="1024"
-           <span class="comment">&lt;!-- 队列大小 --&gt;</span>
-           acceptCount="1024"
-           <span class="comment">&lt;!-- 单位毫秒，请求连接超时，keepAliveTimeout参数未设置按此参数 --&gt;</span>
-           connectionTimeout="1000"
-           redirectPort="8443" /&gt;</span>
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre><span class="keyword">server</span> {
+    listen      <span class="number">80</span>;
+    server_name xxx;
+
+    location /lua {
+            default_type <span class="string">'text/plain'</span>;
+            content_by_lua <span class="string">'ngx.say("hello, lua")'</span>;
+    }
+    location / {
+            proxy_pass http:<span class="comment">//127.0.0.1:8080;</span>
+            access_log off;
+            access_by_lua_file /opt/script/lua/block_ip.lua;
+    }
+}
 </pre></td></tr></table></figure>
 
-<p>调整过程中也建议使用ab简单压测下，及时观察调整效果。</p>
+<p>启动<code>Nginx</code>，访问//xxx/lua，响应中出现<code>hello, lua</code>说明配置生效，接下来把脚本放到指定目录就应该可以来。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="code"><pre><span class="built_in">local</span> redis = <span class="built_in">require</span> <span class="string">"resty.redis"</span>
+<span class="built_in">local</span> cache = redis.<span class="built_in">new</span>()
+<span class="built_in">local</span> ok , err = cache.connect(cache,<span class="string">"127.0.0.1"</span>,<span class="string">"6381"</span>)
+cache:set_timeout(<span class="number">600</span>)
+
+<span class="keyword">if</span> <span class="operator">not</span> ok <span class="keyword">then</span>
+  goto Lastend
+<span class="function"><span class="keyword">end</span></span>
+
+is_forbidden, err = cache:<span class="built_in">get</span>(<span class="string">"engine:block:ip:"</span>..ngx.var.remote_addr)
+
+<span class="keyword">if</span> is_forbidden == <span class="string">'1'</span> <span class="keyword">then</span>
+  ngx.exit(ngx.HTTP_FORBIDDEN)
+  goto Lastend
+<span class="function"><span class="keyword">end</span></span>
+
+::Lastend::
+<span class="built_in">local</span> ok, err = cache:<span class="built_in">close</span>()
+</pre></td></tr></table></figure>
+
+<p>异常IP收集入Redis后，访问返回403，IP的key过期后恢复访问，简单的反作弊算是基本完成了，下一步了继续优化。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="x3het4vv5hrspucx" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="iknj9mjtni01kuzv" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lua/">Lua</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li></ul>
 
     </footer>
   </div>
@@ -232,19 +218,10 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
     
 <nav id="article-nav">
   
-    <a href="/2016/01/22/多线程顺序输出字符/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">上一篇</strong>
-      <div class="article-nav-title">
-        
-          多线程顺序输出字符
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/07/27/排查Java进程CPU占有率高/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/05/19/初次接触Go编程踩到的坑/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">排查Java进程CPU占有率高</div>
+      <div class="article-nav-title">初次接触Go编程踩到的坑</div>
     </a>
   
 </nav>
@@ -255,7 +232,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
 
 
 <section id="comment">
-  <div class="ds-thread" data-title="Tomcat优化" data-thread-key="2015/09/09/Tomcat优化/">
+  <div class="ds-thread" data-title="利用OpenResty解决IP反作弊" data-thread-key="2016/06/25/利用OpenResty解决IP反作弊/">
   </div>
 </section>
 

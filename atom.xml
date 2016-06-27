@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2016-06-03T07:11:03.084Z</updated>
+  <updated>2016-06-27T09:13:35.701Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -13,6 +13,123 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[利用OpenResty解决IP反作弊]]></title>
+    <link href="http://liubaing.com/2016/06/25/%E5%88%A9%E7%94%A8OpenResty%E8%A7%A3%E5%86%B3IP%E5%8F%8D%E4%BD%9C%E5%BC%8A/"/>
+    <id>http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/</id>
+    <published>2016-06-25T08:19:29.000Z</published>
+    <updated>2016-06-27T09:12:28.000Z</updated>
+    <content type="html"><![CDATA[<p>广告投放项目中Nginx起初有通过<code>ngx_http_limit_req_module</code>和<code>ngx_stream_limit_conn_module</code>配置来限制单个IP在同一时间段的访问和并发次数来防止CC攻击，但在解决一些作弊流量上有些力不从心了。</p>
+<p>比如有些IP的在没有展示或者展示时间过短的的情况下，模拟客户端(点击触摸参数宏替换)请求广告点击链接，之前这些非法流量是在离线处理才会过滤掉，没有及时的禁止访问，直接导致这些流量可能会被上游DSP反作弊命中影响收入，所以最近着手处理这个问题。</p>
+<p>目前的解决思路是，首先收集到异常IP列表入Redis并设置过期时间，在Nginx上利用Lua判断当前IP是否在黑名单中，从而达到反作弊功能。</p>
+<a id="more"></a>
+
+<p>确定思路后，在测试环境搭建环境，Google下找到几个方案，对比之后感觉 <a href="http://openresty.org" target="_blank" rel="external">OpenResty</a> 可以满足，里面包含了需要的<code>Nginx</code> <code>Lua</code> <code>Redis</code>模块，且文档比较详细。</p>
+<p>具体的安装方法，在 <a href="http://openresty.org" target="_blank" rel="external">OpenResty</a> 有详细的说明，下面简单列出来。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="char">$ </span>yum install readline-devel pcre-devel openssl-devel gcc
+<span class="char">$ </span>wget <span class="method">https:</span>//openresty.org/download/openresty-<span class="number">1.9</span><span class="number">.15</span><span class="number">.1</span>.tar.gz
+<span class="char">$ </span>tar xvf openresty-<span class="number">1.9</span><span class="number">.15</span><span class="number">.1</span>.tar.gz
+<span class="char">$ </span>cd openresty-<span class="number">1.9</span><span class="number">.15</span><span class="number">.1</span>
+<span class="char">$ </span>./configure
+<span class="char">$ </span>make
+<span class="char">$ </span>make install
+</pre></td></tr></table></figure>
+
+<p>安装之后，会在 <code>/usr/local/openresty</code> 下面生成相关的文件，下面会有一个 <code>/usr/local/openresty/nginx/sbin/nginx</code>，我们可以使用这个来做代理。</p>
+<p>修改<code>nginx.conf</code>来让Lua大施拳脚。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre><span class="keyword">server</span> {
+    listen      <span class="number">80</span>;
+    server_name xxx;
+
+    location /lua {
+            default_type <span class="string">'text/plain'</span>;
+            content_by_lua <span class="string">'ngx.say("hello, lua")'</span>;
+    }
+    location / {
+            proxy_pass http:<span class="comment">//127.0.0.1:8080;</span>
+            access_log off;
+            access_by_lua_file /opt/script/lua/block_ip.lua;
+    }
+}
+</pre></td></tr></table></figure>
+
+<p>启动<code>Nginx</code>，访问//xxx/lua，响应中出现<code>hello, lua</code>说明配置生效，接下来把脚本放到指定目录就应该可以来。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="code"><pre><span class="built_in">local</span> redis = <span class="built_in">require</span> <span class="string">"resty.redis"</span>
+<span class="built_in">local</span> cache = redis.<span class="built_in">new</span>()
+<span class="built_in">local</span> ok , err = cache.connect(cache,<span class="string">"127.0.0.1"</span>,<span class="string">"6381"</span>)
+cache:set_timeout(<span class="number">600</span>)
+
+<span class="keyword">if</span> <span class="operator">not</span> ok <span class="keyword">then</span>
+  goto Lastend
+<span class="function"><span class="keyword">end</span></span>
+
+is_forbidden, err = cache:<span class="built_in">get</span>(<span class="string">"engine:block:ip:"</span>..ngx.var.remote_addr)
+
+<span class="keyword">if</span> is_forbidden == <span class="string">'1'</span> <span class="keyword">then</span>
+  ngx.exit(ngx.HTTP_FORBIDDEN)
+  goto Lastend
+<span class="function"><span class="keyword">end</span></span>
+
+::Lastend::
+<span class="built_in">local</span> ok, err = cache:<span class="built_in">close</span>()
+</pre></td></tr></table></figure>
+
+<p>异常IP收集入Redis后，访问返回403，IP的key过期后恢复访问，简单的反作弊算是基本完成了，下一步了继续优化。</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>广告投放项目中Nginx起初有通过<code>ngx_http_limit_req_module</code>和<code>ngx_stream_limit_conn_module</code>配置来限制单个IP在同一时间段的访问和并发次数来防止CC攻击，但在解决一些作弊流量上有些力不从心了。</p>
+<p>比如有些IP的在没有展示或者展示时间过短的的情况下，模拟客户端(点击触摸参数宏替换)请求广告点击链接，之前这些非法流量是在离线处理才会过滤掉，没有及时的禁止访问，直接导致这些流量可能会被上游DSP反作弊命中影响收入，所以最近着手处理这个问题。</p>
+<p>目前的解决思路是，首先收集到异常IP列表入Redis并设置过期时间，在Nginx上利用Lua判断当前IP是否在黑名单中，从而达到反作弊功能。</p>
+]]></summary>
+    
+      <category term="Nginx" scheme="http://liubaing.com/tags/Nginx/"/>
+    
+      <category term="Lua" scheme="http://liubaing.com/tags/Lua/"/>
+    
+      <category term="Redis" scheme="http://liubaing.com/tags/Redis/"/>
+    
+      <category term="编程" scheme="http://liubaing.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[初次接触Go编程踩到的坑]]></title>
