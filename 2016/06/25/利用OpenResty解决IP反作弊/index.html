@@ -204,7 +204,7 @@ is_forbidden, err = cache:<span class="built_in">get</span>(<span class="string"
 <p>异常IP收集入Redis后，访问返回403，IP的key过期后恢复访问，简单的反作弊算是基本完成了，下一步了继续优化。</p>
 <hr>
 <p>[2016-07-04]更新：</p>
-<p>考虑到Redis单点压力，决定利用Nginx共享来做多级缓存，<code>Lua</code>脚本调整后如下：</p>
+<p>考虑到<code>Redis</code>单点压力，决定利用<code>Nginx</code>共享来做多级缓存，<code>Lua</code>脚本调整后如下：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -265,7 +265,7 @@ is_forbidden, err = cache:<span class="built_in">get</span>(<span class="string"
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="prv131pzuqbupq5w" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="7b3a0b6i75cyb7ws" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lua/">Lua</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li></ul>
 
