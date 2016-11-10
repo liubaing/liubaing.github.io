@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2016-11-08T11:56:25.446Z</updated>
+  <updated>2016-11-10T08:21:53.017Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -2271,7 +2271,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
     <link href="http://liubaing.com/2014/03/03/Vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
     <id>http://liubaing.com/2014/03/03/Vim基本操作/</id>
     <published>2014-03-03T03:16:05.000Z</published>
-    <updated>2016-01-19T03:11:31.000Z</updated>
+    <updated>2016-11-10T08:19:40.000Z</updated>
     <content type="html"><![CDATA[<p>废话不多说，直入主题吧。</p>
 <h4 id="1、平时常用操作">1、平时常用操作</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -2280,12 +2280,16 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
 4
 5
 6
+7
+8
 </pre></td><td class="code"><pre>vim 启动vim
 i 进入插入模式
 &lt;<span class="constant">Esc</span>&gt; 进入命令行模式
 v 进入可视化模式
 <span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
 <span class="symbol">:q</span> 退出vim
+<span class="symbol">:q!</span> 强制退出
+<span class="symbol">:w</span> !sudo tee % 权限不足时，强制保存
 </pre></td></tr></table></figure>
 
 <h4 id="2、删除">2、删除</h4>
