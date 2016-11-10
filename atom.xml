@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2016-11-10T08:21:53.017Z</updated>
+  <updated>2016-11-10T08:36:38.334Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -1520,7 +1520,7 @@ passwd = <span class="string">""</span>
     <link href="http://liubaing.com/2014/06/15/%E4%B8%96%E7%95%8C%E6%9D%AF%E7%9B%B4%E6%92%AD/"/>
     <id>http://liubaing.com/2014/06/15/世界杯直播/</id>
     <published>2014-06-15T03:10:39.000Z</published>
-    <updated>2014-07-03T03:20:07.000Z</updated>
+    <updated>2016-11-10T08:36:22.000Z</updated>
     <content type="html"><![CDATA[<p>感谢世界杯给我们带来如此精彩的比赛，感谢CCTV节目组和解说嘉宾，更要感谢我们身边那个支持我们熬夜看球的人，但不用谢我，我只是搬运工。<br><a id="more"></a></p>
 <iframe height="408" width="510" src="http://static.youku.com/v1.0.0550/v/swf/livePlayer.swf?autoplay=1&showlogo=0&channel=204" frameborder="0" allowfullscreen></iframe>
 
@@ -1528,7 +1528,7 @@ passwd = <span class="string">""</span>
 ]]></content>
     <summary type="html"><![CDATA[<p>感谢世界杯给我们带来如此精彩的比赛，感谢CCTV节目组和解说嘉宾，更要感谢我们身边那个支持我们熬夜看球的人，但不用谢我，我只是搬运工。<br>]]></summary>
     
-      <category term="生活" scheme="http://liubaing.com/categories/%E7%94%9F%E6%B4%BB/"/>
+      <category term="扯淡" scheme="http://liubaing.com/categories/%E6%89%AF%E6%B7%A1/"/>
     
   </entry>
   
@@ -1537,7 +1537,7 @@ passwd = <span class="string">""</span>
     <link href="http://liubaing.com/2014/06/13/%E7%BF%BB%E5%A2%99/"/>
     <id>http://liubaing.com/2014/06/13/翻墙/</id>
     <published>2014-06-13T08:38:14.000Z</published>
-    <updated>2014-07-18T07:11:57.000Z</updated>
+    <updated>2016-11-10T08:36:22.000Z</updated>
     <content type="html"><![CDATA[<p>最近Google访问不了，各种403和连接被重置。<br><a id="more"></a><br>这给平时工作带来很大的不便，至于原因大家心知肚明。</p>
 <p>之前由于改过hosts，遇到Google被墙对自己影响不大，但这次彻底歇菜了。</p>
 <p>选择VPN还得取决所在网络环境，L2TP方式经常连接不上，所以暂时先Pass。看微博上有推荐用SSH代理，去淘宝上搜了一家，10块一月，感觉价格可以接受，还是香港主机，下单吧。</p>
@@ -1553,11 +1553,7 @@ passwd = <span class="string">""</span>
 ]]></content>
     <summary type="html"><![CDATA[<p>最近Google访问不了，各种403和连接被重置。<br>]]></summary>
     
-      <category term="hosts" scheme="http://liubaing.com/tags/hosts/"/>
-    
       <category term="VPN" scheme="http://liubaing.com/tags/VPN/"/>
-    
-      <category term="Google" scheme="http://liubaing.com/tags/Google/"/>
     
       <category term="工具" scheme="http://liubaing.com/categories/%E5%B7%A5%E5%85%B7/"/>
     
@@ -1667,14 +1663,12 @@ $ git reset –soft &lt;commit-id&gt;  回退到某个commit-id，只是commit�
     <link href="http://liubaing.com/2014/04/12/Linode%E9%80%80%E9%92%B1/"/>
     <id>http://liubaing.com/2014/04/12/Linode退钱/</id>
     <published>2014-04-12T08:13:17.000Z</published>
-    <updated>2015-07-27T08:39:12.000Z</updated>
+    <updated>2016-11-10T08:36:22.000Z</updated>
     <content type="html"><![CDATA[<p>之前用过一段时间Linode，不过由于种种原因（其实就是懒）不想继续维护了，Remove掉主机后，它会自动结算剩余金额。也不想让钱那么寂寞的呆在账户里，琢磨怎么退还到信用卡里。<br><a id="more"></a></p>
 <p>方法是登录Linode后给Linode客服发ticket申请退款。我直接写了一句 I don’t have time to maintain it and kindly need money，提交，等着收钱。然后客服回复后，退款自生成之日起，要3到5天才能到你的信用卡账户。</p>
 <p>退款后，如果你觉得这个账户没有继续存在的必要，那么可以在account选项卡页面的最底部，找到“Cancel this Account”链接，点击即可。</p>
 ]]></content>
     <summary type="html"><![CDATA[<p>之前用过一段时间Linode，不过由于种种原因（其实就是懒）不想继续维护了，Remove掉主机后，它会自动结算剩余金额。也不想让钱那么寂寞的呆在账户里，琢磨怎么退还到信用卡里。<br>]]></summary>
-    
-      <category term="Linode" scheme="http://liubaing.com/tags/Linode/"/>
     
       <category term="扯淡" scheme="http://liubaing.com/categories/%E6%89%AF%E6%B7%A1/"/>
     
