@@ -146,7 +146,7 @@ ln -s nexus-<span class="number">2.14</span><span class="number">.1</span>-<span
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/11/08/Nexus私服搭建/" data-id="fd6ctitpweduaukv" data-title="Nexus私服搭建" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/11/08/Nexus私服搭建/" data-id="1k3asmogl236gyjp" data-title="Nexus私服搭建" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Maven/">Maven</a></li></ul>
 
@@ -195,7 +195,7 @@ ln -s nexus-<span class="number">2.14</span><span class="number">.1</span>-<span
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="lycumci22gbmyptr" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="ddcoqj0q20vj5t53" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lua/">Lua</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li></ul>
 
@@ -251,7 +251,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="ijp4hj95c8m3an5u" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="bzbj2ai1g95ci589" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
 
@@ -462,7 +462,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="nd5oldum378ye7bc" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="6j1tz2gupdh7mze4" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -502,27 +502,44 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
         <p>这几天晚高峰报警比较多，先排查JVM</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID &gt; jstat.txt</span>
+3
+</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID</span>
+<span class="preprocessor"># jmap -heap $PID</span>
 <span class="preprocessor"># jstack $PID &gt; jstack.txt</span>
 </pre></td></tr></table></figure>
 
 <p>GC没发现什么问题，Thread Dump 也没看出什么，再排查网络</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre><span class="preprocessor"># netstat -nat | awk '{print $6}' | sort | uniq -c | sort -n</span>
+</pre></td><td class="code"><pre><span class="preprocessor"># netstat -natl | awk '{print $6}' | sort | uniq -c | sort -n</span>
 <span class="preprocessor"># ss -an | grep :8080 | wc -l</span>
 </pre></td></tr></table></figure>
 
-<p>结合nginx和Tomcat的日志，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。</p>
+<p>发现TIME_WAIT状态的连接比较多，接近配置的连接数上限了。再结合Nginx和Tomcat的日志，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。</p>
 <h3 id="JVM参数">JVM参数</h3>
 <p>在脚本中头部增加一行参数</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
-JAVA_OPTS=<span class="string">"-server -Xmx2g -Xms2g -Xmn5m -XX:PermSize=128m -Xss256k -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
+JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
 </pre></td></tr></table></figure>
 
-<h3 id="Connector协议由BIO调整为Apr">Connector协议由BIO调整为Apr</h3>
+<h3 id="Nginx配置keep-alive">Nginx配置keep-alive</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>location / {
+    proxy_pass tomcat-upstream;
+    proxy_http_version <span class="number">1.1</span>;
+    proxy_set_header Connection <span class="string">""</span>;
+    <span class="keyword">...</span>
+}
+</pre></td></tr></table></figure>
+
+<h3 id="Connector协议由BIO调整为Apr或者NIO2">Connector协议由BIO调整为Apr或者NIO2</h3>
 <h5 id="安装Apr">安装Apr</h5>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="preprocessor"># yum -y install apr apr-devel</span>
@@ -566,6 +583,10 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
 7
 8
 9
+10
+11
+12
+13
 </pre></td><td class="code"><pre><span class="xml"># vim /usr/local/tomcat/conf/server.xml
 <span class="tag">&lt;<span class="title">Connector</span> <span class="attribute">port</span>=<span class="value">"8080"</span> <span class="attribute">protocol</span>=<span class="value">"org.apache.coyote.http11.Http11AprProtocol"</span>
            &lt;!<span class="attribute">--</span> 最大线程数，<span class="attribute">Apr</span>的默认连接数 <span class="attribute">--</span>&gt;</span>
@@ -574,7 +595,11 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
            acceptCount="1024"
            <span class="comment">&lt;!-- 单位毫秒，请求连接超时，keepAliveTimeout参数未设置按此参数 --&gt;</span>
            connectionTimeout="1000"
-           redirectPort="8443" /&gt;</span>
+           redirectPort="8443" /&gt;
+
+<span class="tag">&lt;<span class="title">Valve</span> <span class="attribute">className</span>=<span class="value">"org.apache.catalina.valves.AccessLogValve"</span> <span class="attribute">directory</span>=<span class="value">"logs"</span>
+           <span class="attribute">prefix</span>=<span class="value">"localhost_access_log"</span> <span class="attribute">suffix</span>=<span class="value">".txt"</span>
+           <span class="attribute">pattern</span>=<span class="value">"%h %l %u %t &quot;%r&quot; %s %D"</span> /&gt;</span></span>
 </pre></td></tr></table></figure>
 
 <p>调整过程中也建议使用ab简单压测下，及时观察调整效果。</p>
@@ -582,9 +607,9 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="997t9ha69bh4ztyo" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="5sbji7u31v2w43ln" data-title="Tomcat优化" class="article-share-link">分享</a>
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
 
     </footer>
   </div>
@@ -645,7 +670,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="rjhfimsrlphjizl4" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="fewu6pns10w6890m" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
 
@@ -689,7 +714,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="y0te14ew5zkp2xgf" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="5kcvwn7xvj0wkrnv" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -735,7 +760,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="7qrjfaydkeazzfp4" data-title="Web下文件下载" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="sr9qblzpakbga38e" data-title="Web下文件下载" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
 
@@ -835,7 +860,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="pwkavpgjk8ginwq3" data-title="Java中的单例模式" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="aer02qxf8xdrooyt" data-title="Java中的单例模式" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -933,7 +958,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="fw2wjgatr7wtvepz" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="rqy4q3vdbeoh9yc6" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -957,7 +982,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Go/" style="font-size: 10.00px;">Go</a><a href="/tags/HTTP/" style="font-size: 15.00px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linux/" style="font-size: 10.00px;">Linux</a><a href="/tags/Lua/" style="font-size: 10.00px;">Lua</a><a href="/tags/Maven/" style="font-size: 10.00px;">Maven</a><a href="/tags/Nginx/" style="font-size: 10.00px;">Nginx</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/Redis/" style="font-size: 10.00px;">Redis</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a>
+      <a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Go/" style="font-size: 10.00px;">Go</a><a href="/tags/HTTP/" style="font-size: 15.00px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linux/" style="font-size: 10.00px;">Linux</a><a href="/tags/Lua/" style="font-size: 10.00px;">Lua</a><a href="/tags/Maven/" style="font-size: 10.00px;">Maven</a><a href="/tags/Nginx/" style="font-size: 10.00px;">Nginx</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/Redis/" style="font-size: 10.00px;">Redis</a><a href="/tags/Tomcat/" style="font-size: 10.00px;">Tomcat</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a>
     </div>
   </div>
 

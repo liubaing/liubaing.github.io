@@ -8,15 +8,17 @@
   <meta name="description" content="这几天晚高峰报警比较多，先排查JVM
 1
 2
-# jstat -gcutil $PID &gt; jstat.txt
+3
+# jstat -gcutil $PID
+# jmap -heap $PID
 # jstack $PID &gt; jstack.txt
 
 
 GC没发现什么问题，Thread Dump 也没看出什么，再排查网络
 1
 2
-# netstat -nat | awk '{print $6}' | sort | uniq -c | sort -n
-# ss -an">
+# netstat -natl | awk '{print $6}' | sort | uniq -c | sort -n
+# s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Tomcat优化">
 <meta property="og:url" content="http://liubaing.com/2015/09/09/Tomcat优化/">
@@ -24,29 +26,33 @@ GC没发现什么问题，Thread Dump 也没看出什么，再排查网络
 <meta property="og:description" content="这几天晚高峰报警比较多，先排查JVM
 1
 2
-# jstat -gcutil $PID &gt; jstat.txt
+3
+# jstat -gcutil $PID
+# jmap -heap $PID
 # jstack $PID &gt; jstack.txt
 
 
 GC没发现什么问题，Thread Dump 也没看出什么，再排查网络
 1
 2
-# netstat -nat | awk '{print $6}' | sort | uniq -c | sort -n
-# ss -an">
+# netstat -natl | awk '{print $6}' | sort | uniq -c | sort -n
+# s">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tomcat优化">
 <meta name="twitter:description" content="这几天晚高峰报警比较多，先排查JVM
 1
 2
-# jstat -gcutil $PID &gt; jstat.txt
+3
+# jstat -gcutil $PID
+# jmap -heap $PID
 # jstack $PID &gt; jstack.txt
 
 
 GC没发现什么问题，Thread Dump 也没看出什么，再排查网络
 1
 2
-# netstat -nat | awk '{print $6}' | sort | uniq -c | sort -n
-# ss -an">
+# netstat -natl | awk '{print $6}' | sort | uniq -c | sort -n
+# s">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -142,27 +148,44 @@ var _hmt = _hmt || [];
         <p>这几天晚高峰报警比较多，先排查JVM</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID &gt; jstat.txt</span>
+3
+</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID</span>
+<span class="preprocessor"># jmap -heap $PID</span>
 <span class="preprocessor"># jstack $PID &gt; jstack.txt</span>
 </pre></td></tr></table></figure>
 
 <p>GC没发现什么问题，Thread Dump 也没看出什么，再排查网络</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre><span class="preprocessor"># netstat -nat | awk '{print $6}' | sort | uniq -c | sort -n</span>
+</pre></td><td class="code"><pre><span class="preprocessor"># netstat -natl | awk '{print $6}' | sort | uniq -c | sort -n</span>
 <span class="preprocessor"># ss -an | grep :8080 | wc -l</span>
 </pre></td></tr></table></figure>
 
-<p>结合nginx和Tomcat的日志，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。</p>
+<p>发现TIME_WAIT状态的连接比较多，接近配置的连接数上限了。再结合Nginx和Tomcat的日志，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。</p>
 <h3 id="JVM参数">JVM参数</h3>
 <p>在脚本中头部增加一行参数</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
-JAVA_OPTS=<span class="string">"-server -Xmx2g -Xms2g -Xmn5m -XX:PermSize=128m -Xss256k -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
+JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
 </pre></td></tr></table></figure>
 
-<h3 id="Connector协议由BIO调整为Apr">Connector协议由BIO调整为Apr</h3>
+<h3 id="Nginx配置keep-alive">Nginx配置keep-alive</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>location / {
+    proxy_pass tomcat-upstream;
+    proxy_http_version <span class="number">1.1</span>;
+    proxy_set_header Connection <span class="string">""</span>;
+    <span class="keyword">...</span>
+}
+</pre></td></tr></table></figure>
+
+<h3 id="Connector协议由BIO调整为Apr或者NIO2">Connector协议由BIO调整为Apr或者NIO2</h3>
 <h5 id="安装Apr">安装Apr</h5>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="preprocessor"># yum -y install apr apr-devel</span>
@@ -206,6 +229,10 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
 7
 8
 9
+10
+11
+12
+13
 </pre></td><td class="code"><pre><span class="xml"># vim /usr/local/tomcat/conf/server.xml
 <span class="tag">&lt;<span class="title">Connector</span> <span class="attribute">port</span>=<span class="value">"8080"</span> <span class="attribute">protocol</span>=<span class="value">"org.apache.coyote.http11.Http11AprProtocol"</span>
            &lt;!<span class="attribute">--</span> 最大线程数，<span class="attribute">Apr</span>的默认连接数 <span class="attribute">--</span>&gt;</span>
@@ -214,7 +241,11 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
            acceptCount="1024"
            <span class="comment">&lt;!-- 单位毫秒，请求连接超时，keepAliveTimeout参数未设置按此参数 --&gt;</span>
            connectionTimeout="1000"
-           redirectPort="8443" /&gt;</span>
+           redirectPort="8443" /&gt;
+
+<span class="tag">&lt;<span class="title">Valve</span> <span class="attribute">className</span>=<span class="value">"org.apache.catalina.valves.AccessLogValve"</span> <span class="attribute">directory</span>=<span class="value">"logs"</span>
+           <span class="attribute">prefix</span>=<span class="value">"localhost_access_log"</span> <span class="attribute">suffix</span>=<span class="value">".txt"</span>
+           <span class="attribute">pattern</span>=<span class="value">"%h %l %u %t &quot;%r&quot; %s %D"</span> /&gt;</span></span>
 </pre></td></tr></table></figure>
 
 <p>调整过程中也建议使用ab简单压测下，及时观察调整效果。</p>
@@ -222,9 +253,9 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="997t9ha69bh4ztyo" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="5sbji7u31v2w43ln" data-title="Tomcat优化" class="article-share-link">分享</a>
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
 
     </footer>
   </div>
@@ -267,7 +298,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Go/" style="font-size: 10.00px;">Go</a><a href="/tags/HTTP/" style="font-size: 15.00px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linux/" style="font-size: 10.00px;">Linux</a><a href="/tags/Lua/" style="font-size: 10.00px;">Lua</a><a href="/tags/Maven/" style="font-size: 10.00px;">Maven</a><a href="/tags/Nginx/" style="font-size: 10.00px;">Nginx</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/Redis/" style="font-size: 10.00px;">Redis</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a>
+      <a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Go/" style="font-size: 10.00px;">Go</a><a href="/tags/HTTP/" style="font-size: 15.00px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linux/" style="font-size: 10.00px;">Linux</a><a href="/tags/Lua/" style="font-size: 10.00px;">Lua</a><a href="/tags/Maven/" style="font-size: 10.00px;">Maven</a><a href="/tags/Nginx/" style="font-size: 10.00px;">Nginx</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/Redis/" style="font-size: 10.00px;">Redis</a><a href="/tags/Tomcat/" style="font-size: 10.00px;">Tomcat</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a>
     </div>
   </div>
 
