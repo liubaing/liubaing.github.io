@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2016-11-30T12:12:12.944Z</updated>
+  <updated>2016-11-30T12:17:10.386Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -605,7 +605,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
     <link href="http://liubaing.com/2015/09/09/Tomcat%E4%BC%98%E5%8C%96/"/>
     <id>http://liubaing.com/2015/09/09/Tomcat优化/</id>
     <published>2015-09-09T10:06:36.000Z</published>
-    <updated>2016-11-30T12:11:58.000Z</updated>
+    <updated>2016-11-30T12:17:02.000Z</updated>
     <content type="html"><![CDATA[<p>这几天晚高峰报警比较多，先排查JVM</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -624,7 +624,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 
 <p>发现TIME_WAIT状态的连接比较多，接近配置的连接数上限了。再结合Nginx和Tomcat的日志，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。</p>
 <h3 id="JVM参数">JVM参数</h3>
-<p>在脚本中头部增加一行参数</p>
+<p>在脚本中头部增加一行参数，这里针对JDK8版本的JVM，无需配置PermSize</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
@@ -712,6 +712,8 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
 <p>调整过程中也建议使用ab简单压测下，及时观察调整效果。</p>
 ]]></content>
     
+    
+      <category term="Nginx" scheme="http://liubaing.com/tags/Nginx/"/>
     
       <category term="Tomcat" scheme="http://liubaing.com/tags/Tomcat/"/>
     
