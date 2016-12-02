@@ -146,7 +146,7 @@ ln -s nexus-<span class="number">2.14</span><span class="number">.1</span>-<span
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/11/08/Nexus私服搭建/" data-id="la6463o09ciblqy5" data-title="Nexus私服搭建" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/11/08/Nexus私服搭建/" data-id="xu566f84wb61feu1" data-title="Nexus私服搭建" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Maven/">Maven</a></li></ul>
 
@@ -195,7 +195,7 @@ ln -s nexus-<span class="number">2.14</span><span class="number">.1</span>-<span
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="v36psfkyzh2p1mt8" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="vjsy59r7kvumhdq1" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lua/">Lua</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li></ul>
 
@@ -251,7 +251,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="7k9km4uk3qa27x4n" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="5f5jkncysntsknys" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
 
@@ -462,7 +462,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="uvlcw901yk1m0hi4" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="v6ef85h654sl68qn" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -503,27 +503,21 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
+4
 </pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID</span>
 <span class="preprocessor"># jmap -heap $PID</span>
+<span class="preprocessor"># jmap -histo $PID | more</span>
 <span class="preprocessor"># jstack $PID &gt; jstack.txt</span>
 </pre></td></tr></table></figure>
 
-<p>GC没发现什么问题，Thread Dump 也没看出什么，再排查网络</p>
+<p>GC没发现什么问题，ThreadDump也没看出什么，再排查网络</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre><span class="preprocessor"># netstat -natl | awk '{print $6}' | sort | uniq -c | sort -n</span>
 <span class="preprocessor"># ss -an | grep :8080 | wc -l</span>
 </pre></td></tr></table></figure>
 
-<p>发现TIME_WAIT状态的连接比较多，接近配置的连接数上限了。再结合Nginx和Tomcat的日志，定位问题是请求量增加导致Tomcat有点吃不消了，开始着手继续调优。</p>
-<h3 id="JVM参数">JVM参数</h3>
-<p>在脚本中头部增加一行参数，这里针对JDK8版本的JVM，无需配置PermSize</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
-JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
-</pre></td></tr></table></figure>
-
+<p>发现TIME_WAIT状态的连接比较多，接近配置的连接数上限了，怀疑没有配置keep-alive导致Tomcat主动关闭Connection。<br>再结合Nginx和Tomcat的日志，开始着手调整。</p>
 <h3 id="Nginx配置keep-alive">Nginx配置keep-alive</h3>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -537,6 +531,14 @@ JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX
     proxy_set_header Connection <span class="string">""</span>;
     <span class="keyword">...</span>
 }
+</pre></td></tr></table></figure>
+
+<h3 id="JVM参数">JVM参数</h3>
+<p>在脚本中头部增加一行参数，这里针对JDK8版本的JVM，无需配置PermSize</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
+JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
 </pre></td></tr></table></figure>
 
 <h3 id="Connector协议由BIO调整为Apr或者NIO2">Connector协议由BIO调整为Apr或者NIO2</h3>
@@ -607,7 +609,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="wv8r296vni0uor37" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="45uto2wb2lqmrs6i" data-title="Tomcat优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
 
@@ -670,7 +672,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="r303uhlqajiunf9c" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="8bmsgl5xv8mb2zgd" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
 
@@ -714,7 +716,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="h9sbrgb34sedca5j" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="rz23ayh6sr9v7qoa" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -760,7 +762,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="dn9ym086cgb5h0j1" data-title="Web下文件下载" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="uviy718o4yy1tsty" data-title="Web下文件下载" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
 
@@ -860,7 +862,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="c8y9w89ybxjrgcxo" data-title="Java中的单例模式" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="azonndv94itk24d9" data-title="Java中的单例模式" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -958,7 +960,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="8orolajk3ksis7c7" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="j0vjvskdo3vtpxij" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
