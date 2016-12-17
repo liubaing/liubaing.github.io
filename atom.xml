@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2016-12-02T06:45:01.466Z</updated>
+  <updated>2016-12-17T03:52:51.312Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -605,8 +605,9 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
     <link href="http://liubaing.com/2015/09/09/Tomcat%E4%BC%98%E5%8C%96/"/>
     <id>http://liubaing.com/2015/09/09/Tomcat优化/</id>
     <published>2015-09-09T10:06:36.000Z</published>
-    <updated>2016-12-02T06:44:52.000Z</updated>
-    <content type="html"><![CDATA[<p>这几天晚高峰报警比较多，先排查JVM</p>
+    <updated>2016-12-17T03:49:51.000Z</updated>
+    <content type="html"><![CDATA[<p>更新：建议部署APM工具<a href="https://github.com/naver/pinpoint" target="_blank" rel="external">Pinpoint</a>，比较直观分析性能。</p>
+<p>这几天晚高峰报警比较多，先排查JVM</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -617,10 +618,18 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 <span class="preprocessor"># jstack $PID &gt; jstack.txt</span>
 </pre></td></tr></table></figure>
 
-<p>ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设置有点紧张，再排查网络</p>
+<p>ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设置有点紧张，再排查负载</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre><span class="preprocessor"># netstat -natl | awk '{print $6}' | sort | uniq -c | sort -n</span>
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="preprocessor"># uptime</span>
+<span class="preprocessor"># free -g</span>
+<span class="preprocessor"># ps auxxwf</span>
+<span class="preprocessor"># top 注：按下数字1，观察每个CPU核的负载</span>
+<span class="preprocessor"># netstat -natl | awk '{print $6}' | sort | uniq -c | sort -n</span>
 <span class="preprocessor"># ss -an | grep :8080 | wc -l</span>
 </pre></td></tr></table></figure>
 
@@ -648,7 +657,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
 </pre></td></tr></table></figure>
 
-<h3 id="Connector协议由BIO调整为Apr或者NIO2">Connector协议由BIO调整为Apr或者NIO2</h3>
+<h3 id="Connector协议由BIO调整为Apr或者NIO">Connector协议由BIO调整为Apr或者NIO</h3>
 <h5 id="安装Apr">安装Apr</h5>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="preprocessor"># yum -y install apr apr-devel</span>

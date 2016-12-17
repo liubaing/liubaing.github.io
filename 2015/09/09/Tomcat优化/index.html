@@ -5,7 +5,8 @@
   
   <title>Tomcat优化 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="这几天晚高峰报警比较多，先排查JVM
+  <meta name="description" content="更新：建议部署APM工具Pinpoint，比较直观分析性能。
+这几天晚高峰报警比较多，先排查JVM
 1
 2
 3
@@ -16,15 +17,13 @@
 # jstack $PID &gt; jstack.txt
 
 
-ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设置有点紧张，再排查网络
-1
-2
-# netstat -natl | awk '{pr">
+ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设置有点紧张，再排查负载">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Tomcat优化">
 <meta property="og:url" content="http://liubaing.com/2015/09/09/Tomcat优化/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="这几天晚高峰报警比较多，先排查JVM
+<meta property="og:description" content="更新：建议部署APM工具Pinpoint，比较直观分析性能。
+这几天晚高峰报警比较多，先排查JVM
 1
 2
 3
@@ -35,13 +34,11 @@ ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设�
 # jstack $PID &gt; jstack.txt
 
 
-ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设置有点紧张，再排查网络
-1
-2
-# netstat -natl | awk '{pr">
+ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设置有点紧张，再排查负载">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Tomcat优化">
-<meta name="twitter:description" content="这几天晚高峰报警比较多，先排查JVM
+<meta name="twitter:description" content="更新：建议部署APM工具Pinpoint，比较直观分析性能。
+这几天晚高峰报警比较多，先排查JVM
 1
 2
 3
@@ -52,10 +49,7 @@ ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设�
 # jstack $PID &gt; jstack.txt
 
 
-ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设置有点紧张，再排查网络
-1
-2
-# netstat -natl | awk '{pr">
+ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设置有点紧张，再排查负载">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -148,7 +142,8 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>这几天晚高峰报警比较多，先排查JVM</p>
+        <p>更新：建议部署APM工具<a href="https://github.com/naver/pinpoint" target="_blank" rel="external">Pinpoint</a>，比较直观分析性能。</p>
+<p>这几天晚高峰报警比较多，先排查JVM</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -159,10 +154,18 @@ var _hmt = _hmt || [];
 <span class="preprocessor"># jstack $PID &gt; jstack.txt</span>
 </pre></td></tr></table></figure>
 
-<p>ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设置有点紧张，再排查网络</p>
+<p>ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设置有点紧张，再排查负载</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre><span class="preprocessor"># netstat -natl | awk '{print $6}' | sort | uniq -c | sort -n</span>
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="preprocessor"># uptime</span>
+<span class="preprocessor"># free -g</span>
+<span class="preprocessor"># ps auxxwf</span>
+<span class="preprocessor"># top 注：按下数字1，观察每个CPU核的负载</span>
+<span class="preprocessor"># netstat -natl | awk '{print $6}' | sort | uniq -c | sort -n</span>
 <span class="preprocessor"># ss -an | grep :8080 | wc -l</span>
 </pre></td></tr></table></figure>
 
@@ -190,7 +193,7 @@ var _hmt = _hmt || [];
 JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
 </pre></td></tr></table></figure>
 
-<h3 id="Connector协议由BIO调整为Apr或者NIO2">Connector协议由BIO调整为Apr或者NIO2</h3>
+<h3 id="Connector协议由BIO调整为Apr或者NIO">Connector协议由BIO调整为Apr或者NIO</h3>
 <h5 id="安装Apr">安装Apr</h5>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="preprocessor"># yum -y install apr apr-devel</span>
@@ -258,7 +261,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="p8s7baqzbaqclo0e" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="dlnfwc9erhd0ltkb" data-title="Tomcat优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
 
