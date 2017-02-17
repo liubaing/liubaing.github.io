@@ -193,39 +193,7 @@ var _hmt = _hmt || [];
 JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
 </pre></td></tr></table></figure>
 
-<h3 id="Connector协议由BIO调整为Apr或者NIO">Connector协议由BIO调整为Apr或者NIO</h3>
-<h5 id="安装Apr">安装Apr</h5>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="preprocessor"># yum -y install apr apr-devel</span>
-</pre></td></tr></table></figure>
-
-<h5 id="安装Native">安装Native</h5>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre><span class="preprocessor"># cd /usr/local/tomcat/bin/</span>
-<span class="preprocessor"># tar xvf tomcat-native.tar.gz</span>
-<span class="preprocessor"># cd tomcat-native-1.1.33-src/jni/native/</span>
-<span class="preprocessor"># ./configure --with-apr=/usr/bin/apr-1-config</span>
-<span class="preprocessor"># make && make install</span>
-</pre></td></tr></table></figure>
-
-<p>安装完成之后 会出现如下提示信息</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre>Libraries have been installed <span class="keyword">in</span>:
-    <span class="regexp">/usr/</span>local/apr/lib
-</pre></td></tr></table></figure>
-
-<h5 id="设置Tomcat环境变量">设置Tomcat环境变量</h5>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
-CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</span>
-</pre></td></tr></table></figure>
-
+<h3 id="Connector协议由BIO调整为NIO">Connector协议由BIO调整为NIO</h3>
 <h5 id="配置Connector">配置Connector</h5>
 <p>同时也参考 <a href="https://tomcat.apache.org/tomcat-8.0-doc/config" target="_blank" rel="external">Tomcat 8 Configuration Reference</a> 修改了线程数和Logs格式，便于统计平均响应时长。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -241,19 +209,23 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
 11
 12
 13
+14
+15
 </pre></td><td class="code"><pre><span class="xml"># vim /usr/local/tomcat/conf/server.xml
-<span class="tag">&lt;<span class="title">Connector</span> <span class="attribute">port</span>=<span class="value">"8080"</span> <span class="attribute">protocol</span>=<span class="value">"org.apache.coyote.http11.Http11AprProtocol"</span>
-           &lt;!<span class="attribute">--</span> 最大线程数，<span class="attribute">Apr</span>的默认连接数 <span class="attribute">--</span>&gt;</span>
-           maxThreads="1024"
-           <span class="comment">&lt;!-- 队列大小 --&gt;</span>
-           acceptCount="1024"
-           <span class="comment">&lt;!-- 单位毫秒，请求连接超时，keepAliveTimeout参数未设置按此参数 --&gt;</span>
-           connectionTimeout="1000"
-           redirectPort="8443" /&gt;
+<span class="tag">&lt;<span class="title">Connector</span> <span class="attribute">port</span>=<span class="value">"8080"</span> <span class="attribute">protocol</span>=<span class="value">"org.apache.coyote.http11.Http11NioProtocol"</span>
+            <span class="attribute">keepAliveTimeout</span>=<span class="value">"60000"</span>
+            <span class="attribute">maxKeepAliveRequests</span>=<span class="value">"1024"</span>
+            <span class="attribute">processorCache</span>=<span class="value">"256"</span>
+            <span class="attribute">maxThreads</span>=<span class="value">"256"</span>
+            &lt;!<span class="attribute">--</span> 队列大小 <span class="attribute">--</span>&gt;</span>
+            acceptCount="64"
+            <span class="comment">&lt;!-- 单位毫秒，请求连接超时，keepAliveTimeout参数未设置按此参数 --&gt;</span>
+            connectionTimeout="2000"
+            redirectPort="8443" /&gt;
 
 <span class="tag">&lt;<span class="title">Valve</span> <span class="attribute">className</span>=<span class="value">"org.apache.catalina.valves.AccessLogValve"</span> <span class="attribute">directory</span>=<span class="value">"logs"</span>
-           <span class="attribute">prefix</span>=<span class="value">"localhost_access_log"</span> <span class="attribute">suffix</span>=<span class="value">".txt"</span>
-           <span class="attribute">pattern</span>=<span class="value">"%h %l %u %t &quot;%r&quot; %s %D"</span> /&gt;</span></span>
+            <span class="attribute">prefix</span>=<span class="value">"localhost_access_log"</span> <span class="attribute">suffix</span>=<span class="value">".txt"</span>
+            <span class="attribute">pattern</span>=<span class="value">"%h %l %u %t &quot;%r&quot; %s %D"</span> /&gt;</span></span>
 </pre></td></tr></table></figure>
 
 <p>调整过程中也建议使用ab简单压测下，及时观察调整效果。</p>
@@ -261,7 +233,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="dlnfwc9erhd0ltkb" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="vk9tg90rb7plg5ll" data-title="Tomcat优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
 
@@ -349,7 +321,7 @@ CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib"</spa
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 何帅<br>
+      &copy; 2017 何帅<br>
       Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
     </div>
   </div>
