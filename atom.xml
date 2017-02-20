@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2017-02-17T10:45:23.209Z</updated>
+  <updated>2017-02-20T04:27:55.334Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -605,17 +605,17 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
     <link href="http://liubaing.com/2015/09/09/Tomcat%E4%BC%98%E5%8C%96/"/>
     <id>http://liubaing.com/2015/09/09/Tomcat优化/</id>
     <published>2015-09-09T10:06:36.000Z</published>
-    <updated>2017-02-17T10:42:00.000Z</updated>
+    <updated>2017-02-20T04:26:58.000Z</updated>
     <content type="html"><![CDATA[<p>更新：建议部署APM工具<a href="https://github.com/naver/pinpoint" target="_blank" rel="external">Pinpoint</a>，比较直观分析性能。</p>
 <p>这几天晚高峰报警比较多，先排查JVM</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
 4
-</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID</span>
-<span class="preprocessor"># jmap -heap $PID</span>
-<span class="preprocessor"># jmap -histo $PID | more</span>
-<span class="preprocessor"># jstack $PID &gt; jstack.txt</span>
+</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID            注意FullGC次数，过多的FGC会影响响应延迟</span>
+<span class="preprocessor"># jmap -heap $PID               观察内存使用状况</span>
+<span class="preprocessor"># jmap -histo $PID | more       观察大对象或者对象实例较多的情况</span>
+<span class="preprocessor"># jstack $PID &gt; jstack.txt      观察线程执行状态，出现线程Block，需要特别注意，比如日志滚动</span>
 </pre></td></tr></table></figure>
 
 <p>ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设置有点紧张，再排查负载</p>
@@ -625,12 +625,12 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 4
 5
 6
-</pre></td><td class="code"><pre><span class="preprocessor"># uptime</span>
-<span class="preprocessor"># free -g</span>
-<span class="preprocessor"># ps auxxwf</span>
-<span class="preprocessor"># top 注：按下数字1，观察每个CPU核的负载</span>
-<span class="preprocessor"># netstat -natl | awk '{print $6}' | sort | uniq -c | sort -n</span>
-<span class="preprocessor"># ss -an | grep :8080 | wc -l</span>
+</pre></td><td class="code"><pre><span class="preprocessor"># uptime        观察最近的负载</span>
+<span class="preprocessor"># free -g       还有可用内存，注意swap</span>
+<span class="preprocessor"># ps auxxwf     各个进程，包括JVM占用资源，可能其他进程的CPU负载过高也会影响响应的延迟，比如日志压缩脚本</span>
+<span class="preprocessor"># top           注：按下数字1，观察每个CPU核的负载</span>
+<span class="preprocessor"># ss -an | grep :8080 | wc -l   当前端口下的连接数，不区分状态</span>
+<span class="preprocessor"># netstat -natl | awk '{print $6}' | sort | uniq -c | sort -n   注意各个状态下的连接数，过多的wait连接影响新的请求进来</span>
 </pre></td></tr></table></figure>
 
 <p>发现TIME_WAIT状态的连接比较多，接近配置的连接数上限了，怀疑没有配置keep-alive导致Tomcat主动关闭Connection。<br>再结合Nginx和Tomcat的日志，开始着手调整。</p>
@@ -654,7 +654,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
-JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
+JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
 </pre></td></tr></table></figure>
 
 <h3 id="Connector协议由BIO调整为NIO">Connector协议由BIO调整为NIO</h3>
@@ -675,13 +675,15 @@ JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX
 13
 14
 15
+16
 </pre></td><td class="code"><pre><span class="xml"># vim /usr/local/tomcat/conf/server.xml
 <span class="tag">&lt;<span class="title">Connector</span> <span class="attribute">port</span>=<span class="value">"8080"</span> <span class="attribute">protocol</span>=<span class="value">"org.apache.coyote.http11.Http11NioProtocol"</span>
             <span class="attribute">keepAliveTimeout</span>=<span class="value">"60000"</span>
             <span class="attribute">maxKeepAliveRequests</span>=<span class="value">"1024"</span>
-            <span class="attribute">processorCache</span>=<span class="value">"256"</span>
-            <span class="attribute">maxThreads</span>=<span class="value">"256"</span>
-            &lt;!<span class="attribute">--</span> 队列大小 <span class="attribute">--</span>&gt;</span>
+            &lt;!<span class="attribute">--</span> 非异步<span class="attribute">Servlet</span>时与<span class="attribute">maxThreads</span>保持一致 <span class="attribute">--</span>&gt;</span>
+            processorCache="256"
+            maxThreads="256"
+            <span class="comment">&lt;!-- 队列大小 --&gt;</span>
             acceptCount="64"
             <span class="comment">&lt;!-- 单位毫秒，请求连接超时，keepAliveTimeout参数未设置按此参数 --&gt;</span>
             connectionTimeout="2000"

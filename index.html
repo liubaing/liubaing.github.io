@@ -146,7 +146,7 @@ ln -s nexus-<span class="number">2.14</span><span class="number">.1</span>-<span
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/11/08/Nexus私服搭建/" data-id="w3k029flupx4ykfy" data-title="Nexus私服搭建" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/11/08/Nexus私服搭建/" data-id="rful4g4gyubo5kwj" data-title="Nexus私服搭建" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Maven/">Maven</a></li></ul>
 
@@ -195,7 +195,7 @@ ln -s nexus-<span class="number">2.14</span><span class="number">.1</span>-<span
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="p8uxf5en85jnnlsw" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="qbqeuohx1a3w2boy" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lua/">Lua</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li></ul>
 
@@ -251,7 +251,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="v9nqi8kt73l6c0ad" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="t6uxul67wsk06ur5" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
 
@@ -462,7 +462,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="0ltk69l3u7bw8grr" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="u3n4zteeflmefvwx" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -505,10 +505,10 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 2
 3
 4
-</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID</span>
-<span class="preprocessor"># jmap -heap $PID</span>
-<span class="preprocessor"># jmap -histo $PID | more</span>
-<span class="preprocessor"># jstack $PID &gt; jstack.txt</span>
+</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID            注意FullGC次数，过多的FGC会影响响应延迟</span>
+<span class="preprocessor"># jmap -heap $PID               观察内存使用状况</span>
+<span class="preprocessor"># jmap -histo $PID | more       观察大对象或者对象实例较多的情况</span>
+<span class="preprocessor"># jstack $PID &gt; jstack.txt      观察线程执行状态，出现线程Block，需要特别注意，比如日志滚动</span>
 </pre></td></tr></table></figure>
 
 <p>ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设置有点紧张，再排查负载</p>
@@ -518,12 +518,12 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 4
 5
 6
-</pre></td><td class="code"><pre><span class="preprocessor"># uptime</span>
-<span class="preprocessor"># free -g</span>
-<span class="preprocessor"># ps auxxwf</span>
-<span class="preprocessor"># top 注：按下数字1，观察每个CPU核的负载</span>
-<span class="preprocessor"># netstat -natl | awk '{print $6}' | sort | uniq -c | sort -n</span>
-<span class="preprocessor"># ss -an | grep :8080 | wc -l</span>
+</pre></td><td class="code"><pre><span class="preprocessor"># uptime        观察最近的负载</span>
+<span class="preprocessor"># free -g       还有可用内存，注意swap</span>
+<span class="preprocessor"># ps auxxwf     各个进程，包括JVM占用资源，可能其他进程的CPU负载过高也会影响响应的延迟，比如日志压缩脚本</span>
+<span class="preprocessor"># top           注：按下数字1，观察每个CPU核的负载</span>
+<span class="preprocessor"># ss -an | grep :8080 | wc -l   当前端口下的连接数，不区分状态</span>
+<span class="preprocessor"># netstat -natl | awk '{print $6}' | sort | uniq -c | sort -n   注意各个状态下的连接数，过多的wait连接影响新的请求进来</span>
 </pre></td></tr></table></figure>
 
 <p>发现TIME_WAIT状态的连接比较多，接近配置的连接数上限了，怀疑没有配置keep-alive导致Tomcat主动关闭Connection。<br>再结合Nginx和Tomcat的日志，开始着手调整。</p>
@@ -547,7 +547,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
-JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
+JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
 </pre></td></tr></table></figure>
 
 <h3 id="Connector协议由BIO调整为NIO">Connector协议由BIO调整为NIO</h3>
@@ -568,13 +568,15 @@ JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX
 13
 14
 15
+16
 </pre></td><td class="code"><pre><span class="xml"># vim /usr/local/tomcat/conf/server.xml
 <span class="tag">&lt;<span class="title">Connector</span> <span class="attribute">port</span>=<span class="value">"8080"</span> <span class="attribute">protocol</span>=<span class="value">"org.apache.coyote.http11.Http11NioProtocol"</span>
             <span class="attribute">keepAliveTimeout</span>=<span class="value">"60000"</span>
             <span class="attribute">maxKeepAliveRequests</span>=<span class="value">"1024"</span>
-            <span class="attribute">processorCache</span>=<span class="value">"256"</span>
-            <span class="attribute">maxThreads</span>=<span class="value">"256"</span>
-            &lt;!<span class="attribute">--</span> 队列大小 <span class="attribute">--</span>&gt;</span>
+            &lt;!<span class="attribute">--</span> 非异步<span class="attribute">Servlet</span>时与<span class="attribute">maxThreads</span>保持一致 <span class="attribute">--</span>&gt;</span>
+            processorCache="256"
+            maxThreads="256"
+            <span class="comment">&lt;!-- 队列大小 --&gt;</span>
             acceptCount="64"
             <span class="comment">&lt;!-- 单位毫秒，请求连接超时，keepAliveTimeout参数未设置按此参数 --&gt;</span>
             connectionTimeout="2000"
@@ -590,7 +592,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="vk9tg90rb7plg5ll" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="1nmctblqjpjq1bh3" data-title="Tomcat优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
 
@@ -653,7 +655,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="1bghr1w3kuoni4lb" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="ucbjwcuohi4oqxmk" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
 
@@ -697,7 +699,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="fid744qlxo3h8p3w" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="6rqvqd0tesvi1ux1" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -743,7 +745,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="id37un0a6zjgkpo7" data-title="Web下文件下载" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="w6ohoyki7sgoc76t" data-title="Web下文件下载" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
 
@@ -843,7 +845,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="48p7g6wx99xibgkb" data-title="Java中的单例模式" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="l7y9612pqt4b9p2q" data-title="Java中的单例模式" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -941,7 +943,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx4g -Xms2g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="1ta0b9uu3cy4muw4" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="tsw2gyysa0y35c0y" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
