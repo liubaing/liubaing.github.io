@@ -82,6 +82,104 @@ var _hmt = _hmt || [];
       <div class="outer">
         <section id="main">
   
+    <article id="post-Java中常用的时间格式化注意点" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/09/18/Java中常用的时间格式化注意点/" class="article-date">
+  <time datetime="2014-09-18T09:29:24.000Z" itemprop="datePublished">2014年9月18日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/编程/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/18/Java中常用的时间格式化注意点/">Java中常用的时间格式化注意点</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>平时工作中或多或少都会遇到时间格式化的问题，传统思路都利用<code>java.text.SimpleDateFormat</code>，然后根据业务场景写几个Pattern去处理。</p>
+<p>之前接触到项目中一般都会提供一个工具类，既然是工具类，那就按套路了，上面声明几个不同格式的Pattern实例，下面写几个static方法，然后处理下异常之类的。</p>
+<p>这样的好处是避免方法调用时去new SimpleDateFormat，从而创建大量的实例对象，毕竟SimpleDateFormat类初始化代价不小，父类DateFormat中成员变量包含Calendar等。</p>
+<p>但恰恰就因为这个成员变量，并且format方法又没有同步，所以这个工具类在多线程下风险很高。</p>
+<p>这个问题在网上也看到很多解决方案，参考JDK中注释。</p>
+<blockquote>
+<p> Date formats are not synchronized. It is recommended to create separate format instances for each thread. If multiple threads access a format concurrently, it must be synchronized externally</p>
+</blockquote>
+<h4 id="同步SimpleDateFormat对象">同步SimpleDateFormat对象</h4>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">formatDate</span>(Date date) <span class="keyword">throws</span> ParseException {
+    <span class="keyword">synchronized</span>(sdf) {
+        <span class="keyword">return</span> sdf.format(date);
+    }
+}
+</pre></td></tr></table></figure><br>同步随之而来就是阻塞</p>
+<h4 id="使用ThreadLocal">使用ThreadLocal</h4>
+<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="code"><pre><span class="keyword">private</span> <span class="keyword">static</span> final String FULL_DATE_FORMAT = <span class="string">"yyyy-MM-dd HH:mm:ss"</span>;
+<span class="keyword">private</span> <span class="keyword">static</span> ThreadLocal&lt;SimpleDateFormat&gt; threadLocal = <span class="keyword">new</span> ThreadLocal&lt;SimpleDateFormat&gt;();
+
+<span class="keyword">public</span> <span class="keyword">static</span> SimpleDateFormat <span class="title">getDateFormat</span>() {
+    SimpleDateFormat dateFormat = threadLocal.<span class="keyword">get</span>();
+    <span class="keyword">if</span> (dateFormat == <span class="keyword">null</span>) {
+        dateFormat = <span class="keyword">new</span> SimpleDateFormat(FULL_DATE_FORMAT);
+        threadLocal.<span class="keyword">set</span>(dateFormat);
+    }
+    <span class="keyword">return</span> dateFormat;
+}
+
+<span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">formatDate</span>(Date date) throws ParseException {
+    <span class="keyword">return</span> getDateFormat().format(date);
+}
+</pre></td></tr></table></figure><br>共享变量变成了线程私有</p>
+
+        
+          <p class="article-more-link">
+            <a href="/2014/09/18/Java中常用的时间格式化注意点/">全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="m1b08j07plrbwtn1" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-常用浏览器下调试" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/07/26/常用浏览器下调试/" class="article-date">
@@ -142,7 +240,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/07/26/常用浏览器下调试/" data-id="7lfscg3sb0md7llf" data-title="常用浏览器下调试" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/07/26/常用浏览器下调试/" data-id="9fwq2xiia47j7qt6" data-title="常用浏览器下调试" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
 
@@ -186,7 +284,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="b4r3coem0uhlzjak" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="33zn4wykyokiaqre" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -314,7 +412,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="ymn3qi75lrep9i74" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/18/龙泉驾校约车脚本/" data-id="gzg2olgz13jl0jtz" data-title="龙泉驾校约车脚本" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
 
@@ -360,7 +458,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/15/世界杯直播/" data-id="pxcudgkveh8yqa0r" data-title="世界杯直播" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/15/世界杯直播/" data-id="ifvsstyylsk6gslq" data-title="世界杯直播" class="article-share-link">分享</a>
       
     </footer>
   </div>
@@ -404,7 +502,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/13/翻墙/" data-id="4nzgjz4u89fubfbc" data-title="翻墙" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/13/翻墙/" data-id="5crapotg06welxua" data-title="翻墙" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPN/">VPN</a></li></ul>
 
@@ -464,7 +562,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="vl6on2cwbzo8rrvl" data-title="Git日常操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/05/02/Git日常操作/" data-id="dly1qntny5wmvhcm" data-title="Git日常操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
 
@@ -510,7 +608,7 @@ passwd = <span class="string">""</span>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/04/12/Linode退钱/" data-id="z8ha75j744i08r9j" data-title="Linode退钱" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/04/12/Linode退钱/" data-id="5a455yv98jy0qrb2" data-title="Linode退钱" class="article-share-link">分享</a>
       
     </footer>
   </div>
@@ -586,7 +684,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/03/20/集合类源码理解/" data-id="4m7439auqspcst6b" data-title="集合类源码理解" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/03/20/集合类源码理解/" data-id="5ri93yl4gzgbqt6m" data-title="集合类源码理解" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -709,7 +807,7 @@ gg 跳到首行
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="q6osz5hrgzfyh0vf" data-title="Vim基本操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="ucu8gtzo7hkmjmdi" data-title="Vim基本操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
 
@@ -720,53 +818,9 @@ gg 跳到首行
 
 
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/02/08/hello-world/" class="article-date">
-  <time datetime="2014-02-07T23:56:29.000Z" itemprop="datePublished">2014年2月8日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/扯淡/">扯淡</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/02/08/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。<br>
-        
-          <p class="article-more-link">
-            <a href="/2014/02/08/hello-world/">全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/02/08/hello-world/" data-id="gavva7u28aoskbpj" data-title="Hello World" class="article-share-link">分享</a>
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+      <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
     </nav>
   
 </section>
@@ -777,7 +831,7 @@ gg 跳到首行
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Go/" style="font-size: 10.00px;">Go</a><a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linux/" style="font-size: 10.00px;">Linux</a><a href="/tags/Lua/" style="font-size: 10.00px;">Lua</a><a href="/tags/Maven/" style="font-size: 10.00px;">Maven</a><a href="/tags/Nginx/" style="font-size: 13.33px;">Nginx</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/Redis/" style="font-size: 10.00px;">Redis</a><a href="/tags/Tomcat/" style="font-size: 10.00px;">Tomcat</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a>
+      <a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Go/" style="font-size: 10.00px;">Go</a><a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linux/" style="font-size: 10.00px;">Linux</a><a href="/tags/Lua/" style="font-size: 10.00px;">Lua</a><a href="/tags/Maven/" style="font-size: 10.00px;">Maven</a><a href="/tags/Nginx/" style="font-size: 13.33px;">Nginx</a><a href="/tags/Protobuf/" style="font-size: 10.00px;">Protobuf</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/Redis/" style="font-size: 10.00px;">Redis</a><a href="/tags/Tomcat/" style="font-size: 10.00px;">Tomcat</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a>
     </div>
   </div>
 
@@ -787,6 +841,10 @@ gg 跳到首行
     <h3 class="widget-title">最新发表</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/02/23/Protocol-Buffers-3/">Protocol Buffers 3</a>
+          </li>
         
           <li>
             <a href="/2016/11/08/Nexus私服搭建/">Nexus私服搭建</a>
@@ -802,10 +860,6 @@ gg 跳到首行
         
           <li>
             <a href="/2016/01/22/多线程顺序输出字符/">多线程顺序输出字符</a>
-          </li>
-        
-          <li>
-            <a href="/2015/09/09/Tomcat优化/">Tomcat优化</a>
           </li>
         
       </ul>

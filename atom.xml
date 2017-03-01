@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2017-02-20T04:27:55.334Z</updated>
+  <updated>2017-03-01T08:52:53.951Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -13,6 +13,90 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Protocol Buffers 3]]></title>
+    <link href="http://liubaing.com/2017/02/23/Protocol-Buffers-3/"/>
+    <id>http://liubaing.com/2017/02/23/Protocol-Buffers-3/</id>
+    <published>2017-02-23T10:04:02.000Z</published>
+    <updated>2017-03-01T08:41:01.000Z</updated>
+    <content type="html"><![CDATA[<p>由于接口同时支持<code>application/x-protobuf</code>和<code>application/json</code>两种<code>content-type</code>，所以<code>protobuf-java</code>提供的JSON序列化方案性能也是我们比较关注的。</p>
+<p>最近注意到<a href="https://developers.google.com/protocol-buffers/docs/proto3" target="_blank" rel="external">Protocol Buffers 3</a>（下称proto3）中对JSON的处理调整为利用Gson实现，尝试升级到proto3，这里简单总结下中间遇到的一些问题。</p>
+<h4 id="proto3语法规则">proto3语法规则</h4>
+<ul>
+<li><p>描述文件头部增加语法声明<code>syntax = &quot;proto3&quot;</code> ，这样<code>protoc</code>会正确编译生成代码。</p>
+</li>
+<li><p>移除<code>required</code>描述关键字，字段默认是<code>optional</code>。</p>
+</li>
+<li><p>移除<code>default</code>选项，proto2可以使用<code>default</code>为某一字段指定默认值，但proto3字段的默认值只能根据字段类型由系统决定。</p>
+</li>
+<li><p>enum类型第一个字段的字段编号tags必须为0。</p>
+</li>
+<li><p>添加新的字段选项<code>json_name</code>。默认在proto3的JSON格式中字段名将被转换为<code>lowerCamelCase</code>，这个选项被用于自定义字段名。</p>
+</li>
+</ul>
+<h4 id="JsonFormat注意点"><code>JsonFormat</code>注意点</h4>
+<h5 id="反序列化">反序列化</h5>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre>HttpInputMessage inputMessage<span class="comment">;</span>
+InputStreamReader reader<span class="comment">;</span>
+if (MediaType<span class="preprocessor">.APPLICATION</span>_JSON<span class="preprocessor">.isCompatibleWith</span>(contentType)) {
+    reader = new InputStreamReader(inputMessage<span class="preprocessor">.getBody</span>(), charset)<span class="comment">;</span>
+    JsonFormat<span class="preprocessor">.parser</span>()
+            <span class="preprocessor">.ignoringUnknownFields</span>()            //忽略未知字段，避免反序列化抛异常
+            <span class="preprocessor">.merge</span>(reader, ex)<span class="comment">;</span>
+}
+</pre></td></tr></table></figure>
+
+<h5 id="序列化">序列化</h5>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre>HttpOutputMessage outputMessage<span class="comment">;</span>
+OutputStreamWriter outputStreamWriter<span class="comment">;</span>
+if (MediaType<span class="preprocessor">.APPLICATION</span>_JSON<span class="preprocessor">.isCompatibleWith</span>(contentType)) {
+    outputStreamWriter = new OutputStreamWriter(outputMessage<span class="preprocessor">.getBody</span>(), charset)<span class="comment">;</span>
+    JsonFormat<span class="preprocessor">.printer</span>()
+            <span class="preprocessor">.includingDefaultValueFields</span>()      //默认值也要序列化，兼容接口定义，int类型默认值<span class="number">0</span>也要输出
+            <span class="preprocessor">.preservingProtoFieldNames</span>()        //保留原有字段名，兼容接口定义
+            <span class="preprocessor">.omittingInsignificantWhitespace</span>()  //忽略空格和换行
+            <span class="preprocessor">.appendTo</span>(message, outputStreamWriter)<span class="comment">;</span>
+    outputStreamWriter<span class="preprocessor">.flush</span>()<span class="comment">;</span>
+}
+</pre></td></tr></table></figure>
+
+<h4 id="实践">实践</h4>
+<ul>
+<li><p>接口升级不要修改已有字段的tags，通常采用追加模式，<code>reserved</code> 关键字用来声明保留字段。</p>
+</li>
+<li><p>可以合理利用map类型。</p>
+</li>
+<li><p>了解<a href="https://github.com/grpc" target="_blank" rel="external">gRPC</a></p>
+</li>
+</ul>
+]]></content>
+    
+    
+      <category term="Protobuf" scheme="http://liubaing.com/tags/Protobuf/"/>
+    
+      <category term="编程" scheme="http://liubaing.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Nexus私服搭建]]></title>
@@ -2366,20 +2450,6 @@ gg 跳到首行
       <category term="Vim" scheme="http://liubaing.com/tags/Vim/"/>
     
       <category term="工具" scheme="http://liubaing.com/categories/%E5%B7%A5%E5%85%B7/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Hello World]]></title>
-    <link href="http://liubaing.com/2014/02/08/hello-world/"/>
-    <id>http://liubaing.com/2014/02/08/hello-world/</id>
-    <published>2014-02-07T23:56:29.000Z</published>
-    <updated>2015-07-17T10:24:28.000Z</updated>
-    <content type="html"><![CDATA[<p>迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。<br><a id="more"></a><br>之前零零散散也分享过，但都没坚持多久就荒废了，然后在微博上偶尔也会唠叨几句自己遇到的问题，最近想着自己能把博客坚持写下去，多少也是对码农生涯一个见证。</p>
-]]></content>
-    <summary type="html"><![CDATA[<p>迁移到Github上，发现很多好玩的东西，比如现在用的Hexo，在写博客同时也能多了解些NodeJS。<br>]]></summary>
-    
-      <category term="扯淡" scheme="http://liubaing.com/categories/%E6%89%AF%E6%B7%A1/"/>
     
   </entry>
   

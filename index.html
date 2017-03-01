@@ -82,6 +82,116 @@ var _hmt = _hmt || [];
       <div class="outer">
         <section id="main">
   
+    <article id="post-Protocol-Buffers-3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/23/Protocol-Buffers-3/" class="article-date">
+  <time datetime="2017-02-23T10:04:02.000Z" itemprop="datePublished">2017年2月23日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/编程/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/23/Protocol-Buffers-3/">Protocol Buffers 3</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>由于接口同时支持<code>application/x-protobuf</code>和<code>application/json</code>两种<code>content-type</code>，所以<code>protobuf-java</code>提供的JSON序列化方案性能也是我们比较关注的。</p>
+<p>最近注意到<a href="https://developers.google.com/protocol-buffers/docs/proto3" target="_blank" rel="external">Protocol Buffers 3</a>（下称proto3）中对JSON的处理调整为利用Gson实现，尝试升级到proto3，这里简单总结下中间遇到的一些问题。</p>
+<h4 id="proto3语法规则">proto3语法规则</h4>
+<ul>
+<li><p>描述文件头部增加语法声明<code>syntax = &quot;proto3&quot;</code> ，这样<code>protoc</code>会正确编译生成代码。</p>
+</li>
+<li><p>移除<code>required</code>描述关键字，字段默认是<code>optional</code>。</p>
+</li>
+<li><p>移除<code>default</code>选项，proto2可以使用<code>default</code>为某一字段指定默认值，但proto3字段的默认值只能根据字段类型由系统决定。</p>
+</li>
+<li><p>enum类型第一个字段的字段编号tags必须为0。</p>
+</li>
+<li><p>添加新的字段选项<code>json_name</code>。默认在proto3的JSON格式中字段名将被转换为<code>lowerCamelCase</code>，这个选项被用于自定义字段名。</p>
+</li>
+</ul>
+<h4 id="JsonFormat注意点"><code>JsonFormat</code>注意点</h4>
+<h5 id="反序列化">反序列化</h5>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre>HttpInputMessage inputMessage<span class="comment">;</span>
+InputStreamReader reader<span class="comment">;</span>
+if (MediaType<span class="preprocessor">.APPLICATION</span>_JSON<span class="preprocessor">.isCompatibleWith</span>(contentType)) {
+    reader = new InputStreamReader(inputMessage<span class="preprocessor">.getBody</span>(), charset)<span class="comment">;</span>
+    JsonFormat<span class="preprocessor">.parser</span>()
+            <span class="preprocessor">.ignoringUnknownFields</span>()            //忽略未知字段，避免反序列化抛异常
+            <span class="preprocessor">.merge</span>(reader, ex)<span class="comment">;</span>
+}
+</pre></td></tr></table></figure>
+
+<h5 id="序列化">序列化</h5>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre>HttpOutputMessage outputMessage<span class="comment">;</span>
+OutputStreamWriter outputStreamWriter<span class="comment">;</span>
+if (MediaType<span class="preprocessor">.APPLICATION</span>_JSON<span class="preprocessor">.isCompatibleWith</span>(contentType)) {
+    outputStreamWriter = new OutputStreamWriter(outputMessage<span class="preprocessor">.getBody</span>(), charset)<span class="comment">;</span>
+    JsonFormat<span class="preprocessor">.printer</span>()
+            <span class="preprocessor">.includingDefaultValueFields</span>()      //默认值也要序列化，兼容接口定义，int类型默认值<span class="number">0</span>也要输出
+            <span class="preprocessor">.preservingProtoFieldNames</span>()        //保留原有字段名，兼容接口定义
+            <span class="preprocessor">.omittingInsignificantWhitespace</span>()  //忽略空格和换行
+            <span class="preprocessor">.appendTo</span>(message, outputStreamWriter)<span class="comment">;</span>
+    outputStreamWriter<span class="preprocessor">.flush</span>()<span class="comment">;</span>
+}
+</pre></td></tr></table></figure>
+
+<h4 id="实践">实践</h4>
+<ul>
+<li><p>接口升级不要修改已有字段的tags，通常采用追加模式，<code>reserved</code> 关键字用来声明保留字段。</p>
+</li>
+<li><p>可以合理利用map类型。</p>
+</li>
+<li><p>了解<a href="https://github.com/grpc" target="_blank" rel="external">gRPC</a></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liubaing.com/2017/02/23/Protocol-Buffers-3/" data-id="7v5z2r23h7osnsod" data-title="Protocol Buffers 3" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Protobuf/">Protobuf</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Nexus私服搭建" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/11/08/Nexus私服搭建/" class="article-date">
@@ -146,7 +256,7 @@ ln -s nexus-<span class="number">2.14</span><span class="number">.1</span>-<span
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/11/08/Nexus私服搭建/" data-id="rful4g4gyubo5kwj" data-title="Nexus私服搭建" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/11/08/Nexus私服搭建/" data-id="1ibuo5g15u9pylj0" data-title="Nexus私服搭建" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Maven/">Maven</a></li></ul>
 
@@ -195,7 +305,7 @@ ln -s nexus-<span class="number">2.14</span><span class="number">.1</span>-<span
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="qbqeuohx1a3w2boy" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="lfdq0pnfo1fao0qj" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lua/">Lua</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li></ul>
 
@@ -251,7 +361,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="t6uxul67wsk06ur5" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="pduq8080384zlfx2" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
 
@@ -462,7 +572,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="u3n4zteeflmefvwx" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="cdle5yetaut2o695" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -592,7 +702,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="1nmctblqjpjq1bh3" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="dmtu7l2m91xvoc06" data-title="Tomcat优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
 
@@ -655,7 +765,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="ucbjwcuohi4oqxmk" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="wuw36ah1e8f5dq8r" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
 
@@ -699,7 +809,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="6rqvqd0tesvi1ux1" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="cghyxr6h99ntm56z" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -745,7 +855,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="w6ohoyki7sgoc76t" data-title="Web下文件下载" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="7ba1q5d63ylrq610" data-title="Web下文件下载" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
 
@@ -845,105 +955,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="l7y9612pqt4b9p2q" data-title="Java中的单例模式" class="article-share-link">分享</a>
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Java中常用的时间格式化注意点" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/09/18/Java中常用的时间格式化注意点/" class="article-date">
-  <time datetime="2014-09-18T09:29:24.000Z" itemprop="datePublished">2014年9月18日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/编程/">编程</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/18/Java中常用的时间格式化注意点/">Java中常用的时间格式化注意点</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>平时工作中或多或少都会遇到时间格式化的问题，传统思路都利用<code>java.text.SimpleDateFormat</code>，然后根据业务场景写几个Pattern去处理。</p>
-<p>之前接触到项目中一般都会提供一个工具类，既然是工具类，那就按套路了，上面声明几个不同格式的Pattern实例，下面写几个static方法，然后处理下异常之类的。</p>
-<p>这样的好处是避免方法调用时去new SimpleDateFormat，从而创建大量的实例对象，毕竟SimpleDateFormat类初始化代价不小，父类DateFormat中成员变量包含Calendar等。</p>
-<p>但恰恰就因为这个成员变量，并且format方法又没有同步，所以这个工具类在多线程下风险很高。</p>
-<p>这个问题在网上也看到很多解决方案，参考JDK中注释。</p>
-<blockquote>
-<p> Date formats are not synchronized. It is recommended to create separate format instances for each thread. If multiple threads access a format concurrently, it must be synchronized externally</p>
-</blockquote>
-<h4 id="同步SimpleDateFormat对象">同步SimpleDateFormat对象</h4>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">formatDate</span>(Date date) <span class="keyword">throws</span> ParseException {
-    <span class="keyword">synchronized</span>(sdf) {
-        <span class="keyword">return</span> sdf.format(date);
-    }
-}
-</pre></td></tr></table></figure><br>同步随之而来就是阻塞</p>
-<h4 id="使用ThreadLocal">使用ThreadLocal</h4>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-</pre></td><td class="code"><pre><span class="keyword">private</span> <span class="keyword">static</span> final String FULL_DATE_FORMAT = <span class="string">"yyyy-MM-dd HH:mm:ss"</span>;
-<span class="keyword">private</span> <span class="keyword">static</span> ThreadLocal&lt;SimpleDateFormat&gt; threadLocal = <span class="keyword">new</span> ThreadLocal&lt;SimpleDateFormat&gt;();
-
-<span class="keyword">public</span> <span class="keyword">static</span> SimpleDateFormat <span class="title">getDateFormat</span>() {
-    SimpleDateFormat dateFormat = threadLocal.<span class="keyword">get</span>();
-    <span class="keyword">if</span> (dateFormat == <span class="keyword">null</span>) {
-        dateFormat = <span class="keyword">new</span> SimpleDateFormat(FULL_DATE_FORMAT);
-        threadLocal.<span class="keyword">set</span>(dateFormat);
-    }
-    <span class="keyword">return</span> dateFormat;
-}
-
-<span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">formatDate</span>(Date date) throws ParseException {
-    <span class="keyword">return</span> getDateFormat().format(date);
-}
-</pre></td></tr></table></figure><br>共享变量变成了线程私有</p>
-
-        
-          <p class="article-more-link">
-            <a href="/2014/09/18/Java中常用的时间格式化注意点/">全文</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="tsw2gyysa0y35c0y" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="pzapvkwja3wzhjhn" data-title="Java中的单例模式" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -956,7 +968,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
   
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一页 &raquo;</a>
     </nav>
   
 </section>
@@ -967,7 +979,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Go/" style="font-size: 10.00px;">Go</a><a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linux/" style="font-size: 10.00px;">Linux</a><a href="/tags/Lua/" style="font-size: 10.00px;">Lua</a><a href="/tags/Maven/" style="font-size: 10.00px;">Maven</a><a href="/tags/Nginx/" style="font-size: 13.33px;">Nginx</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/Redis/" style="font-size: 10.00px;">Redis</a><a href="/tags/Tomcat/" style="font-size: 10.00px;">Tomcat</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a>
+      <a href="/tags/Android/" style="font-size: 10.00px;">Android</a><a href="/tags/Git/" style="font-size: 10.00px;">Git</a><a href="/tags/Go/" style="font-size: 10.00px;">Go</a><a href="/tags/HTTP/" style="font-size: 16.67px;">HTTP</a><a href="/tags/Java/" style="font-size: 20.00px;">Java</a><a href="/tags/Linux/" style="font-size: 10.00px;">Linux</a><a href="/tags/Lua/" style="font-size: 10.00px;">Lua</a><a href="/tags/Maven/" style="font-size: 10.00px;">Maven</a><a href="/tags/Nginx/" style="font-size: 13.33px;">Nginx</a><a href="/tags/Protobuf/" style="font-size: 10.00px;">Protobuf</a><a href="/tags/Python/" style="font-size: 10.00px;">Python</a><a href="/tags/Redis/" style="font-size: 10.00px;">Redis</a><a href="/tags/Tomcat/" style="font-size: 10.00px;">Tomcat</a><a href="/tags/VPN/" style="font-size: 10.00px;">VPN</a><a href="/tags/Vim/" style="font-size: 10.00px;">Vim</a>
     </div>
   </div>
 
@@ -977,6 +989,10 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
     <h3 class="widget-title">最新发表</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/02/23/Protocol-Buffers-3/">Protocol Buffers 3</a>
+          </li>
         
           <li>
             <a href="/2016/11/08/Nexus私服搭建/">Nexus私服搭建</a>
@@ -992,10 +1008,6 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
         
           <li>
             <a href="/2016/01/22/多线程顺序输出字符/">多线程顺序输出字符</a>
-          </li>
-        
-          <li>
-            <a href="/2015/09/09/Tomcat优化/">Tomcat优化</a>
           </li>
         
       </ul>
