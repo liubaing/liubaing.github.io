@@ -132,7 +132,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2017/02/23/Protocol-Buffers-3/" data-id="6vztavmkrzvpworm" data-title="Protocol Buffers 3" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2017/02/23/Protocol-Buffers-3/" data-id="liktj5kiu9lhe9d8" data-title="Protocol Buffers 3" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Protobuf/">Protobuf</a></li></ul>
 
@@ -207,7 +207,7 @@ ln -s nexus-<span class="number">2.14</span><span class="number">.1</span>-<span
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/11/08/Nexus私服搭建/" data-id="m9a27u6a9j8kxjti" data-title="Nexus私服搭建" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/11/08/Nexus私服搭建/" data-id="lasronpzl89ihns5" data-title="Nexus私服搭建" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Maven/">Maven</a></li></ul>
 
@@ -256,7 +256,7 @@ ln -s nexus-<span class="number">2.14</span><span class="number">.1</span>-<span
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="hhnzremtodna3zuy" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="i8fi0085kg5kloyk" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lua/">Lua</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li></ul>
 
@@ -312,7 +312,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="jn0e1r75nbilctd6" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="q58mctsn6mz3h5yj" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
 
@@ -523,7 +523,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="om0u5zmt4uxv3myu" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="ljw2jh04kac88aja" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -566,13 +566,13 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 2
 3
 4
-</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID            注意FullGC次数，过多的FGC会影响响应延迟</span>
-<span class="preprocessor"># jmap -heap $PID               观察内存使用状况</span>
-<span class="preprocessor"># jmap -histo $PID | more       观察大对象或者对象实例较多的情况</span>
+</pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID            注意GC次数，过多的GC会影响延迟</span>
+<span class="preprocessor"># jmap -heap $PID               观察各个分区的内存占用情况</span>
+<span class="preprocessor"># jmap -histo $PID | more       注意大对象或者对象实例较多的情况</span>
 <span class="preprocessor"># jstack $PID &gt; jstack.txt      观察线程执行状态，出现线程Block，需要特别注意</span>
 </pre></td></tr></table></figure>
 
-<p>ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设置有点紧张，再排查负载</p>
+<p>ThreadDump没什么问题，GC没发现严重问题，只是觉得Eden区内存设置有点紧张，再排查负载</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -587,7 +587,11 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 <span class="preprocessor"># netstat -natl | awk '{print $6}' | sort | uniq -c | sort -n   注意各个状态下的连接数，过多的wait连接影响新的请求进来</span>
 </pre></td></tr></table></figure>
 
-<p>发现TIME_WAIT状态的连接比较多，接近配置的连接数上限了，怀疑没有配置keep-alive导致Tomcat主动关闭Connection。<br>再结合Nginx和Tomcat的日志，开始着手调整。</p>
+<p>发现TIME_WAIT状态的连接比较多，接近配置的连接数上限了，怀疑没有配置keep-alive导致Tomcat主动关闭Connection。</p>
+<blockquote>
+<p>主动关闭方在接收到被动关闭方的FIN请求后，发送成功给对方一个ACK，并将状态由FIN_WAIT2修改为TIME_WAIT，但是需要等2倍的MSL（Maximum Segment Lifetime，MSL是一个数据包存在于互联网系统中的最大时间）时间之后才能把状态改为CLOSED。</p>
+</blockquote>
+<p>再结合Nginx和Tomcat的日志，开始着手调整。</p>
 <h3 id="Nginx配置keep-alive">Nginx配置keep-alive</h3>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -604,12 +608,13 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 </pre></td></tr></table></figure>
 
 <h3 id="JVM参数">JVM参数</h3>
-<p>在脚本中头部增加一行参数，这里针对JDK8版本的JVM</p>
+<p>在脚本中头部增加一行参数，这里针对JDK8版本的JVM，具体参考<a href="">JVM参数设置及优化</a></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
 JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:MetaspaceSize=128M -XX:NewRatio=2 -XX:SurvivorRatio=20 -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
 </pre></td></tr></table></figure>
+
 
 <h3 id="Connector协议由BIO调整为NIO">Connector协议由BIO调整为NIO</h3>
 <h5 id="配置Connector">配置Connector</h5>
@@ -648,12 +653,12 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:MetaspaceSize=128M -XX
             <span class="attribute">pattern</span>=<span class="value">"%h %l %u %t &quot;%r&quot; %s %D"</span> /&gt;</span></span>
 </pre></td></tr></table></figure>
 
-<p>调整过程中也建议使用ab简单压测下，及时观察调整效果。</p>
+<p>这里通过<code>jstack</code>结果分析，决定线程<code>maxThreads</code>参数配置，同时也需要考虑栈空间的分配问题。<br>调整过程中也建议使用ab简单压测下，及时观察调整效果。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="b81q2gfd0ct1d8p8" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="yoibe78ryr5u8y9u" data-title="Tomcat优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
 
@@ -716,7 +721,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:MetaspaceSize=128M -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="n7gemvwf2409v98t" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="yiwm7b6eniq2j9n1" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
 
@@ -760,7 +765,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:MetaspaceSize=128M -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="13g278aqiee2cz51" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="7b94kxrn5siz1jww" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -806,7 +811,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:MetaspaceSize=128M -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="0td75smf21v4bmwg" data-title="Web下文件下载" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="6n27cmmmqvl7ppfi" data-title="Web下文件下载" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
 
@@ -906,7 +911,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:MetaspaceSize=128M -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="87u19jbofecl9cts" data-title="Java中的单例模式" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="hrvp5exd1svrptr5" data-title="Java中的单例模式" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
