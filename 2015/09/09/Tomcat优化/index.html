@@ -139,7 +139,7 @@ var _hmt = _hmt || [];
 </pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID            注意FullGC次数，过多的FGC会影响响应延迟</span>
 <span class="preprocessor"># jmap -heap $PID               观察内存使用状况</span>
 <span class="preprocessor"># jmap -histo $PID | more       观察大对象或者对象实例较多的情况</span>
-<span class="preprocessor"># jstack $PID &gt; jstack.txt      观察线程执行状态，出现线程Block，需要特别注意，比如日志滚动</span>
+<span class="preprocessor"># jstack $PID &gt; jstack.txt      观察线程执行状态，出现线程Block，需要特别注意</span>
 </pre></td></tr></table></figure>
 
 <p>ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设置有点紧张，再排查负载</p>
@@ -174,11 +174,11 @@ var _hmt = _hmt || [];
 </pre></td></tr></table></figure>
 
 <h3 id="JVM参数">JVM参数</h3>
-<p>在脚本中头部增加一行参数，这里针对JDK8版本的JVM，无需配置PermSize</p>
+<p>在脚本中头部增加一行参数，这里针对JDK8版本的JVM</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
-JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
+JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:MetaspaceSize=128M -XX:NewRatio=2 -XX:SurvivorRatio=20 -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
 </pre></td></tr></table></figure>
 
 <h3 id="Connector协议由BIO调整为NIO">Connector协议由BIO调整为NIO</h3>
@@ -205,8 +205,8 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
             <span class="attribute">keepAliveTimeout</span>=<span class="value">"60000"</span>
             <span class="attribute">maxKeepAliveRequests</span>=<span class="value">"1024"</span>
             &lt;!<span class="attribute">--</span> 非异步<span class="attribute">Servlet</span>时与<span class="attribute">maxThreads</span>保持一致 <span class="attribute">--</span>&gt;</span>
-            processorCache="256"
-            maxThreads="256"
+            processorCache="128"
+            maxThreads="128"
             <span class="comment">&lt;!-- 队列大小 --&gt;</span>
             acceptCount="64"
             <span class="comment">&lt;!-- 单位毫秒，请求连接超时，keepAliveTimeout参数未设置按此参数 --&gt;</span>
@@ -223,7 +223,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="dmtu7l2m91xvoc06" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="b81q2gfd0ct1d8p8" data-title="Tomcat优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
 

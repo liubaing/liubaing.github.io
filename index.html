@@ -123,65 +123,16 @@ var _hmt = _hmt || [];
 <li><p>添加新的字段选项<code>json_name</code>。默认在proto3的JSON格式中字段名将被转换为<code>lowerCamelCase</code>，这个选项被用于自定义字段名。</p>
 </li>
 </ul>
-<h4 id="JsonFormat注意点"><code>JsonFormat</code>注意点</h4>
-<h5 id="反序列化">反序列化</h5>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="code"><pre>HttpInputMessage inputMessage<span class="comment">;</span>
-InputStreamReader reader<span class="comment">;</span>
-if (MediaType<span class="preprocessor">.APPLICATION</span>_JSON<span class="preprocessor">.isCompatibleWith</span>(contentType)) {
-    reader = new InputStreamReader(inputMessage<span class="preprocessor">.getBody</span>(), charset)<span class="comment">;</span>
-    JsonFormat<span class="preprocessor">.parser</span>()
-            <span class="preprocessor">.ignoringUnknownFields</span>()            //忽略未知字段，避免反序列化抛异常
-            <span class="preprocessor">.merge</span>(reader, ex)<span class="comment">;</span>
-}
-</pre></td></tr></table></figure>
 
-<h5 id="序列化">序列化</h5>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-</pre></td><td class="code"><pre>HttpOutputMessage outputMessage<span class="comment">;</span>
-OutputStreamWriter outputStreamWriter<span class="comment">;</span>
-if (MediaType<span class="preprocessor">.APPLICATION</span>_JSON<span class="preprocessor">.isCompatibleWith</span>(contentType)) {
-    outputStreamWriter = new OutputStreamWriter(outputMessage<span class="preprocessor">.getBody</span>(), charset)<span class="comment">;</span>
-    JsonFormat<span class="preprocessor">.printer</span>()
-            <span class="preprocessor">.includingDefaultValueFields</span>()      //默认值也要序列化，兼容接口定义，int类型默认值<span class="number">0</span>也要输出
-            <span class="preprocessor">.preservingProtoFieldNames</span>()        //保留原有字段名，兼容接口定义
-            <span class="preprocessor">.omittingInsignificantWhitespace</span>()  //忽略空格和换行
-            <span class="preprocessor">.appendTo</span>(message, outputStreamWriter)<span class="comment">;</span>
-    outputStreamWriter<span class="preprocessor">.flush</span>()<span class="comment">;</span>
-}
-</pre></td></tr></table></figure>
-
-<h4 id="实践">实践</h4>
-<ul>
-<li><p>接口升级不要修改已有字段的tags，通常采用追加模式，<code>reserved</code> 关键字用来声明保留字段。</p>
-</li>
-<li><p>可以合理利用map类型。</p>
-</li>
-<li><p>了解<a href="https://github.com/grpc" target="_blank" rel="external">gRPC</a></p>
-</li>
-</ul>
-
+        
+          <p class="article-more-link">
+            <a href="/2017/02/23/Protocol-Buffers-3/">全文</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2017/02/23/Protocol-Buffers-3/" data-id="7v5z2r23h7osnsod" data-title="Protocol Buffers 3" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2017/02/23/Protocol-Buffers-3/" data-id="6vztavmkrzvpworm" data-title="Protocol Buffers 3" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Protobuf/">Protobuf</a></li></ul>
 
@@ -256,7 +207,7 @@ ln -s nexus-<span class="number">2.14</span><span class="number">.1</span>-<span
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/11/08/Nexus私服搭建/" data-id="1ibuo5g15u9pylj0" data-title="Nexus私服搭建" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/11/08/Nexus私服搭建/" data-id="m9a27u6a9j8kxjti" data-title="Nexus私服搭建" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Maven/">Maven</a></li></ul>
 
@@ -305,7 +256,7 @@ ln -s nexus-<span class="number">2.14</span><span class="number">.1</span>-<span
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="lfdq0pnfo1fao0qj" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="hhnzremtodna3zuy" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lua/">Lua</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li></ul>
 
@@ -361,7 +312,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="pduq8080384zlfx2" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="jn0e1r75nbilctd6" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
 
@@ -572,7 +523,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="cdle5yetaut2o695" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="om0u5zmt4uxv3myu" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -618,7 +569,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 </pre></td><td class="code"><pre><span class="preprocessor"># jstat -gcutil $PID            注意FullGC次数，过多的FGC会影响响应延迟</span>
 <span class="preprocessor"># jmap -heap $PID               观察内存使用状况</span>
 <span class="preprocessor"># jmap -histo $PID | more       观察大对象或者对象实例较多的情况</span>
-<span class="preprocessor"># jstack $PID &gt; jstack.txt      观察线程执行状态，出现线程Block，需要特别注意，比如日志滚动</span>
+<span class="preprocessor"># jstack $PID &gt; jstack.txt      观察线程执行状态，出现线程Block，需要特别注意</span>
 </pre></td></tr></table></figure>
 
 <p>ThreadDump没什么问题，GC没发现严重问题，只是觉得堆内存设置有点紧张，再排查负载</p>
@@ -653,11 +604,11 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 </pre></td></tr></table></figure>
 
 <h3 id="JVM参数">JVM参数</h3>
-<p>在脚本中头部增加一行参数，这里针对JDK8版本的JVM，无需配置PermSize</p>
+<p>在脚本中头部增加一行参数，这里针对JDK8版本的JVM</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 </pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
-JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
+JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:MetaspaceSize=128M -XX:NewRatio=2 -XX:SurvivorRatio=20 -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
 </pre></td></tr></table></figure>
 
 <h3 id="Connector协议由BIO调整为NIO">Connector协议由BIO调整为NIO</h3>
@@ -684,8 +635,8 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
             <span class="attribute">keepAliveTimeout</span>=<span class="value">"60000"</span>
             <span class="attribute">maxKeepAliveRequests</span>=<span class="value">"1024"</span>
             &lt;!<span class="attribute">--</span> 非异步<span class="attribute">Servlet</span>时与<span class="attribute">maxThreads</span>保持一致 <span class="attribute">--</span>&gt;</span>
-            processorCache="256"
-            maxThreads="256"
+            processorCache="128"
+            maxThreads="128"
             <span class="comment">&lt;!-- 队列大小 --&gt;</span>
             acceptCount="64"
             <span class="comment">&lt;!-- 单位毫秒，请求连接超时，keepAliveTimeout参数未设置按此参数 --&gt;</span>
@@ -702,7 +653,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="dmtu7l2m91xvoc06" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="b81q2gfd0ct1d8p8" data-title="Tomcat优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
 
@@ -765,7 +716,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="wuw36ah1e8f5dq8r" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="n7gemvwf2409v98t" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
 
@@ -809,7 +760,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="cghyxr6h99ntm56z" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="13g278aqiee2cz51" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -855,7 +806,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="7ba1q5d63ylrq610" data-title="Web下文件下载" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/12/10/Web下文件下载/" data-id="0td75smf21v4bmwg" data-title="Web下文件下载" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
 
@@ -955,7 +906,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:+DisableExplicitGC -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="pzapvkwja3wzhjhn" data-title="Java中的单例模式" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/10/19/Java中的单例模式/" data-id="87u19jbofecl9cts" data-title="Java中的单例模式" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
