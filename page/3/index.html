@@ -82,6 +82,207 @@ var _hmt = _hmt || [];
       <div class="outer">
         <section id="main">
   
+    <article id="post-集合类源码理解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/03/20/集合类源码理解/" class="article-date">
+  <time datetime="2014-03-20T10:16:38.000Z" itemprop="datePublished">2014年3月20日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/编程/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/20/集合类源码理解/">集合类源码理解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。</p>
+<h3 id="Map">Map</h3>
+<h6 id="HashMap">HashMap</h6>
+<p>首先要说得HashMap就是数组和链表得结合体，先看源码</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="comment">/**
+ * 默认初始化容量，必须是2的N次方
+ */</span>
+<span class="keyword">static</span> <span class="keyword">final</span> int DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// aka 16</span>
+<span class="keyword">static</span> <span class="keyword">final</span> Entry<span class="preprocessor">&lt;?</span>,<span class="preprocessor">?&gt;</span>[] EMPTY_TABLE = {};
+transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
+<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; {</span>
+    <span class="keyword">final</span> K key;
+    V value;
+    Entry&lt;K,V&gt; next;
+    int hash;
+    ......
+}
+</pre></td></tr></table></figure>
+
+<p>底层就是Entry数组，每个Entry持有next引用，构成链表。<br>
+        
+          <p class="article-more-link">
+            <a href="/2014/03/20/集合类源码理解/">全文</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liubaing.com/2014/03/20/集合类源码理解/" data-id="1u943qzd8c4x1lrt" data-title="集合类源码理解" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Vim基本操作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/03/03/Vim基本操作/" class="article-date">
+  <time datetime="2014-03-03T03:16:05.000Z" itemprop="datePublished">2014年3月3日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/工具/">工具</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/03/Vim基本操作/">Vim基本操作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>废话不多说，直入主题吧。</p>
+<h4 id="常用操作">常用操作</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre>vim 启动vim
+i 进入插入模式
+&lt;esc&gt; 进入命令行模式
+yy 复制
+p 粘贴
+u 恢复
+v 进入可视化模式
+<span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
+<span class="symbol">:q</span> 退出vim
+<span class="symbol">:q!</span> 强制退出
+<span class="symbol">:w</span> !sudo tee % 权限不足时，强制保存
+</pre></td></tr></table></figure>
+
+<h4 id="删除">删除</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="pseudo">:set</span> <span class="tag">nu</span> 显示行号
+<span class="pseudo">:n</span> 移动到第<span class="tag">n</span>行
+<span class="pseudo">:1</span>,5<span class="tag">d</span> 回车后，删除1<span class="tag">-5</span>行
+<span class="tag">dG</span> 删除当前行后所有行
+<span class="tag">dd</span> 剪切光标所在整行
+<span class="tag">dw</span> 删除该单词
+<span class="tag">d0</span> 删除该行开始到当前光标
+</pre></td></tr></table></figure>
+
+<h4 id="移动光标">移动光标</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre>/kw 向前搜索kw
+?kw 向后搜索kw
+n 向前匹配kw
+<span class="constant">N</span> 向后匹配kw
+<span class="number">0</span> 跳到行首
+<span class="variable">$ </span>跳到行尾
+gg 跳到首行
+<span class="constant">G</span> 跳到文件末尾
+</pre></td></tr></table></figure>
+
+<h4 id="批量加注释">批量加注释</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>进入可视化模式(v)
+使用上下键（shift可翻页）选择需要注释的多行
+进入插入模式(i)
+然后输入注释符
+进入编辑模式(<span class="tag">&lt;<span class="title">Esc</span>&gt;</span>)
+</pre></td></tr></table></figure>
+
+<h4 id="替换字符串">替换字符串</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>进入可视化模式(v)
+选中开始符后按下<span class="escape">`%</span><span class="escape">`直</span>接匹配到结束符，
+按下<span class="escape">`d</span><span class="escape">`删</span>除后，按<span class="escape">`i</span><span class="escape">`后</span>粘贴即可
+</pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="w5t211xjcc7mr6vc" data-title="Vim基本操作" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/02/08/hello-world/" class="article-date">
@@ -117,7 +318,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/02/08/hello-world/" data-id="urxc2gheax50qdc3" data-title="Hello World" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/02/08/hello-world/" data-id="yf13dqp9pctvzcf8" data-title="Hello World" class="article-share-link">分享</a>
       
     </footer>
   </div>
@@ -151,7 +352,15 @@ var _hmt = _hmt || [];
       <ul>
         
           <li>
+            <a href="/2017/03/03/JVM参数设置及优化/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2017/02/23/Protocol-Buffers-3/">Protocol Buffers 3</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/24/HTTP连接状态总结/">HTTP连接状态总结</a>
           </li>
         
           <li>
@@ -160,14 +369,6 @@ var _hmt = _hmt || [];
         
           <li>
             <a href="/2016/06/25/利用OpenResty解决IP反作弊/">利用OpenResty解决IP反作弊</a>
-          </li>
-        
-          <li>
-            <a href="/2016/05/19/初次接触Go编程踩到的坑/">初次接触Go编程踩到的坑</a>
-          </li>
-        
-          <li>
-            <a href="/2016/01/22/多线程顺序输出字符/">多线程顺序输出字符</a>
           </li>
         
       </ul>

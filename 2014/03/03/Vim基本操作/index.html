@@ -6,26 +6,7 @@
   <title>Vim基本操作 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="废话不多说，直入主题吧。
-1、平时常用操作
-1
-2
-3
-4
-5
-6
-7
-8
-vim 启动vim
-i 进入插入模式
-&lt;Esc&gt; 进入命令行模式
-v 进入可视化模式
-:w filename （保存文件为"filename"）
-:q 退出vim
-:q! 强制退出
-:w !sudo tee % 权限不足时，强制保存
-
-
-2、删除
+常用操作
 1
 2
 3
@@ -36,32 +17,34 @@ v 进入可视化模式
 8
 9
 10
-vim filenam">
+11
+vim 启动vim
+i 进入插入模式
+&lt;esc&gt; 进入命令行模式
+yy 复制
+p 粘贴
+u 恢复
+v 进入可视化模式
+:w filename （保存文件为"filename"）
+:q 退出vim
+:q! 强制退出
+:w !sudo tee % 权限不足时，强制保存
+
+
+删除
+1
+2
+3
+4
+5
+6
+7">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vim基本操作">
 <meta property="og:url" content="http://liubaing.com/2014/03/03/Vim基本操作/">
 <meta property="og:site_name" content="六八ing的博客">
 <meta property="og:description" content="废话不多说，直入主题吧。
-1、平时常用操作
-1
-2
-3
-4
-5
-6
-7
-8
-vim 启动vim
-i 进入插入模式
-&lt;Esc&gt; 进入命令行模式
-v 进入可视化模式
-:w filename （保存文件为"filename"）
-:q 退出vim
-:q! 强制退出
-:w !sudo tee % 权限不足时，强制保存
-
-
-2、删除
+常用操作
 1
 2
 3
@@ -72,30 +55,32 @@ v 进入可视化模式
 8
 9
 10
-vim filenam">
+11
+vim 启动vim
+i 进入插入模式
+&lt;esc&gt; 进入命令行模式
+yy 复制
+p 粘贴
+u 恢复
+v 进入可视化模式
+:w filename （保存文件为"filename"）
+:q 退出vim
+:q! 强制退出
+:w !sudo tee % 权限不足时，强制保存
+
+
+删除
+1
+2
+3
+4
+5
+6
+7">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vim基本操作">
 <meta name="twitter:description" content="废话不多说，直入主题吧。
-1、平时常用操作
-1
-2
-3
-4
-5
-6
-7
-8
-vim 启动vim
-i 进入插入模式
-&lt;Esc&gt; 进入命令行模式
-v 进入可视化模式
-:w filename （保存文件为"filename"）
-:q 退出vim
-:q! 强制退出
-:w !sudo tee % 权限不足时，强制保存
-
-
-2、删除
+常用操作
 1
 2
 3
@@ -106,7 +91,28 @@ v 进入可视化模式
 8
 9
 10
-vim filenam">
+11
+vim 启动vim
+i 进入插入模式
+&lt;esc&gt; 进入命令行模式
+yy 复制
+p 粘贴
+u 恢复
+v 进入可视化模式
+:w filename （保存文件为"filename"）
+:q 退出vim
+:q! 强制退出
+:w !sudo tee % 权限不足时，强制保存
+
+
+删除
+1
+2
+3
+4
+5
+6
+7">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -200,26 +206,7 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <p>废话不多说，直入主题吧。</p>
-<h4 id="1、平时常用操作">1、平时常用操作</h4>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="code"><pre>vim 启动vim
-i 进入插入模式
-&lt;<span class="constant">Esc</span>&gt; 进入命令行模式
-v 进入可视化模式
-<span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
-<span class="symbol">:q</span> 退出vim
-<span class="symbol">:q!</span> 强制退出
-<span class="symbol">:w</span> !sudo tee % 权限不足时，强制保存
-</pre></td></tr></table></figure>
-
-<h4 id="2、删除">2、删除</h4>
+<h4 id="常用操作">常用操作</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -230,19 +217,38 @@ v 进入可视化模式
 8
 9
 10
-</pre></td><td class="code"><pre><span class="tag">vim</span> <span class="tag">filename</span>
-<span class="pseudo">:set</span> <span class="tag">nu</span> 显示行号
+11
+</pre></td><td class="code"><pre>vim 启动vim
+i 进入插入模式
+&lt;esc&gt; 进入命令行模式
+yy 复制
+p 粘贴
+u 恢复
+v 进入可视化模式
+<span class="symbol">:w</span> filename （保存文件为<span class="string">"filename"</span>）
+<span class="symbol">:q</span> 退出vim
+<span class="symbol">:q!</span> 强制退出
+<span class="symbol">:w</span> !sudo tee % 权限不足时，强制保存
+</pre></td></tr></table></figure>
+
+<h4 id="删除">删除</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="pseudo">:set</span> <span class="tag">nu</span> 显示行号
 <span class="pseudo">:n</span> 移动到第<span class="tag">n</span>行
 <span class="pseudo">:1</span>,5<span class="tag">d</span> 回车后，删除1<span class="tag">-5</span>行
-<span class="tag">p</span> 粘贴
-<span class="tag">u</span> 恢复
 <span class="tag">dG</span> 删除当前行后所有行
 <span class="tag">dd</span> 剪切光标所在整行
 <span class="tag">dw</span> 删除该单词
 <span class="tag">d0</span> 删除该行开始到当前光标
 </pre></td></tr></table></figure>
 
-<h4 id="3、移动光标">3、移动光标</h4>
+<h4 id="移动光标">移动光标</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -261,7 +267,7 @@ gg 跳到首行
 <span class="constant">G</span> 跳到文件末尾
 </pre></td></tr></table></figure>
 
-<h4 id="4、批量加注释">4、批量加注释</h4>
+<h4 id="批量加注释">批量加注释</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -274,7 +280,7 @@ gg 跳到首行
 进入编辑模式(<span class="tag">&lt;<span class="title">Esc</span>&gt;</span>)
 </pre></td></tr></table></figure>
 
-<h4 id="5、替换字符串">5、替换字符串</h4>
+<h4 id="替换字符串">替换字符串</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -285,7 +291,7 @@ gg 跳到首行
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="x8zjlyuewb6f813v" data-title="Vim基本操作" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/03/03/Vim基本操作/" data-id="w5t211xjcc7mr6vc" data-title="Vim基本操作" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vim/">Vim</a></li></ul>
 
@@ -342,7 +348,15 @@ gg 跳到首行
       <ul>
         
           <li>
+            <a href="/2017/03/03/JVM参数设置及优化/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2017/02/23/Protocol-Buffers-3/">Protocol Buffers 3</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/24/HTTP连接状态总结/">HTTP连接状态总结</a>
           </li>
         
           <li>
@@ -351,14 +365,6 @@ gg 跳到首行
         
           <li>
             <a href="/2016/06/25/利用OpenResty解决IP反作弊/">利用OpenResty解决IP反作弊</a>
-          </li>
-        
-          <li>
-            <a href="/2016/05/19/初次接触Go编程踩到的坑/">初次接触Go编程踩到的坑</a>
-          </li>
-        
-          <li>
-            <a href="/2016/01/22/多线程顺序输出字符/">多线程顺序输出字符</a>
           </li>
         
       </ul>
