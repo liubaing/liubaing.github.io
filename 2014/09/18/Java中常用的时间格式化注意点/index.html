@@ -116,6 +116,8 @@ var _hmt = _hmt || [];
 <p>之前接触到项目中一般都会提供一个工具类，既然是工具类，那就按套路了，上面声明几个不同格式的Pattern实例，下面写几个static方法，然后处理下异常之类的。</p>
 <p>这样的好处是避免方法调用时去new SimpleDateFormat，从而创建大量的实例对象，毕竟SimpleDateFormat类初始化代价不小，父类DateFormat中成员变量包含Calendar等。</p>
 <p>但恰恰就因为这个成员变量，并且format方法又没有同步，所以这个工具类在多线程下风险很高。</p>
+<a id="more"></a>
+
 <p>这个问题在网上也看到很多解决方案，参考JDK中注释。</p>
 <blockquote>
 <p> Date formats are not synchronized. It is recommended to create separate format instances for each thread. If multiple threads access a format concurrently, it must be synchronized externally</p>
@@ -164,8 +166,6 @@ var _hmt = _hmt || [];
     <span class="keyword">return</span> getDateFormat().format(date);
 }
 </pre></td></tr></table></figure><br>共享变量变成了线程私有</p>
-<a id="more"></a>
-
 <h4 id="使用Joda-Time类库">使用Joda-Time类库</h4>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -182,7 +182,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="w94ayy29anh674az" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/" data-id="vs7gt77x2jb8bs9j" data-title="Java中常用的时间格式化注意点" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -239,7 +239,7 @@ var _hmt = _hmt || [];
       <ul>
         
           <li>
-            <a href="/2017/03/03/JVM参数设置及优化/">(no title)</a>
+            <a href="/2017/03/01/JVM参数设置及优化/">JVM参数设置及优化</a>
           </li>
         
           <li>

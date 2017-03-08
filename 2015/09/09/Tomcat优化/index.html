@@ -190,8 +190,10 @@ var _hmt = _hmt || [];
 <p>在脚本中头部增加一行参数，这里针对JDK8版本的JVM，具体参考<a href="http://liubaing.com/2017/03/01/JVM参数设置及优化" target="_blank" rel="external">JVM参数设置及优化</a></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
-JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:MetaspaceSize=128M -XX:NewRatio=2 -XX:SurvivorRatio=20 -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
+3
+</pre></td><td class="code"><pre><span class="comment"># vim /usr/local/tomcat/bin/catalina.sh</span>
+JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -Xms4g -Xmx4g -Xmn2g -XX:SurvivorRatio=16 -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=512m"</span>
+JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:MaxTenuringThreshold=4"</span>
 </pre></td></tr></table></figure>
 
 
@@ -237,7 +239,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:MetaspaceSize=128M -XX
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="1hj0ut3rvzrao52z" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="q4h5wtathx1dpxsd" data-title="Tomcat优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
 
@@ -294,7 +296,7 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:MetaspaceSize=128M -XX
       <ul>
         
           <li>
-            <a href="/2017/03/03/JVM参数设置及优化/">(no title)</a>
+            <a href="/2017/03/01/JVM参数设置及优化/">JVM参数设置及优化</a>
           </li>
         
           <li>

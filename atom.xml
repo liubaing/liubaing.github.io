@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2017-03-06T11:18:45.407Z</updated>
+  <updated>2017-03-08T11:36:09.783Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -15,15 +15,50 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[]]></title>
-    <link href="http://liubaing.com/2017/03/03/JVM%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE%E5%8F%8A%E4%BC%98%E5%8C%96/"/>
-    <id>http://liubaing.com/2017/03/03/JVM参数设置及优化/</id>
-    <published>2017-03-03T09:59:14.000Z</published>
-    <updated>2017-03-03T09:59:14.000Z</updated>
-    <content type="html"><![CDATA[<p>title: JVM参数设置及优化<br>date: 2017-03-01 16:44:28</p>
-<h2 id="tags:[Java]">tags:[Java]</h2>
+    <title><![CDATA[JVM参数设置及优化]]></title>
+    <link href="http://liubaing.com/2017/03/01/JVM%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE%E5%8F%8A%E4%BC%98%E5%8C%96/"/>
+    <id>http://liubaing.com/2017/03/01/JVM参数设置及优化/</id>
+    <published>2017-03-01T08:44:28.000Z</published>
+    <updated>2017-03-08T11:33:28.000Z</updated>
+    <content type="html"><![CDATA[<p>JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存</p>
+<p>栈Stack: 存储局部变量等，默认为1M<br>堆Heap: 存储Java对象，包含新生代，老年代<br>元Metaspace: 存储类定义及常量池，注意JDK7/8的区别<br>堆外Off Heap: <code>java.nio.*</code>等使用</p>
+<a id="more"></a>
+
+<h3 id="内存相关">内存相关</h3>
+<h4 id="-Xss256k">-Xss256k</h4>
+<p>每个线程栈大小</p>
+<h4 id="-Xms[g|m|k]">-Xms<n>[g|m|k]</n></h4>
+<p>最小堆大小</p>
+<h4 id="-Xmx[g|m|k]">-Xmx<n>[g|m|k]</n></h4>
+<p>最大堆大小</p>
+<h4 id="-Xmn[g|m|k]">-Xmn<n>[g|m|k]</n></h4>
+<p>新生代大小</p>
+<h4 id="-XX:NewRatio=">-XX:NewRatio=<n></n></h4>
+<p>老年代与新生代的大小比例</p>
+<h4 id="-XX:SurvivorRatio=">-XX:SurvivorRatio=<n></n></h4>
+<p>Eden区与Survivor区的大小比例</p>
+<h3 id="GC相关">GC相关</h3>
+<h4 id="-XX:+UseConcMarkSweepGC">-XX:+UseConcMarkSweepGC</h4>
+<p>适用CMS垃圾回收算法</p>
+<h4 id="-XX:MaxTenuringThreshold=">-XX:MaxTenuringThreshold=<n></n></h4>
+<p>新生代中对象存活次数，超过n后提升到老年代</p>
+<h4 id="-XX:+PrintGCDetails">-XX:+PrintGCDetails</h4>
+<p>打印GC信息</p>
+<h3 id="优化方案">优化方案</h3>
+<ol>
+<li>注意ArrayList, HashMap, StringBuilder等扩容问题</li>
+<li>Thread Safe的对象全局重用，非Thread Safe的对象ThreadLocal重用</li>
+<li>局部变量更多采用基础类型</li>
+</ol>
+<p>参考 <a href="http://www.techpaste.com/2012/02/java-command-line-options-jvm-performance-improvement/" target="_blank" rel="external">用于JVM性能调优的Java命令行选项</a></p>
 ]]></content>
+    <summary type="html"><![CDATA[<p>JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存</p>
+<p>栈Stack: 存储局部变量等，默认为1M<br>堆Heap: 存储Java对象，包含新生代，老年代<br>元Metaspace: 存储类定义及常量池，注意JDK7/8的区别<br>堆外Off Heap: <code>java.nio.*</code>等使用</p>
+]]></summary>
     
+      <category term="Java" scheme="http://liubaing.com/tags/Java/"/>
+    
+      <category term="编程" scheme="http://liubaing.com/categories/%E7%BC%96%E7%A8%8B/"/>
     
   </entry>
   
@@ -133,7 +168,7 @@ if (MediaType<span class="preprocessor">.APPLICATION</span>_JSON<span class="pre
     <link href="http://liubaing.com/2016/12/24/HTTP%E8%BF%9E%E6%8E%A5%E7%8A%B6%E6%80%81%E6%80%BB%E7%BB%93/"/>
     <id>http://liubaing.com/2016/12/24/HTTP连接状态总结/</id>
     <published>2016-12-24T09:56:17.000Z</published>
-    <updated>2017-03-06T10:31:33.000Z</updated>
+    <updated>2017-03-06T11:23:25.000Z</updated>
     <content type="html"><![CDATA[<p>TCP连接的生命周期，通常会有三个阶段：</p>
 <ol>
 <li>TCP三次握手</li>
@@ -554,7 +589,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
     <link href="http://liubaing.com/2016/01/22/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%A1%BA%E5%BA%8F%E8%BE%93%E5%87%BA%E5%AD%97%E7%AC%A6/"/>
     <id>http://liubaing.com/2016/01/22/多线程顺序输出字符/</id>
     <published>2016-01-22T05:27:48.000Z</published>
-    <updated>2016-04-19T10:14:54.000Z</updated>
+    <updated>2017-03-07T03:08:54.000Z</updated>
     <content type="html"><![CDATA[<p>题目：有多个线程，要求按顺序输出a-z，结果为</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -573,6 +608,8 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 <span class="attr_selector">[Thread-1]</span> <span class="tag">print</span> <span class="attr_selector">[G]</span>
 …
 </pre></td></tr></table></figure>
+
+<a id="more"></a>
 
 <p>实现代码如下</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -726,7 +763,26 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
     }
 }
 </pre></td></tr></table></figure>]]></content>
-    
+    <summary type="html"><![CDATA[<p>题目：有多个线程，要求按顺序输出a-z，结果为</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="attr_selector">[Thread-1]</span> <span class="tag">print</span> <span class="attr_selector">[A]</span>
+<span class="attr_selector">[Thread-2]</span> <span class="tag">print</span> <span class="attr_selector">[B]</span>
+<span class="attr_selector">[Thread-3]</span> <span class="tag">print</span> <span class="attr_selector">[C]</span>
+<span class="attr_selector">[Thread-1]</span> <span class="tag">print</span> <span class="attr_selector">[D]</span>
+<span class="attr_selector">[Thread-2]</span> <span class="tag">print</span> <span class="attr_selector">[E]</span>
+<span class="attr_selector">[Thread-3]</span> <span class="tag">print</span> <span class="attr_selector">[F]</span>
+<span class="attr_selector">[Thread-1]</span> <span class="tag">print</span> <span class="attr_selector">[G]</span>
+…
+</pre></td></tr></table></figure>
+
+]]></summary>
     
       <category term="Java" scheme="http://liubaing.com/tags/Java/"/>
     
@@ -739,7 +795,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
     <link href="http://liubaing.com/2015/09/09/Tomcat%E4%BC%98%E5%8C%96/"/>
     <id>http://liubaing.com/2015/09/09/Tomcat优化/</id>
     <published>2015-09-09T10:06:36.000Z</published>
-    <updated>2017-03-04T08:54:49.000Z</updated>
+    <updated>2017-03-08T10:57:44.000Z</updated>
     <content type="html"><![CDATA[<p><strong>更新</strong>：建议部署APM工具<a href="https://github.com/naver/pinpoint" target="_blank" rel="external">Pinpoint</a>，比较直观分析性能。</p>
 <h3 id="分析">分析</h3>
 <h4 id="排查JVM">排查JVM</h4>
@@ -794,8 +850,10 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 <p>在脚本中头部增加一行参数，这里针对JDK8版本的JVM，具体参考<a href="http://liubaing.com/2017/03/01/JVM参数设置及优化" target="_blank" rel="external">JVM参数设置及优化</a></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
-</pre></td><td class="code"><pre><span class="preprocessor"># vim /usr/local/tomcat/bin/catalina.sh</span>
-JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:MetaspaceSize=128M -XX:NewRatio=2 -XX:SurvivorRatio=20 -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError"</span>
+3
+</pre></td><td class="code"><pre><span class="comment"># vim /usr/local/tomcat/bin/catalina.sh</span>
+JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -Xms4g -Xmx4g -Xmn2g -XX:SurvivorRatio=16 -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=512m"</span>
+JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:MaxTenuringThreshold=4"</span>
 </pre></td></tr></table></figure>
 
 
@@ -1128,11 +1186,13 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:MetaspaceSize=128M -XX
     <link href="http://liubaing.com/2014/09/18/Java%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%8C%96%E6%B3%A8%E6%84%8F%E7%82%B9/"/>
     <id>http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/</id>
     <published>2014-09-18T09:29:24.000Z</published>
-    <updated>2015-07-27T08:41:57.000Z</updated>
+    <updated>2017-03-07T03:08:54.000Z</updated>
     <content type="html"><![CDATA[<p>平时工作中或多或少都会遇到时间格式化的问题，传统思路都利用<code>java.text.SimpleDateFormat</code>，然后根据业务场景写几个Pattern去处理。</p>
 <p>之前接触到项目中一般都会提供一个工具类，既然是工具类，那就按套路了，上面声明几个不同格式的Pattern实例，下面写几个static方法，然后处理下异常之类的。</p>
 <p>这样的好处是避免方法调用时去new SimpleDateFormat，从而创建大量的实例对象，毕竟SimpleDateFormat类初始化代价不小，父类DateFormat中成员变量包含Calendar等。</p>
 <p>但恰恰就因为这个成员变量，并且format方法又没有同步，所以这个工具类在多线程下风险很高。</p>
+<a id="more"></a>
+
 <p>这个问题在网上也看到很多解决方案，参考JDK中注释。</p>
 <blockquote>
 <p> Date formats are not synchronized. It is recommended to create separate format instances for each thread. If multiple threads access a format concurrently, it must be synchronized externally</p>
@@ -1181,8 +1241,6 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:MetaspaceSize=128M -XX
     <span class="keyword">return</span> getDateFormat().format(date);
 }
 </pre></td></tr></table></figure><br>共享变量变成了线程私有</p>
-<a id="more"></a>
-
 <h4 id="使用Joda-Time类库">使用Joda-Time类库</h4>
 <p><figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -1200,54 +1258,6 @@ JAVA_OPTS=<span class="string">"-server -Xmx6g -Xms4g -XX:MetaspaceSize=128M -XX
 <p>之前接触到项目中一般都会提供一个工具类，既然是工具类，那就按套路了，上面声明几个不同格式的Pattern实例，下面写几个static方法，然后处理下异常之类的。</p>
 <p>这样的好处是避免方法调用时去new SimpleDateFormat，从而创建大量的实例对象，毕竟SimpleDateFormat类初始化代价不小，父类DateFormat中成员变量包含Calendar等。</p>
 <p>但恰恰就因为这个成员变量，并且format方法又没有同步，所以这个工具类在多线程下风险很高。</p>
-<p>这个问题在网上也看到很多解决方案，参考JDK中注释。</p>
-<blockquote>
-<p> Date formats are not synchronized. It is recommended to create separate format instances for each thread. If multiple threads access a format concurrently, it must be synchronized externally</p>
-</blockquote>
-<h4 id="同步SimpleDateFormat对象">同步SimpleDateFormat对象</h4>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">formatDate</span>(Date date) <span class="keyword">throws</span> ParseException {
-    <span class="keyword">synchronized</span>(sdf) {
-        <span class="keyword">return</span> sdf.format(date);
-    }
-}
-</pre></td></tr></table></figure><br>同步随之而来就是阻塞</p>
-<h4 id="使用ThreadLocal">使用ThreadLocal</h4>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-</pre></td><td class="code"><pre><span class="keyword">private</span> <span class="keyword">static</span> final String FULL_DATE_FORMAT = <span class="string">"yyyy-MM-dd HH:mm:ss"</span>;
-<span class="keyword">private</span> <span class="keyword">static</span> ThreadLocal&lt;SimpleDateFormat&gt; threadLocal = <span class="keyword">new</span> ThreadLocal&lt;SimpleDateFormat&gt;();
-
-<span class="keyword">public</span> <span class="keyword">static</span> SimpleDateFormat <span class="title">getDateFormat</span>() {
-    SimpleDateFormat dateFormat = threadLocal.<span class="keyword">get</span>();
-    <span class="keyword">if</span> (dateFormat == <span class="keyword">null</span>) {
-        dateFormat = <span class="keyword">new</span> SimpleDateFormat(FULL_DATE_FORMAT);
-        threadLocal.<span class="keyword">set</span>(dateFormat);
-    }
-    <span class="keyword">return</span> dateFormat;
-}
-
-<span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">formatDate</span>(Date date) throws ParseException {
-    <span class="keyword">return</span> getDateFormat().format(date);
-}
-</pre></td></tr></table></figure><br>共享变量变成了线程私有</p>
 ]]></summary>
     
       <category term="Java" scheme="http://liubaing.com/tags/Java/"/>

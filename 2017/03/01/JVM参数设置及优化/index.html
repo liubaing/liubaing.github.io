@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>六八ing的博客</title>
+  <title>JVM参数设置及优化 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: JVM参数设置及优化date: 2017-03-01 16:44:28
-tags:[Java]">
+  <meta name="description" content="JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存
+栈Stack: 存储局部变量等，默认为1M堆Heap: 存储Java对象，包含新生代，老年代元Metaspace: 存储类定义及常量池，注意JDK7/8的区别堆外Off Heap: java.nio.*等使用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="六八ing的博客">
-<meta property="og:url" content="http://liubaing.com/2017/03/03/JVM参数设置及优化/">
+<meta property="og:title" content="JVM参数设置及优化">
+<meta property="og:url" content="http://liubaing.com/2017/03/01/JVM参数设置及优化/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="title: JVM参数设置及优化date: 2017-03-01 16:44:28
-tags:[Java]">
+<meta property="og:description" content="JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存
+栈Stack: 存储局部变量等，默认为1M堆Heap: 存储Java对象，包含新生代，老年代元Metaspace: 存储类定义及常量池，注意JDK7/8的区别堆外Off Heap: java.nio.*等使用">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="六八ing的博客">
-<meta name="twitter:description" content="title: JVM参数设置及优化date: 2017-03-01 16:44:28
-tags:[Java]">
+<meta name="twitter:title" content="JVM参数设置及优化">
+<meta name="twitter:description" content="JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存
+栈Stack: 存储局部变量等，默认为1M堆Heap: 存储Java对象，包含新生代，老年代元Metaspace: 存储类定义及常量池，注意JDK7/8的区别堆外Off Heap: java.nio.*等使用">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -85,24 +85,69 @@ var _hmt = _hmt || [];
       <div class="outer">
         <section id="main"><article id="post-JVM参数设置及优化" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/03/03/JVM参数设置及优化/" class="article-date">
-  <time datetime="2017-03-03T09:59:14.000Z" itemprop="datePublished">2017年3月3日</time>
+    <a href="/2017/03/01/JVM参数设置及优化/" class="article-date">
+  <time datetime="2017-03-01T08:44:28.000Z" itemprop="datePublished">2017年3月1日</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/编程/">编程</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JVM参数设置及优化
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>title: JVM参数设置及优化<br>date: 2017-03-01 16:44:28</p>
-<h2 id="tags:[Java]">tags:[Java]</h2>
+        <p>JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存</p>
+<p>栈Stack: 存储局部变量等，默认为1M<br>堆Heap: 存储Java对象，包含新生代，老年代<br>元Metaspace: 存储类定义及常量池，注意JDK7/8的区别<br>堆外Off Heap: <code>java.nio.*</code>等使用</p>
+<a id="more"></a>
+
+<h3 id="内存相关">内存相关</h3>
+<h4 id="-Xss256k">-Xss256k</h4>
+<p>每个线程栈大小</p>
+<h4 id="-Xms[g|m|k]">-Xms<n>[g|m|k]</n></h4>
+<p>最小堆大小</p>
+<h4 id="-Xmx[g|m|k]">-Xmx<n>[g|m|k]</n></h4>
+<p>最大堆大小</p>
+<h4 id="-Xmn[g|m|k]">-Xmn<n>[g|m|k]</n></h4>
+<p>新生代大小</p>
+<h4 id="-XX:NewRatio=">-XX:NewRatio=<n></n></h4>
+<p>老年代与新生代的大小比例</p>
+<h4 id="-XX:SurvivorRatio=">-XX:SurvivorRatio=<n></n></h4>
+<p>Eden区与Survivor区的大小比例</p>
+<h3 id="GC相关">GC相关</h3>
+<h4 id="-XX:+UseConcMarkSweepGC">-XX:+UseConcMarkSweepGC</h4>
+<p>适用CMS垃圾回收算法</p>
+<h4 id="-XX:MaxTenuringThreshold=">-XX:MaxTenuringThreshold=<n></n></h4>
+<p>新生代中对象存活次数，超过n后提升到老年代</p>
+<h4 id="-XX:+PrintGCDetails">-XX:+PrintGCDetails</h4>
+<p>打印GC信息</p>
+<h3 id="优化方案">优化方案</h3>
+<ol>
+<li>注意ArrayList, HashMap, StringBuilder等扩容问题</li>
+<li>Thread Safe的对象全局重用，非Thread Safe的对象ThreadLocal重用</li>
+<li>局部变量更多采用基础类型</li>
+</ol>
+<p>参考 <a href="http://www.techpaste.com/2012/02/java-command-line-options-jvm-performance-improvement/" target="_blank" rel="external">用于JVM性能调优的Java命令行选项</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2017/03/03/JVM参数设置及优化/" data-id="onnopp8e33h3ntfu" data-title="" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2017/03/01/JVM参数设置及优化/" data-id="yry46yze1lrejo1s" data-title="JVM参数设置及优化" class="article-share-link">分享</a>
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
     </footer>
   </div>
   
@@ -123,7 +168,7 @@ var _hmt = _hmt || [];
 
 
 <section id="comment">
-  <div class="ds-thread" data-title="" data-thread-key="2017/03/03/JVM参数设置及优化/">
+  <div class="ds-thread" data-title="JVM参数设置及优化" data-thread-key="2017/03/01/JVM参数设置及优化/">
   </div>
 </section>
 
@@ -147,7 +192,7 @@ var _hmt = _hmt || [];
       <ul>
         
           <li>
-            <a href="/2017/03/03/JVM参数设置及优化/">(no title)</a>
+            <a href="/2017/03/01/JVM参数设置及优化/">JVM参数设置及优化</a>
           </li>
         
           <li>
