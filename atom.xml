@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2017-03-08T11:36:09.783Z</updated>
+  <updated>2017-03-09T08:36:41.158Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -19,30 +19,42 @@
     <link href="http://liubaing.com/2017/03/01/JVM%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE%E5%8F%8A%E4%BC%98%E5%8C%96/"/>
     <id>http://liubaing.com/2017/03/01/JVM参数设置及优化/</id>
     <published>2017-03-01T08:44:28.000Z</published>
-    <updated>2017-03-08T11:33:28.000Z</updated>
-    <content type="html"><![CDATA[<p>JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存</p>
-<p>栈Stack: 存储局部变量等，默认为1M<br>堆Heap: 存储Java对象，包含新生代，老年代<br>元Metaspace: 存储类定义及常量池，注意JDK7/8的区别<br>堆外Off Heap: <code>java.nio.*</code>等使用</p>
+    <updated>2017-03-09T06:13:38.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="JVM内存">JVM内存</h3>
+<p>JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存</p>
+<h5 id="栈Stack">栈Stack</h5>
+<p>存储局部变量等，默认为1M</p>
+<h5 id="堆Heap">堆Heap</h5>
+<p>存储Java对象，包含新生代，老年代</p>
+<h5 id="元Metaspace">元Metaspace</h5>
+<p>存储类定义及常量池，注意JDK7/8的区别</p>
+<h5 id="堆外Off_Heap">堆外Off Heap</h5>
+<p><code>java.nio.*</code>等使用</p>
 <a id="more"></a>
 
-<h3 id="内存相关">内存相关</h3>
-<h4 id="-Xss256k">-Xss256k</h4>
+<h3 id="内存相关参数">内存相关参数</h3>
+<h5 id="-Xss[m|k]">-Xss<n>[m|k]</n></h5>
 <p>每个线程栈大小</p>
-<h4 id="-Xms[g|m|k]">-Xms<n>[g|m|k]</n></h4>
+<h5 id="-Xms[g|m|k]">-Xms<n>[g|m|k]</n></h5>
 <p>最小堆大小</p>
-<h4 id="-Xmx[g|m|k]">-Xmx<n>[g|m|k]</n></h4>
+<h5 id="-Xmx[g|m|k]">-Xmx<n>[g|m|k]</n></h5>
 <p>最大堆大小</p>
-<h4 id="-Xmn[g|m|k]">-Xmn<n>[g|m|k]</n></h4>
+<h5 id="-Xmn[g|m|k]">-Xmn<n>[g|m|k]</n></h5>
 <p>新生代大小</p>
-<h4 id="-XX:NewRatio=">-XX:NewRatio=<n></n></h4>
+<h5 id="-XX:NewRatio=">-XX:NewRatio=<n></n></h5>
 <p>老年代与新生代的大小比例</p>
-<h4 id="-XX:SurvivorRatio=">-XX:SurvivorRatio=<n></n></h4>
+<h5 id="-XX:SurvivorRatio=">-XX:SurvivorRatio=<n></n></h5>
 <p>Eden区与Survivor区的大小比例</p>
-<h3 id="GC相关">GC相关</h3>
-<h4 id="-XX:+UseConcMarkSweepGC">-XX:+UseConcMarkSweepGC</h4>
-<p>适用CMS垃圾回收算法</p>
-<h4 id="-XX:MaxTenuringThreshold=">-XX:MaxTenuringThreshold=<n></n></h4>
+<h3 id="GC相关参数">GC相关参数</h3>
+<h5 id="-XX:+UseParallelGC">-XX:+UseParallelGC</h5>
+<p>JDK8默认GC算法</p>
+<h5 id="-XX:+UseConcMarkSweepGC">-XX:+UseConcMarkSweepGC</h5>
+<p>使用CMS算法</p>
+<h5 id="-XX:+UseG1GC">-XX:+UseG1GC</h5>
+<p>使用G1算法，生产环境谨慎</p>
+<h5 id="-XX:MaxTenuringThreshold=">-XX:MaxTenuringThreshold=<n></n></h5>
 <p>新生代中对象存活次数，超过n后提升到老年代</p>
-<h4 id="-XX:+PrintGCDetails">-XX:+PrintGCDetails</h4>
+<h5 id="-XX:+PrintGCDetails">-XX:+PrintGCDetails</h5>
 <p>打印GC信息</p>
 <h3 id="优化方案">优化方案</h3>
 <ol>
@@ -52,8 +64,16 @@
 </ol>
 <p>参考 <a href="http://www.techpaste.com/2012/02/java-command-line-options-jvm-performance-improvement/" target="_blank" rel="external">用于JVM性能调优的Java命令行选项</a></p>
 ]]></content>
-    <summary type="html"><![CDATA[<p>JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存</p>
-<p>栈Stack: 存储局部变量等，默认为1M<br>堆Heap: 存储Java对象，包含新生代，老年代<br>元Metaspace: 存储类定义及常量池，注意JDK7/8的区别<br>堆外Off Heap: <code>java.nio.*</code>等使用</p>
+    <summary type="html"><![CDATA[<h3 id="JVM内存">JVM内存</h3>
+<p>JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存</p>
+<h5 id="栈Stack">栈Stack</h5>
+<p>存储局部变量等，默认为1M</p>
+<h5 id="堆Heap">堆Heap</h5>
+<p>存储Java对象，包含新生代，老年代</p>
+<h5 id="元Metaspace">元Metaspace</h5>
+<p>存储类定义及常量池，注意JDK7/8的区别</p>
+<h5 id="堆外Off_Heap">堆外Off Heap</h5>
+<p><code>java.nio.*</code>等使用</p>
 ]]></summary>
     
       <category term="Java" scheme="http://liubaing.com/tags/Java/"/>
