@@ -131,7 +131,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2017/03/01/JVM参数设置及优化/" data-id="t03xxi27xm69lgqb" data-title="JVM参数设置及优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2017/03/01/JVM参数设置及优化/" data-id="k22wd147ne0e07xw" data-title="JVM参数设置及优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -192,7 +192,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2017/02/23/Protocol-Buffers-3/" data-id="dvucxvs8f9ixq3bd" data-title="Protocol Buffers 3" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2017/02/23/Protocol-Buffers-3/" data-id="4agk9tm86quqsz0g" data-title="Protocol Buffers 3" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Protobuf/">Protobuf</a></li></ul>
 
@@ -225,18 +225,32 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>TCP连接的生命周期，通常会有三个阶段：</p>
+        <p>TCP连接的生命周期，通常会有</p>
+<h3 id="三个阶段">三个阶段</h3>
 <ol>
 <li>TCP三次握手</li>
 <li>数据传送</li>
 <li>TCP四次挥手</li>
 </ol>
 <p>从Google上扒了一张详细介绍各个阶段的产生的连接状态图<br><img src="http://7j1y6m.com1.z0.glb.clouddn.com/connection_state.png" alt="TCP状态转换图"></p>
+<h3 id="三种数据包">三种数据包</h3>
+<ol>
+<li>SYN(同步序列编号,Synchronize Sequence Numbers)该标志仅在三次握手建立TCP连接时有效</li>
+<li>ACK(确认编号,Acknowledgement Number)是对TCP请求的确认标志</li>
+<li>FIN(结束标志,FINish)用来结束一个TCP连接</li>
+</ol>
+<h3 id="三个问题">三个问题</h3>
+<h4 id="SYN_Flood攻击">SYN Flood攻击</h4>
+<p>SYN攻击是一个典型的DDoS攻击。<br>在三次握手过程中，服务器发送SYN-ACK之后，收到客户端的ACK之前的TCP连接称为半连接(half-open connect)。<br>SYN攻击就是客户端在短时间内伪造大量不存在的IP地址，向服务器不断地发送SYN包，服务器回复ACK包，并等待客户的ACK从而建立连接。<br>由于源地址是不存在的，不会再发送ACK确认包，所以服务器需要不断的重发直至超时，这些伪造的SYN包将长时间占用未连接队列，资源耗尽（CPU满负荷或内存不足），让正常的业务请求连接不进来。<br>参考<a href="http://tech.uc.cn/?p=1790" target="_blank" rel="external">TCP洪水攻击（SYN Flood）的诊断和处理</a></p>
+<h4 id="CLOSE_WAIT">CLOSE_WAIT</h4>
+<p>主动关闭的一方发出FIN包，被动关闭的一方响应ACK包，此时被动关闭的一方就进入了CLOSE_WAIT状态。<br>通常，CLOSE_WAIT状态在服务器停留时间很短，如果你发现大量的CLOSE_WAIT状态，那么就意味着被动关闭的一方没有及时发出FIN包，一般有可能是程序没有及时关闭socket。<br>注意 CLOSE_WAIT没有超时参数控制，如果不重启进程，那么这些状态的连接会永远占用资源。</p>
+<h4 id="TIME_WAIT">TIME_WAIT</h4>
+<p>在关闭连接的时候，先发FIN包的一方执行的是主动关闭，后发FIN包的一方执行的是被动关闭。主动关闭的一方会进入TIME_WAIT状态，并且在此状态停留两倍的MSL时长。<br>MSL指的是报文段的最大生存时间，如果报文段在网络活动了MSL时间，还没有被接收，那么会被丢弃。关于MSL的大小，RFC 793协议中给出的建议是两分钟，不过实际上不同的操作系统可能有不同的设置，以Linux为例，通常是半分钟，两倍的MSL就是一分钟，也就是60秒。<br>比较有效的方案是连接采用keep-alive，尽可能不让服务端主动关闭连接。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/12/24/HTTP连接状态总结/" data-id="83sozvl24yxmc909" data-title="HTTP连接状态总结" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/12/24/HTTP连接状态总结/" data-id="ipe8w36uqgb0mp4c" data-title="HTTP连接状态总结" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
 
@@ -311,7 +325,7 @@ ln -s nexus-<span class="number">2.14</span><span class="number">.1</span>-<span
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/11/08/Nexus私服搭建/" data-id="e2q6xpcxsgqx7b1a" data-title="Nexus私服搭建" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/11/08/Nexus私服搭建/" data-id="wn7vobz7dkaazdm9" data-title="Nexus私服搭建" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Maven/">Maven</a></li></ul>
 
@@ -360,7 +374,7 @@ ln -s nexus-<span class="number">2.14</span><span class="number">.1</span>-<span
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="fwdgyjzsyh29a0g3" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="4q8vn8oibimawmem" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lua/">Lua</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li></ul>
 
@@ -416,7 +430,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="zihoqq5wy1edgll0" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="c4xzs574jxjhkdnd" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
 
@@ -481,7 +495,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="z1qko8a4k27i01w6" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="zn4omh194lepkq4d" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -621,7 +635,7 @@ JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -XX:+Us
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="bics1rdyiml65kyk" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="242qbs3uscl581o7" data-title="Tomcat优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
 
@@ -684,7 +698,7 @@ JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -XX:+Us
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="dul1x4usxk866dkh" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="pvqouvbvqo8yvbki" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
 
@@ -728,7 +742,7 @@ JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -XX:+Us
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="9t7t66quxcszoic9" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="ae4p2iw4xu1cxvje" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
