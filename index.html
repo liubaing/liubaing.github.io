@@ -108,7 +108,8 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="JVM内存分区">JVM内存分区</h3>
+        <p>本文中一些参数基于JDK8，我们在优化过程中，需要同时关注FullGC和YoungGC，尽可能避免stop-the-world。</p>
+<h3 id="JVM内存分区">JVM内存分区</h3>
 <blockquote>
 <p>JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存</p>
 </blockquote>
@@ -116,9 +117,9 @@ var _hmt = _hmt || [];
 <h5 id="栈Stack">栈Stack</h5>
 <p>存储局部变量等，默认为1M</p>
 <h5 id="堆Heap">堆Heap</h5>
-<p>存储Java对象，包含新生代，老年代</p>
+<p>存储对象实例，包含新生代，老年代</p>
 <h5 id="元Metaspace">元Metaspace</h5>
-<p>存储类定义及常量池，注意JDK7/8的区别</p>
+<p>存储类定义</p>
 <h5 id="堆外Off-heap">堆外Off-heap</h5>
 <p><code>java.nio.*</code>等使用</p>
 
@@ -130,7 +131,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2017/03/01/JVM参数设置及优化/" data-id="6r8ihzwrjnn5fhed" data-title="JVM参数设置及优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2017/03/01/JVM参数设置及优化/" data-id="t03xxi27xm69lgqb" data-title="JVM参数设置及优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -191,7 +192,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2017/02/23/Protocol-Buffers-3/" data-id="d1nx4nouoxc0ac52" data-title="Protocol Buffers 3" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2017/02/23/Protocol-Buffers-3/" data-id="dvucxvs8f9ixq3bd" data-title="Protocol Buffers 3" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Protobuf/">Protobuf</a></li></ul>
 
@@ -235,7 +236,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/12/24/HTTP连接状态总结/" data-id="2lcu3aiqfn4es0es" data-title="HTTP连接状态总结" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/12/24/HTTP连接状态总结/" data-id="83sozvl24yxmc909" data-title="HTTP连接状态总结" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
 
@@ -310,7 +311,7 @@ ln -s nexus-<span class="number">2.14</span><span class="number">.1</span>-<span
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/11/08/Nexus私服搭建/" data-id="m4eg3mw36q7v14wh" data-title="Nexus私服搭建" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/11/08/Nexus私服搭建/" data-id="e2q6xpcxsgqx7b1a" data-title="Nexus私服搭建" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Maven/">Maven</a></li></ul>
 
@@ -359,7 +360,7 @@ ln -s nexus-<span class="number">2.14</span><span class="number">.1</span>-<span
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="lmutr02sygcu3nbu" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/06/25/利用OpenResty解决IP反作弊/" data-id="fwdgyjzsyh29a0g3" data-title="利用OpenResty解决IP反作弊" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lua/">Lua</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/">Redis</a></li></ul>
 
@@ -415,7 +416,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="djhixhw4gepu6pia" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="zihoqq5wy1edgll0" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
 
@@ -480,7 +481,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="qjd4ocgr45cidunj" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/01/22/多线程顺序输出字符/" data-id="z1qko8a4k27i01w6" data-title="多线程顺序输出字符" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
@@ -620,7 +621,7 @@ JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -XX:+Us
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="ipepid0c6wy6xvnz" data-title="Tomcat优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/09/09/Tomcat优化/" data-id="bics1rdyiml65kyk" data-title="Tomcat优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tomcat/">Tomcat</a></li></ul>
 
@@ -683,7 +684,7 @@ JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -XX:+Us
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="c1h0erhhxwu2n9ew" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/27/排查Java进程CPU占有率高/" data-id="dul1x4usxk866dkh" data-title="排查Java进程CPU占有率高" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
 
@@ -727,7 +728,7 @@ JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -XX:+Us
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="e3xmpsoqeemr8ps1" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/" data-id="9t7t66quxcszoic9" data-title="MySQL JDBC Driver版本Bug" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 

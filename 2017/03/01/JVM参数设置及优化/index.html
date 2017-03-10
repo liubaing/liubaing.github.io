@@ -5,48 +5,36 @@
   
   <title>JVM参数设置及优化 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="JVM内存分区
+  <meta name="description" content="本文中一些参数基于JDK8，我们在优化过程中，需要同时关注FullGC和YoungGC，尽可能避免stop-the-world。
+JVM内存分区
 
 JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存
 
 线程数可以利用jstack $PID | more观察当前JVM中所有线程，可以优化部分不必要的线程，降低内存使用同时也避免线程切换的开销。
 栈Stack
-存储局部变量等，默认为1M
-堆Heap
-存储Java对象，包含新生代，老年代
-元Metaspace
-存储类定义及常量池，注意JDK7/8的区别
-堆">
+存储局部变量等，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM参数设置及优化">
 <meta property="og:url" content="http://liubaing.com/2017/03/01/JVM参数设置及优化/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="JVM内存分区
+<meta property="og:description" content="本文中一些参数基于JDK8，我们在优化过程中，需要同时关注FullGC和YoungGC，尽可能避免stop-the-world。
+JVM内存分区
 
 JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存
 
 线程数可以利用jstack $PID | more观察当前JVM中所有线程，可以优化部分不必要的线程，降低内存使用同时也避免线程切换的开销。
 栈Stack
-存储局部变量等，默认为1M
-堆Heap
-存储Java对象，包含新生代，老年代
-元Metaspace
-存储类定义及常量池，注意JDK7/8的区别
-堆">
+存储局部变量等，">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM参数设置及优化">
-<meta name="twitter:description" content="JVM内存分区
+<meta name="twitter:description" content="本文中一些参数基于JDK8，我们在优化过程中，需要同时关注FullGC和YoungGC，尽可能避免stop-the-world。
+JVM内存分区
 
 JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存
 
 线程数可以利用jstack $PID | more观察当前JVM中所有线程，可以优化部分不必要的线程，降低内存使用同时也避免线程切换的开销。
 栈Stack
-存储局部变量等，默认为1M
-堆Heap
-存储Java对象，包含新生代，老年代
-元Metaspace
-存储类定义及常量池，注意JDK7/8的区别
-堆">
+存储局部变量等，">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -139,7 +127,8 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="JVM内存分区">JVM内存分区</h3>
+        <p>本文中一些参数基于JDK8，我们在优化过程中，需要同时关注FullGC和YoungGC，尽可能避免stop-the-world。</p>
+<h3 id="JVM内存分区">JVM内存分区</h3>
 <blockquote>
 <p>JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存</p>
 </blockquote>
@@ -147,9 +136,9 @@ var _hmt = _hmt || [];
 <h5 id="栈Stack">栈Stack</h5>
 <p>存储局部变量等，默认为1M</p>
 <h5 id="堆Heap">堆Heap</h5>
-<p>存储Java对象，包含新生代，老年代</p>
+<p>存储对象实例，包含新生代，老年代</p>
 <h5 id="元Metaspace">元Metaspace</h5>
-<p>存储类定义及常量池，注意JDK7/8的区别</p>
+<p>存储类定义</p>
 <h5 id="堆外Off-heap">堆外Off-heap</h5>
 <p><code>java.nio.*</code>等使用</p>
 <a id="more"></a>
@@ -165,11 +154,12 @@ var _hmt = _hmt || [];
 <p>最大堆内存大小</p>
 <h5 id="-Xmn[g|m|k]_or_-XX:NewSize_and_-XX:MaxNewSize">-Xmn<n>[g|m|k] or -XX:NewSize and -XX:MaxNewSize</n></h5>
 <p>新生代大小，考虑GC时最坏情况，不建议新生代空间大于老年代</p>
-<h5 id="-XX:MetaspaceSize=[g|m|k]_-XX:MaxMetaspaceSize=[g|m|k]">-XX:MetaspaceSize=<n>[g|m|k] -XX:MaxMetaspaceSize=<n>[g|m|k]</n></n></h5>
 <h5 id="-XX:NewRatio=">-XX:NewRatio=<n></n></h5>
 <p>老年代与新生代的大小比例</p>
 <h5 id="-XX:SurvivorRatio=">-XX:SurvivorRatio=<n></n></h5>
 <p>Eden区与Survivor区的大小比例</p>
+<h5 id="-XX:MetaspaceSize=[g|m|k]_and_-XX:MaxMetaspaceSize=[g|m|k]">-XX:MetaspaceSize=<n>[g|m|k] and -XX:MaxMetaspaceSize=<n>[g|m|k]</n></n></h5>
+<p>元数据大小，堆外分配内存</p>
 <h3 id="GC相关参数">GC相关参数</h3>
 <h5 id="-XX:+UseParallelGC">-XX:+UseParallelGC</h5>
 <p>JDK8默认GC算法</p>
@@ -193,7 +183,7 @@ var _hmt = _hmt || [];
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2017/03/01/JVM参数设置及优化/" data-id="6r8ihzwrjnn5fhed" data-title="JVM参数设置及优化" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2017/03/01/JVM参数设置及优化/" data-id="t03xxi27xm69lgqb" data-title="JVM参数设置及优化" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
