@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2017-03-09T08:36:41.158Z</updated>
+  <updated>2017-03-10T09:37:11.272Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -19,28 +19,34 @@
     <link href="http://liubaing.com/2017/03/01/JVM%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE%E5%8F%8A%E4%BC%98%E5%8C%96/"/>
     <id>http://liubaing.com/2017/03/01/JVM参数设置及优化/</id>
     <published>2017-03-01T08:44:28.000Z</published>
-    <updated>2017-03-09T06:13:38.000Z</updated>
-    <content type="html"><![CDATA[<h3 id="JVM内存">JVM内存</h3>
+    <updated>2017-03-10T09:31:13.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="JVM内存分区">JVM内存分区</h3>
+<blockquote>
 <p>JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存</p>
+</blockquote>
+<p>线程数可以利用<code>jstack $PID | more</code>观察当前JVM中所有线程，可以优化部分不必要的线程，降低内存使用同时也避免线程切换的开销。</p>
 <h5 id="栈Stack">栈Stack</h5>
 <p>存储局部变量等，默认为1M</p>
 <h5 id="堆Heap">堆Heap</h5>
 <p>存储Java对象，包含新生代，老年代</p>
 <h5 id="元Metaspace">元Metaspace</h5>
 <p>存储类定义及常量池，注意JDK7/8的区别</p>
-<h5 id="堆外Off_Heap">堆外Off Heap</h5>
+<h5 id="堆外Off-heap">堆外Off-heap</h5>
 <p><code>java.nio.*</code>等使用</p>
 <a id="more"></a>
 
+
 <h3 id="内存相关参数">内存相关参数</h3>
+<p>这里主要利用<code>jstat -gcutil $PID</code>, <code>jmap -heap $PID</code>, <code>jmap -histo $PID | more</code>几个常用的命令的结果作为优化的参考。</p>
 <h5 id="-Xss[m|k]">-Xss<n>[m|k]</n></h5>
 <p>每个线程栈大小</p>
-<h5 id="-Xms[g|m|k]">-Xms<n>[g|m|k]</n></h5>
-<p>最小堆大小</p>
-<h5 id="-Xmx[g|m|k]">-Xmx<n>[g|m|k]</n></h5>
-<p>最大堆大小</p>
-<h5 id="-Xmn[g|m|k]">-Xmn<n>[g|m|k]</n></h5>
-<p>新生代大小</p>
+<h5 id="-Xms[g|m|k]_or_-XX:InitialHeapSize">-Xms<n>[g|m|k] or -XX:InitialHeapSize</n></h5>
+<p>初始堆内存大小</p>
+<h5 id="-Xmx[g|m|k]_or_-XX:MaxHeapSize">-Xmx<n>[g|m|k] or -XX:MaxHeapSize</n></h5>
+<p>最大堆内存大小</p>
+<h5 id="-Xmn[g|m|k]_or_-XX:NewSize_and_-XX:MaxNewSize">-Xmn<n>[g|m|k] or -XX:NewSize and -XX:MaxNewSize</n></h5>
+<p>新生代大小，考虑GC时最坏情况，不建议新生代空间大于老年代</p>
+<h5 id="-XX:MetaspaceSize=[g|m|k]_-XX:MaxMetaspaceSize=[g|m|k]">-XX:MetaspaceSize=<n>[g|m|k] -XX:MaxMetaspaceSize=<n>[g|m|k]</n></n></h5>
 <h5 id="-XX:NewRatio=">-XX:NewRatio=<n></n></h5>
 <p>老年代与新生代的大小比例</p>
 <h5 id="-XX:SurvivorRatio=">-XX:SurvivorRatio=<n></n></h5>
@@ -54,25 +60,29 @@
 <p>使用G1算法，生产环境谨慎</p>
 <h5 id="-XX:MaxTenuringThreshold=">-XX:MaxTenuringThreshold=<n></n></h5>
 <p>新生代中对象存活次数，超过n后提升到老年代</p>
-<h5 id="-XX:+PrintGCDetails">-XX:+PrintGCDetails</h5>
-<p>打印GC信息</p>
+<h5 id="-XX:+PrintGCDetails_and_-XX:+PrintTenuringDistribution">-XX:+PrintGCDetails and -XX:+PrintTenuringDistribution</h5>
+<p>打印GC信息，提供优化参考</p>
 <h3 id="优化方案">优化方案</h3>
 <ol>
 <li>注意ArrayList, HashMap, StringBuilder等扩容问题</li>
 <li>Thread Safe的对象全局重用，非Thread Safe的对象ThreadLocal重用</li>
 <li>局部变量更多采用基础类型</li>
+<li>控制长生命周期对象数量，比如连接池、线程池、缓存等</li>
 </ol>
 <p>参考 <a href="http://www.techpaste.com/2012/02/java-command-line-options-jvm-performance-improvement/" target="_blank" rel="external">用于JVM性能调优的Java命令行选项</a></p>
 ]]></content>
-    <summary type="html"><![CDATA[<h3 id="JVM内存">JVM内存</h3>
+    <summary type="html"><![CDATA[<h3 id="JVM内存分区">JVM内存分区</h3>
+<blockquote>
 <p>JVM进程占用内存 = 堆内存 + 线程数*线程栈 + 元空间 + 堆外内存</p>
+</blockquote>
+<p>线程数可以利用<code>jstack $PID | more</code>观察当前JVM中所有线程，可以优化部分不必要的线程，降低内存使用同时也避免线程切换的开销。</p>
 <h5 id="栈Stack">栈Stack</h5>
 <p>存储局部变量等，默认为1M</p>
 <h5 id="堆Heap">堆Heap</h5>
 <p>存储Java对象，包含新生代，老年代</p>
 <h5 id="元Metaspace">元Metaspace</h5>
 <p>存储类定义及常量池，注意JDK7/8的区别</p>
-<h5 id="堆外Off_Heap">堆外Off Heap</h5>
+<h5 id="堆外Off-heap">堆外Off-heap</h5>
 <p><code>java.nio.*</code>等使用</p>
 ]]></summary>
     
@@ -208,7 +218,7 @@ if (MediaType<span class="preprocessor">.APPLICATION</span>_JSON<span class="pre
     <link href="http://liubaing.com/2016/11/08/Nexus%E7%A7%81%E6%9C%8D%E6%90%AD%E5%BB%BA/"/>
     <id>http://liubaing.com/2016/11/08/Nexus私服搭建/</id>
     <published>2016-11-08T06:33:26.000Z</published>
-    <updated>2016-11-08T11:15:08.000Z</updated>
+    <updated>2017-03-09T08:58:34.000Z</updated>
     <content type="html"><![CDATA[<p>Nexus是Maven仓库管理工具，Team内部之前存在一套，但管理比较混乱，这段时间腾出手来重新搭了一套，把整个过程记录下。</p>
 <h5 id="下载解压">下载解压</h5>
 <p>我这里出现ssl链接问题，所以加了—no-check-certificate</p>
@@ -1008,7 +1018,7 @@ JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -XX:+Us
     <link href="http://liubaing.com/2014/10/19/Java%E4%B8%AD%E7%9A%84%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
     <id>http://liubaing.com/2014/10/19/Java中的单例模式/</id>
     <published>2014-10-19T10:28:54.000Z</published>
-    <updated>2014-10-19T14:39:16.000Z</updated>
+    <updated>2017-03-09T08:58:34.000Z</updated>
     <content type="html"><![CDATA[<p>单例模式是Java设计模式中相当经典的了，平时工作接触的也只有懒汉、饿汉之类的，之前阿里面试中也被问到这个问题，今天就总结一下。</p>
 <h4 id="饿汉式">饿汉式</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -1063,8 +1073,10 @@ JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -XX:+Us
 }
 </pre></td></tr></table></figure>
 
-<p>上面例子的性能不太理想，其实只需第一次调用时同步，利用JDK1.5中volatile关键字改进后：<br><a id="more"></a></p>
-<p><h4>利用volatile的懒汉式</h4></p>
+<p>上面例子的性能不太理想，其实只需第一次调用时同步，利用JDK1.5中volatile关键字改进后：</p>
+<a id="more"></a>
+
+<h4 id="利用volatile的懒汉式">利用volatile的懒汉式</h4>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -1193,7 +1205,8 @@ JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -XX:+Us
 }
 </pre></td></tr></table></figure>
 
-<p>上面例子的性能不太理想，其实只需第一次调用时同步，利用JDK1.5中volatile关键字改进后：<br>]]></summary>
+<p>上面例子的性能不太理想，其实只需第一次调用时同步，利用JDK1.5中volatile关键字改进后：</p>
+]]></summary>
     
       <category term="Java" scheme="http://liubaing.com/tags/Java/"/>
     
@@ -1206,7 +1219,7 @@ JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -XX:+Us
     <link href="http://liubaing.com/2014/09/18/Java%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%8C%96%E6%B3%A8%E6%84%8F%E7%82%B9/"/>
     <id>http://liubaing.com/2014/09/18/Java中常用的时间格式化注意点/</id>
     <published>2014-09-18T09:29:24.000Z</published>
-    <updated>2017-03-07T03:08:54.000Z</updated>
+    <updated>2017-03-09T08:58:34.000Z</updated>
     <content type="html"><![CDATA[<p>平时工作中或多或少都会遇到时间格式化的问题，传统思路都利用<code>java.text.SimpleDateFormat</code>，然后根据业务场景写几个Pattern去处理。</p>
 <p>之前接触到项目中一般都会提供一个工具类，既然是工具类，那就按套路了，上面声明几个不同格式的Pattern实例，下面写几个static方法，然后处理下异常之类的。</p>
 <p>这样的好处是避免方法调用时去new SimpleDateFormat，从而创建大量的实例对象，毕竟SimpleDateFormat类初始化代价不小，父类DateFormat中成员变量包含Calendar等。</p>
