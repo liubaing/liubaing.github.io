@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2017-03-15T10:16:52.514Z</updated>
+  <updated>2017-03-21T11:23:06.931Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -1398,10 +1398,23 @@ JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -XX:+Us
     <link href="http://liubaing.com/2014/06/27/HTTP%E5%B8%B8%E8%A7%81%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/"/>
     <id>http://liubaing.com/2014/06/27/HTTP常见乱码问题/</id>
     <published>2014-06-27T07:42:03.000Z</published>
-    <updated>2017-03-10T10:02:45.000Z</updated>
+    <updated>2017-03-21T11:20:57.000Z</updated>
     <content type="html"><![CDATA[<p>众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。</p>
-<p>比如使用Spring MVC时需要配置<code>org.springframework.http.converter.StringHttpMessageConverter</code>的defaultCharset；<br>还有使用HttpClient时注意响应中ByteArray反序列化时也要指明charsetName，否则读取JVM参数file.encoding。</p>
-<p>总结下就是一般输入输出流尽量指明编码，防止出现环境不一样导致乱码问题。</p>
+<h3 id="常用编码">常用编码</h3>
+<h4 id="ASCII">ASCII</h4>
+<p>计算机存储的最小单位是byte，即8位，其中最高位为0，剩下7位定义了128个字符。</p>
+<h4 id="ISO-8859-1_Latin-1_Windows-1252">ISO-8859-1  Latin-1  Windows-1252</h4>
+<p>ISO 8859-1，又称Latin-1，以ASCII为基础，单字节编码，在空置的0xA0-0xFF的范围内，加入96个字母及符号，供使用附加符号的拉丁字母语言使用。</p>
+<h4 id="GB2312_GBK_GB18030_Big5">GB2312 GBK GB18030 Big5</h4>
+<p>中文大陆地区的三个主要编码GB2312，GBK，GB18030，有时间先后关系，表示的字符数越来越多，且后面的兼容前面的。<br>GB2312和GBK都是用两个字节表示，GBK是对GB2312的扩展，这样GBK在支持简体中文的同时也支持繁体中文，而GB18030则使用两个或四个字节表示，包括了部分少数民族字符，现时中华人民共和国官方强制使用GB18030标准。<br>Big5是针对繁体中文的，广泛用于台湾香港等地。</p>
+<h4 id="Unicode_UTF-32_UTF-16_UTF-8">Unicode UTF-32 UTF-16 UTF-8</h4>
+<p>Unicode给所有字符分配了唯一数字编号，并没有规定这个编号怎么对应到二进制，具体的实现方案主要有UTF-32，UTF-16和UTF-8。<br>UTF-8是可变长字符编码，比如一般的英文字符只需要一个字节，而中文则每个字符占用三个字节。<br>UTF-16两个字节或者四个字节，所以从字节的角度来看无法和ASCII实现兼容，Java使用UTF-16作为字符的内码。<br>UTF-32固定四个字节，对于部分字符会造成空间浪费。</p>
+<h3 id="总结">总结</h3>
+<ol>
+<li>比如使用Spring MVC时需要配置<code>org.springframework.http.converter.StringHttpMessageConverter</code>的defaultCharset；</li>
+<li>还有使用HttpClient时注意响应中ByteArray反序列化时也要指明charsetName，否则读取JVM参数file.encoding；</li>
+<li>一般输入输出流尽量指明编码，防止出现环境不一样导致乱码问题。</li>
+</ol>
 ]]></content>
     
     
@@ -1418,7 +1431,7 @@ JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -XX:+Us
     <link href="http://liubaing.com/2014/06/18/%E9%BE%99%E6%B3%89%E9%A9%BE%E6%A0%A1%E7%BA%A6%E8%BD%A6%E8%84%9A%E6%9C%AC/"/>
     <id>http://liubaing.com/2014/06/18/龙泉驾校约车脚本/</id>
     <published>2014-06-18T08:20:49.000Z</published>
-    <updated>2014-09-19T03:08:08.000Z</updated>
+    <updated>2017-03-21T06:28:23.000Z</updated>
     <content type="html"><![CDATA[<p>最近该学科目二，可一连几天都约不上车，开始琢磨写个脚本，看有没有效果。<br><a id="more"></a></p>
 <p>抱怨驾校也是徒劳，谁让当时图便宜呢。脚本也是参考了其他同学的代码，调整后不是特别完善，不过龙泉的校友还是可以参考。</p>
 <p>下面是执行脚本，其中有些参数根据自己情况填写：</p>
@@ -1501,7 +1514,8 @@ passwd = <span class="string">""</span>
 </pre></td></tr></table></figure>
 
 <p>下面是核心模块：</p>
-<p><a id="more"></a></p>
+<a id="more"></a>
+
 <figure class="highlight {python}"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -1721,7 +1735,7 @@ passwd = <span class="string">""</span>
 </pre></td></tr></table></figure>
 
 <p>下面是核心模块：</p>
-<p>]]></summary>
+]]></summary>
     
       <category term="Python" scheme="http://liubaing.com/tags/Python/"/>
     

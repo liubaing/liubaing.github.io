@@ -5,10 +5,10 @@
   
   <title>集合类源码理解 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。
+  <meta name="description" content="JDK7中提供的集合类一般会包括数组、链表、树等数据结构。
 Map
 HashMap
-首先要说得HashMap就是数组和链表得结合体，先看源码
+首先要说得HashMap就是数组和链表的结合体，先看源码
 1
 2
 3
@@ -25,15 +25,16 @@ HashMap
 /**
  * 默认初始化容量，必须是2的N次方
  */
-static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; // aka 16">
+static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; // aka 16
+sta">
 <meta property="og:type" content="article">
 <meta property="og:title" content="集合类源码理解">
 <meta property="og:url" content="http://liubaing.com/2014/03/20/集合类源码理解/">
 <meta property="og:site_name" content="六八ing的博客">
-<meta property="og:description" content="JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。
+<meta property="og:description" content="JDK7中提供的集合类一般会包括数组、链表、树等数据结构。
 Map
 HashMap
-首先要说得HashMap就是数组和链表得结合体，先看源码
+首先要说得HashMap就是数组和链表的结合体，先看源码
 1
 2
 3
@@ -50,13 +51,14 @@ HashMap
 /**
  * 默认初始化容量，必须是2的N次方
  */
-static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; // aka 16">
+static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; // aka 16
+sta">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="集合类源码理解">
-<meta name="twitter:description" content="JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。
+<meta name="twitter:description" content="JDK7中提供的集合类一般会包括数组、链表、树等数据结构。
 Map
 HashMap
-首先要说得HashMap就是数组和链表得结合体，先看源码
+首先要说得HashMap就是数组和链表的结合体，先看源码
 1
 2
 3
@@ -73,7 +75,8 @@ HashMap
 /**
  * 默认初始化容量，必须是2的N次方
  */
-static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; // aka 16">
+static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4; // aka 16
+sta">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -166,10 +169,10 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>JDK中提供的集合类一般不外乎就两种数据结构，数组和引用(链表)。</p>
+        <p>JDK7中提供的集合类一般会包括数组、链表、树等数据结构。</p>
 <h3 id="Map">Map</h3>
 <h6 id="HashMap">HashMap</h6>
-<p>首先要说得HashMap就是数组和链表得结合体，先看源码</p>
+<p>首先要说得<code>HashMap</code>就是数组和链表的结合体，先看源码</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -289,8 +292,8 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
 }
 </pre></td></tr></table></figure>
 
-<p>当我们往HashMap中put元素的时候，计算key的hash值，根据hash值对数组长度取模运算得到在数组中的位置，如果数组该位置上已经存放有其他元素了，那么在这个位置上的元素将以链表的形式存放，新加入的放在链头，最先加入的放在链尾。</p>
-<p>前面说过HashMap的数据结构是数组和链表的结合，所以我们当然希望这个HashMap里面的元素位置尽量的分布均匀些，尽量使得每个位置上的元素数量只有一个，那么当我们用hash算法求得这个位置的时候，马上就可以知道对应位置的元素就是我们要的，而不用再去遍历链表，这样就大大优化了查询的效率。</p>
+<p>当我们往<code>HashMap</code>中put元素的时候，计算key的hash值，根据hash值对数组长度取模运算得到在数组中的位置，如果数组该位置上已经存放有其他元素了，那么在这个位置上的元素将以链表的形式存放，新加入的放在链头，最先加入的放在链尾。</p>
+<p>前面说过<code>HashMap</code>的数据结构是数组和链表的结合，所以我们当然希望这个<code>HashMap</code>里面的元素位置尽量的分布均匀些，尽量使得每个位置上的元素数量只有一个，那么当我们用hash算法求得这个位置的时候，马上就可以知道对应位置的元素就是我们要的，而不用再去遍历链表，这样就大大优化了查询的效率。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -331,7 +334,7 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
 
 <p>那之前强调的保证length为2的N次方，原因就是为了充分利用数组空间，元素尽量散列些，具体就是而当数组长度为16时，即为2的n次方时，2n-1得到的二进制数的每个位上的值都为1，这使得在低位上&amp;时，得到的和原hash的低位相同，加之hash(int h)方法对key的hashCode的进一步优化，加入了高位计算，就使得只有相同的hash值的两个值才会被放到数组中的同一个位置上形成链表。</p>
 <p>所以说，当数组长度为2的n次幂的时候，不同的key算得得index相同的几率较小，那么数据在数组上分布就比较均匀，也就是说碰撞的几率小，相对的，查询的时候就不用遍历某个位置上的链表，这样查询效率也就较高了。</p>
-<p>简单理解存取原理后，在我们平时的使用过程中需要注意HashMap是非线程安全的，这个在文档中也有说明，所以要特别注意使用场景，需要的多线程同时读写时可以额外同步<code>Map m = Collections.synchronizedMap(new HashMap(...));</code>，类似于<code>HashTable</code>，不过更推荐使用下面要介绍的的并发Map。</p>
+<p>简单理解存取原理后，在我们平时的使用过程中需要注意<code>HashMap</code>是非线程安全的，这个在文档中也有说明，所以要特别注意使用场景，需要的多线程同时读写时可以额外同步<code>Map m = Collections.synchronizedMap(new HashMap(...));</code>，类似于<code>HashTable</code>，不过更推荐使用下面要介绍的的并发Map。</p>
 <h6 id="ConcurrentHashMap">ConcurrentHashMap</h6>
 <p>看过<code>HashTable</code>源码同学都知道，它完全依赖synchronized关键字来实现线程安全，项目中一般不会采用，更倾向于性能更好的<code>ConcurrentHashMap</code>，这个实现机制我们也看下基本的结构</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -358,8 +361,8 @@ transient Entry&lt;K,V&gt;[] table = (Entry&lt;K,V&gt;[]) EMPTY_TABLE;
 }
 </pre></td></tr></table></figure>
 
-<p>看了基本都明白了，ConcurrentHashMap采用了分段锁的设计，相比于对整个Map加锁的设计，分段锁大大的提高了高并发环境下的处理能力。</p>
-<p>不过ConcurrentHashMap中的HashEntry相对于HashMap中的Entry有一定的差异性，HashEntry中的value以及next都被volatile修饰，这样在多线程读写过程中能够保持它们的可见性。</p>
+<p>看了基本都明白了，<code>ConcurrentHashMap</code>采用了分段锁的设计，相比于对整个Map加锁的设计，分段锁大大的提高了高并发环境下的处理能力。</p>
+<p>不过<code>ConcurrentHashMap</code>中的HashEntry相对于<code>HashMap</code>中的Entry有一定的差异性，HashEntry中的value以及next都被volatile修饰，这样在多线程读写过程中能够保持它们的可见性。</p>
 <p>下面来看一下关注下常用的get/put方法。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -525,16 +528,53 @@ final V put(K key, <span class="keyword">int</span> hash, V <span class="keyword
     }
     <span class="keyword">return</span> oldValue;
 }
+</pre></td></tr></table></figure><br>##### TreeMap<br><br>首先我们看<code>java.util.TreeMap</code>的 JavaDoc 的第一句话：<br><br>&gt; A Red-Black tree based NavigableMap implementation.<br><br>由此我们了解到，TreeMap 实现了<code>java.util.NavigableMap</code>接口，其本质上的数据结构是红黑树。<br><br>红黑树是一种自平衡的二叉搜索树（Self-balancing Binary Search Tree）。<br><br>我们通过阅读<a href="https://zh.wikipedia.org/wiki/%E7%BA%A2%E9%BB%91%E6%A0%91" target="_blank" rel="external">红黑树的维基百科</a>可以了解到，红黑树满足如下性质：<br><br>1. 每个结点的颜色为红色或黑色<br>2. 根节点的颜色为黑色<br>3. 若某个结点的颜色为红色，那么它的两个孩子结点的颜色必为黑色，即不存在两对连续的红色结点<br>4. 对于任意给定的内部结点，所有从该结点到位于其子树内的叶子结点的路径所经过的黑色结点数相同<br><br>查找时如果树是空的，则查找未命中（返回 null）；如果被查找的键与根结点的键相等，查找命中（返回对应值）；否则就（递归地）在合适的子树中继续查找：如果被查找的键较小就选择左子树，较大则选择右子树。<br><br>内部包含<code>Comparator&lt;? super K&gt;</code>可以用来指定排序规则，如果不指定按照key的默认规则，TreeMap提供了构造方法声明排序规则。<br><figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="title">TreeMap</span>(Comparator&lt;? <span class="keyword">super</span> K&gt; comparator) {
+    <span class="keyword">this</span>.comparator = comparator;
+}
 </pre></td></tr></table></figure>
 
+
+<h5 id="ConcurrentSkipListMap">ConcurrentSkipListMap</h5>
+<p><code>ConcurrentSkipListMap</code>是基于SkipList实现的，SkipList称为跳表，是一种基于链表的数据结构。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre>static final class Node&lt;K,V&gt; {
+    final K key;
+    volatile Object value;
+    volatile Node&lt;K,V&gt; <span class="keyword">next</span>;
+    <span class="keyword">...</span>
+}
+static class Index&lt;K,V&gt; {
+    final Node&lt;K,V&gt; node;
+    final Index&lt;K,V&gt; down;
+    volatile Index&lt;K,V&gt; right;
+    <span class="keyword">...</span>
+}
+</pre></td></tr></table></figure>
+
+<p>底层是有序的单向链表，虽然是有序的，但不能根据索引直接定位，不能进行二分查找。<br>为了快速查找，跳表有<strong>多层索引</strong>结构，对于每个索引节点，有两个指针，一个向右，指向下一个同层的索引节点，另一个向下，指向下一层的索引节点或基本链表节点。<br>有了这个结构，就可以实现类似二分查找了，查找元素总是从最高层开始，将待查值与下一个索引节点的值进行比较，如果大于索引节点，就向右移动，继续比较，如果小于，则向下移动到下一层进行比较。</p>
 <h3 id="Collection">Collection</h3>
 <h4 id="List">List</h4>
 <h6 id="ArrayList">ArrayList</h6>
+<p>底层由数组实现，看下源码</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 </pre></td><td class="code"><pre><span class="keyword">private</span> <span class="keyword">transient</span> Object[] elementData
 </pre></td></tr></table></figure>
 
-<p>底层由数组实现，所以根据index获取元素效率较高，但涉及到<code>System.arraycopy()</code>的方法效率会差些。</p>
+<p>所以根据index获取元素效率较高，但涉及到<code>System.arraycopy()</code>的方法效率会差些。</p>
 <p>这里简单说下平时有在迭代集合是删除元素的需求，一般也知道由于快速失败(fail-fast)策略，不能在迭代时直接调用List<code>remove()</code>方法，只能用Iterator<code>remove()</code>方法，否则会抛出<code>ConcurrentModificationException</code>异常。<br>但这里还有个坑，在迭代到倒数第二个元素时，去调用List<code>remove()</code>方法也不会抛异常，是因为删除元素后列表size直接-1，执行到<code>hasNext()</code>方法是，会直接忽略最后一个元素。</p>
 <h6 id="LinkedList">LinkedList</h6>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -570,7 +610,9 @@ final V put(K key, <span class="keyword">int</span> hash, V <span class="keyword
 <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Object PRESENT = <span class="keyword">new</span> Object();
 </pre></td></tr></table></figure>
 
-<p>底层还是HashMap，只不过所有value都是PRESENT。</p>
+<p>底层还是<code>HashMap</code>，只不过所有value都是PRESENT。</p>
+<h5 id="TreeSet">TreeSet</h5>
+<p><code>TreeSet</code>是基于<code>TreeMap</code>实现的，与此类似，<code>ConcurrentSkipListSet</code>也是基于<code>ConcurrentSkipListMap</code>实现的，这里就不展开写了。</p>
 <h4 id="Queue">Queue</h4>
 <h6 id="ArrayBlockingQueue">ArrayBlockingQueue</h6>
 <p>本篇文章中唯一的线程安全的类，平时应用于线程池的任务队列中。<br>既然是Array家族，自然底层也是数组，看下源码：</p>
@@ -709,7 +751,7 @@ final V put(K key, <span class="keyword">int</span> hash, V <span class="keyword
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/03/20/集合类源码理解/" data-id="d6s3e23lequsgavk" data-title="集合类源码理解" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/03/20/集合类源码理解/" data-id="6t1t05h7bfex9f2y" data-title="集合类源码理解" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 

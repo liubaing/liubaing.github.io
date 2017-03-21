@@ -6,17 +6,29 @@
   <title>HTTP常见乱码问题 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。
-比如使用Spring MVC时需要配置org.springframework.http.converter.StringHttpMessageConverter的defaultCharset；还有使用HttpClient时注意响应中ByteArray反序列化时也要指明charsetName，否则读取JVM参数f">
+常用编码
+ASCII
+计算机存储的最小单位是byte，即8位，其中最高位为0，剩下7位定义了128个字符。
+ISO-8859-1  Latin-1  Windows-1252
+ISO 8859-1，又称Latin-1，以ASCII为基础，单字节编码，在空置的0xA0-0xFF的范围内，加入96个字母及符号，供使">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP常见乱码问题">
 <meta property="og:url" content="http://liubaing.com/2014/06/27/HTTP常见乱码问题/">
 <meta property="og:site_name" content="六八ing的博客">
 <meta property="og:description" content="众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。
-比如使用Spring MVC时需要配置org.springframework.http.converter.StringHttpMessageConverter的defaultCharset；还有使用HttpClient时注意响应中ByteArray反序列化时也要指明charsetName，否则读取JVM参数f">
+常用编码
+ASCII
+计算机存储的最小单位是byte，即8位，其中最高位为0，剩下7位定义了128个字符。
+ISO-8859-1  Latin-1  Windows-1252
+ISO 8859-1，又称Latin-1，以ASCII为基础，单字节编码，在空置的0xA0-0xFF的范围内，加入96个字母及符号，供使">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP常见乱码问题">
 <meta name="twitter:description" content="众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。
-比如使用Spring MVC时需要配置org.springframework.http.converter.StringHttpMessageConverter的defaultCharset；还有使用HttpClient时注意响应中ByteArray反序列化时也要指明charsetName，否则读取JVM参数f">
+常用编码
+ASCII
+计算机存储的最小单位是byte，即8位，其中最高位为0，剩下7位定义了128个字符。
+ISO-8859-1  Latin-1  Windows-1252
+ISO 8859-1，又称Latin-1，以ASCII为基础，单字节编码，在空置的0xA0-0xFF的范围内，加入96个字母及符号，供使">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -110,13 +122,26 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <p>众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。</p>
-<p>比如使用Spring MVC时需要配置<code>org.springframework.http.converter.StringHttpMessageConverter</code>的defaultCharset；<br>还有使用HttpClient时注意响应中ByteArray反序列化时也要指明charsetName，否则读取JVM参数file.encoding。</p>
-<p>总结下就是一般输入输出流尽量指明编码，防止出现环境不一样导致乱码问题。</p>
+<h3 id="常用编码">常用编码</h3>
+<h4 id="ASCII">ASCII</h4>
+<p>计算机存储的最小单位是byte，即8位，其中最高位为0，剩下7位定义了128个字符。</p>
+<h4 id="ISO-8859-1_Latin-1_Windows-1252">ISO-8859-1  Latin-1  Windows-1252</h4>
+<p>ISO 8859-1，又称Latin-1，以ASCII为基础，单字节编码，在空置的0xA0-0xFF的范围内，加入96个字母及符号，供使用附加符号的拉丁字母语言使用。</p>
+<h4 id="GB2312_GBK_GB18030_Big5">GB2312 GBK GB18030 Big5</h4>
+<p>中文大陆地区的三个主要编码GB2312，GBK，GB18030，有时间先后关系，表示的字符数越来越多，且后面的兼容前面的。<br>GB2312和GBK都是用两个字节表示，GBK是对GB2312的扩展，这样GBK在支持简体中文的同时也支持繁体中文，而GB18030则使用两个或四个字节表示，包括了部分少数民族字符，现时中华人民共和国官方强制使用GB18030标准。<br>Big5是针对繁体中文的，广泛用于台湾香港等地。</p>
+<h4 id="Unicode_UTF-32_UTF-16_UTF-8">Unicode UTF-32 UTF-16 UTF-8</h4>
+<p>Unicode给所有字符分配了唯一数字编号，并没有规定这个编号怎么对应到二进制，具体的实现方案主要有UTF-32，UTF-16和UTF-8。<br>UTF-8是可变长字符编码，比如一般的英文字符只需要一个字节，而中文则每个字符占用三个字节。<br>UTF-16两个字节或者四个字节，所以从字节的角度来看无法和ASCII实现兼容，Java使用UTF-16作为字符的内码。<br>UTF-32固定四个字节，对于部分字符会造成空间浪费。</p>
+<h3 id="总结">总结</h3>
+<ol>
+<li>比如使用Spring MVC时需要配置<code>org.springframework.http.converter.StringHttpMessageConverter</code>的defaultCharset；</li>
+<li>还有使用HttpClient时注意响应中ByteArray反序列化时也要指明charsetName，否则读取JVM参数file.encoding；</li>
+<li>一般输入输出流尽量指明编码，防止出现环境不一样导致乱码问题。</li>
+</ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="gtf1eef17soeke2c" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/06/27/HTTP常见乱码问题/" data-id="wqc5re7ongos71jl" data-title="HTTP常见乱码问题" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
