@@ -528,7 +528,25 @@ final V put(K key, <span class="keyword">int</span> hash, V <span class="keyword
     }
     <span class="keyword">return</span> oldValue;
 }
-</pre></td></tr></table></figure><br>##### TreeMap<br><br>首先我们看<code>java.util.TreeMap</code>的 JavaDoc 的第一句话：<br><br>&gt; A Red-Black tree based NavigableMap implementation.<br><br>由此我们了解到，TreeMap 实现了<code>java.util.NavigableMap</code>接口，其本质上的数据结构是红黑树。<br><br>红黑树是一种自平衡的二叉搜索树（Self-balancing Binary Search Tree）。<br><br>我们通过阅读<a href="https://zh.wikipedia.org/wiki/%E7%BA%A2%E9%BB%91%E6%A0%91" target="_blank" rel="external">红黑树的维基百科</a>可以了解到，红黑树满足如下性质：<br><br>1. 每个结点的颜色为红色或黑色<br>2. 根节点的颜色为黑色<br>3. 若某个结点的颜色为红色，那么它的两个孩子结点的颜色必为黑色，即不存在两对连续的红色结点<br>4. 对于任意给定的内部结点，所有从该结点到位于其子树内的叶子结点的路径所经过的黑色结点数相同<br><br>查找时如果树是空的，则查找未命中（返回 null）；如果被查找的键与根结点的键相等，查找命中（返回对应值）；否则就（递归地）在合适的子树中继续查找：如果被查找的键较小就选择左子树，较大则选择右子树。<br><br>内部包含<code>Comparator&lt;? super K&gt;</code>可以用来指定排序规则，如果不指定按照key的默认规则，TreeMap提供了构造方法声明排序规则。<br><figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td></tr></table></figure>
+
+<h5 id="TreeMap">TreeMap</h5>
+<p>首先我们看<code>java.util.TreeMap</code>的 JavaDoc 的第一句话：</p>
+<blockquote>
+<p>A Red-Black tree based NavigableMap implementation.</p>
+</blockquote>
+<p>由此我们了解到，TreeMap 实现了<code>java.util.NavigableMap</code>接口，其本质上的数据结构是红黑树。</p>
+<p>红黑树是一种自平衡的二叉搜索树（Self-balancing Binary Search Tree）。</p>
+<p>我们通过阅读<a href="https://zh.wikipedia.org/wiki/%E7%BA%A2%E9%BB%91%E6%A0%91" target="_blank" rel="external">红黑树的维基百科</a>可以了解到，红黑树满足如下性质：</p>
+<ol>
+<li>每个结点的颜色为红色或黑色</li>
+<li>根节点的颜色为黑色</li>
+<li>若某个结点的颜色为红色，那么它的两个孩子结点的颜色必为黑色，即不存在两对连续的红色结点</li>
+<li>对于任意给定的内部结点，所有从该结点到位于其子树内的叶子结点的路径所经过的黑色结点数相同</li>
+</ol>
+<p>查找时如果树是空的，则查找未命中（返回 null）；如果被查找的键与根结点的键相等，查找命中（返回对应值）；否则就（递归地）在合适的子树中继续查找：如果被查找的键较小就选择左子树，较大则选择右子树。</p>
+<p>内部包含<code>Comparator&lt;? super K&gt;</code>可以用来指定排序规则，如果不指定按照key的默认规则，TreeMap提供了构造方法声明排序规则。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
 3
 </pre></td><td class="code"><pre><span class="keyword">public</span> <span class="title">TreeMap</span>(Comparator&lt;? <span class="keyword">super</span> K&gt; comparator) {
@@ -635,7 +653,7 @@ static class Index&lt;K,V&gt; {
 </pre></td></tr></table></figure>
 
 <p>简单看下出队入队源码说明吧：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
+<figure class="highlight {Java}"><table><tr><td class="gutter"><pre>1
 2
 3
 4
@@ -691,67 +709,67 @@ static class Index&lt;K,V&gt; {
 54
 55
 </pre></td><td class="code"><pre><span class="keyword">public</span> E <span class="title">take</span>() throws InterruptedException {
-   final ReentrantLock <span class="keyword">lock</span> = <span class="keyword">this</span>.<span class="keyword">lock</span>;
-   <span class="keyword">lock</span>.lockInterruptibly();
-   <span class="comment">//锁可中断</span>
-   <span class="keyword">try</span> {
-       <span class="comment">//如果队列为空，则所有符合此条件的消费者等待，否则取队首元素</span>
-       <span class="keyword">while</span> (count == <span class="number">0</span>)               
-           notEmpty.<span class="keyword">await</span>();
-       <span class="keyword">return</span> extract();
-   } <span class="keyword">finally</span> {
-       <span class="comment">//finally 解锁。</span>
-       <span class="keyword">lock</span>.unlock();
-   }
+    final ReentrantLock <span class="keyword">lock</span> = <span class="keyword">this</span>.<span class="keyword">lock</span>;
+    <span class="keyword">lock</span>.lockInterruptibly();
+    <span class="comment">//锁可中断</span>
+    <span class="keyword">try</span> {
+        <span class="comment">//如果队列为空，则所有符合此条件的消费者等待，否则取队首元素</span>
+        <span class="keyword">while</span> (count == <span class="number">0</span>)               
+            notEmpty.<span class="keyword">await</span>();
+        <span class="keyword">return</span> extract();
+    } <span class="keyword">finally</span> {
+        <span class="comment">//finally 解锁。</span>
+        <span class="keyword">lock</span>.unlock();
     }
+}
 
-    <span class="keyword">private</span> E <span class="title">extract</span>() {
-   final Object[] items = <span class="keyword">this</span>.items;
-   E x = <span class="keyword">this</span>.cast(items[takeIndex]);
-   <span class="comment">//将元素删除</span>
-   items[takeIndex] = <span class="keyword">null</span>;
-   <span class="comment">//更新出队索引，如果takeIndex=队列长度，则从0开始循环。</span>
-   takeIndex = inc(takeIndex);
-   <span class="comment">//当前队列中的元素大小</span>
-   --count;
-   <span class="comment">//通知生产者</span>
-   notFull.signal();
-   <span class="comment">//返回元素</span>
+<span class="keyword">private</span> E <span class="title">extract</span>() {
+    final Object[] items = <span class="keyword">this</span>.items;
+    E x = <span class="keyword">this</span>.cast(items[takeIndex]);
+    <span class="comment">//将元素删除</span>
+    items[takeIndex] = <span class="keyword">null</span>;
+    <span class="comment">//更新出队索引，如果takeIndex=队列长度，则从0开始循环。</span>
+    takeIndex = inc(takeIndex);
+    <span class="comment">//当前队列中的元素大小</span>
+    --count;
+    <span class="comment">//通知生产者</span>
+    notFull.signal();
+    <span class="comment">//返回元素</span>
         <span class="keyword">return</span> x;
-    }
+}
 
-    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span>(E e) throws InterruptedException {
-   checkNotNull(e);
-   final ReentrantLock <span class="keyword">lock</span> = <span class="keyword">this</span>.<span class="keyword">lock</span>;
-   <span class="keyword">lock</span>.lockInterruptibly();
-   <span class="keyword">try</span> {
-       <span class="comment">//如果队列已满，所有符合此条件的生产者都等待阻塞。</span>
-       <span class="keyword">while</span> (count == items.length)
-           notFull.<span class="keyword">await</span>();
-         <span class="comment">//入队新元素</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span>(E e) throws InterruptedException {
+    checkNotNull(e);
+    final ReentrantLock <span class="keyword">lock</span> = <span class="keyword">this</span>.<span class="keyword">lock</span>;
+    <span class="keyword">lock</span>.lockInterruptibly();
+    <span class="keyword">try</span> {
+        <span class="comment">//如果队列已满，所有符合此条件的生产者都等待阻塞。</span>
+        <span class="keyword">while</span> (count == items.length)
+            notFull.<span class="keyword">await</span>();
+          <span class="comment">//入队新元素</span>
               insert(e);
-   } <span class="keyword">finally</span> {
-       <span class="keyword">lock</span>.unlock();
-   }
+    } <span class="keyword">finally</span> {
+        <span class="keyword">lock</span>.unlock();
     }
+}
 
-    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">insert</span>(E x) {
-   <span class="comment">//添加元素</span>
-   items[putIndex] = x;
-   <span class="comment">//自增入队索引，如果等于队列长度，从0开始循环。</span>
-   putIndex = inc(putIndex);
-   <span class="comment">//队列中元素的数量</span>
-   ++count;
-   <span class="comment">//通知消费</span>
-   notEmpty.signal();
-    }
+<span class="keyword">private</span> <span class="keyword">void</span> <span class="title">insert</span>(E x) {
+    <span class="comment">//添加元素</span>
+    items[putIndex] = x;
+    <span class="comment">//自增入队索引，如果等于队列长度，从0开始循环。</span>
+    putIndex = inc(putIndex);
+    <span class="comment">//队列中元素的数量</span>
+    ++count;
+    <span class="comment">//通知消费</span>
+    notEmpty.signal();
+}
 </pre></td></tr></table></figure>
 
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2014/03/20/集合类源码理解/" data-id="6t1t05h7bfex9f2y" data-title="集合类源码理解" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2014/03/20/集合类源码理解/" data-id="4dz16mqpn8i9vzau" data-title="集合类源码理解" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 
