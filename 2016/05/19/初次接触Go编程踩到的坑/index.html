@@ -6,32 +6,32 @@
   <title>初次接触Go编程踩到的坑 | 六八ing的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="最近想利用Go来写切图服务，没什么经验，遇到的问题比较多，下面就简单总结下，看到的同学们可以参考下吧。
-1. 设置HTTP response header不生效
+设置HTTP response header不生效
 由于响应的数据格式为JSON，所以想设置下Content-Type : application/json，代码如下
 1
 2
 w.WriteHeader(http.StatusOK)
-w.Header().Set("Content-Type">
+w.Header().Set("Content-Type",">
 <meta property="og:type" content="article">
 <meta property="og:title" content="初次接触Go编程踩到的坑">
 <meta property="og:url" content="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/">
 <meta property="og:site_name" content="六八ing的博客">
 <meta property="og:description" content="最近想利用Go来写切图服务，没什么经验，遇到的问题比较多，下面就简单总结下，看到的同学们可以参考下吧。
-1. 设置HTTP response header不生效
+设置HTTP response header不生效
 由于响应的数据格式为JSON，所以想设置下Content-Type : application/json，代码如下
 1
 2
 w.WriteHeader(http.StatusOK)
-w.Header().Set("Content-Type">
+w.Header().Set("Content-Type",">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初次接触Go编程踩到的坑">
 <meta name="twitter:description" content="最近想利用Go来写切图服务，没什么经验，遇到的问题比较多，下面就简单总结下，看到的同学们可以参考下吧。
-1. 设置HTTP response header不生效
+设置HTTP response header不生效
 由于响应的数据格式为JSON，所以想设置下Content-Type : application/json，代码如下
 1
 2
 w.WriteHeader(http.StatusOK)
-w.Header().Set("Content-Type">
+w.Header().Set("Content-Type",">
   
     <link rel="alternative" href="/atom.xml" title="六八ing的博客" type="application/atom+xml">
   
@@ -125,7 +125,7 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <p>最近想利用Go来写切图服务，没什么经验，遇到的问题比较多，下面就简单总结下，看到的同学们可以参考下吧。</p>
-<h3 id="1-_设置HTTP_response_header不生效">1. 设置HTTP response header不生效</h3>
+<h3 id="设置HTTP_response_header不生效">设置HTTP response header不生效</h3>
 <p>由于响应的数据格式为JSON，所以想设置下<code>Content-Type : application/json</code>，代码如下</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -136,7 +136,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 <p>结果在Header始终看不到期望结果，跟踪源码发现<code>response</code>中有<code>wroteHeader</code>字段标示。<br>得出结论，如果这两行代码都需要调用，就必须让 w.WriteHeader 在所有的 w.Header.Set 之后执行，才能生效。</p>
 <a id="more"></a>
 
-<h3 id="2-_执行os-MkdirAll(&quot;xx/xx/&quot;,_0666)_返回_permission_denied错误">2. 执行<code>os.MkdirAll(&quot;xx/xx/&quot;, 0666)</code> 返回 <code>permission denied</code>错误</h3>
+<h3 id="执行os-MkdirAll(&quot;xx/xx/&quot;,_0666)_返回_permission_denied错误">执行<code>os.MkdirAll(&quot;xx/xx/&quot;, 0666)</code> 返回 <code>permission denied</code>错误</h3>
 <p>在<code>$HOME</code>目录下，本地执行Shell命令<code>mkdir -p xx/xx/</code>却成功创建，更改第二个参数<code>FileMode</code>为<code>os.ModePerm</code>也无济于事。<br>Google各种搜索后，尝试增加了两行代码，解决了问题，但目前还不清楚为什么，待解。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -144,7 +144,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 defer <span class="keyword">syscall</span>.Umask(mask)
 </pre></td></tr></table></figure>
 
-<h3 id="3-_切图后image保存到本地抛出invalid_memory_address_or_nil_pointer_dereference异常">3. 切图后<code>image</code>保存到本地抛出<code>invalid memory address or nil pointer dereference</code>异常</h3>
+<h3 id="切图后image保存到本地抛出invalid_memory_address_or_nil_pointer_dereference异常">切图后<code>image</code>保存到本地抛出<code>invalid memory address or nil pointer dereference</code>异常</h3>
 <p>经过切图后得到<code>thumb image.Image</code>对象，已经定义好保存路径<code>thumbPath string</code>，保存到本地代码如下</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -161,7 +161,7 @@ _ = ioutil<span class="preprocessor">.WriteFile</span>(thumbPath, buffer<span cl
 </pre></td></tr></table></figure>
 
 
-<h3 id="4-_保存原图内容为空">4. 保存原图内容为空</h3>
+<h3 id="保存原图内容为空">保存原图内容为空</h3>
 <p>保存原图时，想通过md5得到HASH字符串的文件名，之后再把文件保存在指定目录下。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -176,7 +176,7 @@ name := hex<span class="preprocessor">.EncodeToString</span>(md5h<span class="pr
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="r5yxpzpfmdmfuih9" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
+      <a data-url="http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/" data-id="yhpfmd3l9do99ftv" data-title="初次接触Go编程踩到的坑" class="article-share-link">分享</a>
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Go/">Go</a></li></ul>
 

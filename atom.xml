@@ -4,7 +4,7 @@
   <subtitle><![CDATA[各种扯淡]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://liubaing.com/"/>
-  <updated>2017-03-21T11:27:38.001Z</updated>
+  <updated>2017-04-25T15:01:35.239Z</updated>
   <id>http://liubaing.com/</id>
   
   <author>
@@ -235,8 +235,8 @@ if (MediaType<span class="preprocessor">.APPLICATION</span>_JSON<span class="pre
     <link href="http://liubaing.com/2016/11/08/Nexus%E7%A7%81%E6%9C%8D%E6%90%AD%E5%BB%BA/"/>
     <id>http://liubaing.com/2016/11/08/Nexus私服搭建/</id>
     <published>2016-11-08T06:33:26.000Z</published>
-    <updated>2017-03-09T08:58:34.000Z</updated>
-    <content type="html"><![CDATA[<p>Nexus是Maven仓库管理工具，Team内部之前存在一套，但管理比较混乱，这段时间腾出手来重新搭了一套，把整个过程记录下。</p>
+    <updated>2017-03-22T10:15:59.000Z</updated>
+    <content type="html"><![CDATA[<p><a href="http://www.sonatype.org/nexus/" target="_blank" rel="external">Nexus</a>是Maven仓库管理工具，Team内部之前存在一套，但管理比较混乱，这段时间腾出手来重新搭了一套，把整个过程记录下。</p>
 <h5 id="下载解压">下载解压</h5>
 <p>我这里出现ssl链接问题，所以加了—no-check-certificate</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -347,7 +347,7 @@ chown <span class="attribute">-R</span> nexus:nexus sonatype<span class="attribu
 <p>让同学们都有各自权限来使用Nexus，但这个是麻烦SA同学帮忙配置的。需要的同学可以参考 <a href="http://blog.sina.com.cn/s/blog_6b89db7a0101g8na.html" target="_blank" rel="external">Sonatype Nexus的LDAP配置指导书</a></p>
 <h5 id="修改settings-xml">修改settings.xml</h5>
 ]]></content>
-    <summary type="html"><![CDATA[<p>Nexus是Maven仓库管理工具，Team内部之前存在一套，但管理比较混乱，这段时间腾出手来重新搭了一套，把整个过程记录下。</p>
+    <summary type="html"><![CDATA[<p><a href="http://www.sonatype.org/nexus/" target="_blank" rel="external">Nexus</a>是Maven仓库管理工具，Team内部之前存在一套，但管理比较混乱，这段时间腾出手来重新搭了一套，把整个过程记录下。</p>
 <h5 id="下载解压">下载解压</h5>
 <p>我这里出现ssl链接问题，所以加了—no-check-certificate</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
@@ -563,9 +563,9 @@ is_forbidden, err = cache:<span class="built_in">get</span>(<span class="string"
     <link href="http://liubaing.com/2016/05/19/%E5%88%9D%E6%AC%A1%E6%8E%A5%E8%A7%A6Go%E7%BC%96%E7%A8%8B%E8%B8%A9%E5%88%B0%E7%9A%84%E5%9D%91/"/>
     <id>http://liubaing.com/2016/05/19/初次接触Go编程踩到的坑/</id>
     <published>2016-05-19T09:58:35.000Z</published>
-    <updated>2016-05-19T10:51:08.000Z</updated>
+    <updated>2017-03-22T10:05:28.000Z</updated>
     <content type="html"><![CDATA[<p>最近想利用Go来写切图服务，没什么经验，遇到的问题比较多，下面就简单总结下，看到的同学们可以参考下吧。</p>
-<h3 id="1-_设置HTTP_response_header不生效">1. 设置HTTP response header不生效</h3>
+<h3 id="设置HTTP_response_header不生效">设置HTTP response header不生效</h3>
 <p>由于响应的数据格式为JSON，所以想设置下<code>Content-Type : application/json</code>，代码如下</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -576,7 +576,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 <p>结果在Header始终看不到期望结果，跟踪源码发现<code>response</code>中有<code>wroteHeader</code>字段标示。<br>得出结论，如果这两行代码都需要调用，就必须让 w.WriteHeader 在所有的 w.Header.Set 之后执行，才能生效。</p>
 <a id="more"></a>
 
-<h3 id="2-_执行os-MkdirAll(&quot;xx/xx/&quot;,_0666)_返回_permission_denied错误">2. 执行<code>os.MkdirAll(&quot;xx/xx/&quot;, 0666)</code> 返回 <code>permission denied</code>错误</h3>
+<h3 id="执行os-MkdirAll(&quot;xx/xx/&quot;,_0666)_返回_permission_denied错误">执行<code>os.MkdirAll(&quot;xx/xx/&quot;, 0666)</code> 返回 <code>permission denied</code>错误</h3>
 <p>在<code>$HOME</code>目录下，本地执行Shell命令<code>mkdir -p xx/xx/</code>却成功创建，更改第二个参数<code>FileMode</code>为<code>os.ModePerm</code>也无济于事。<br>Google各种搜索后，尝试增加了两行代码，解决了问题，但目前还不清楚为什么，待解。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -584,7 +584,7 @@ w<span class="preprocessor">.Header</span>()<span class="preprocessor">.Set</spa
 defer <span class="keyword">syscall</span>.Umask(mask)
 </pre></td></tr></table></figure>
 
-<h3 id="3-_切图后image保存到本地抛出invalid_memory_address_or_nil_pointer_dereference异常">3. 切图后<code>image</code>保存到本地抛出<code>invalid memory address or nil pointer dereference</code>异常</h3>
+<h3 id="切图后image保存到本地抛出invalid_memory_address_or_nil_pointer_dereference异常">切图后<code>image</code>保存到本地抛出<code>invalid memory address or nil pointer dereference</code>异常</h3>
 <p>经过切图后得到<code>thumb image.Image</code>对象，已经定义好保存路径<code>thumbPath string</code>，保存到本地代码如下</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -601,7 +601,7 @@ _ = ioutil<span class="preprocessor">.WriteFile</span>(thumbPath, buffer<span cl
 </pre></td></tr></table></figure>
 
 
-<h3 id="4-_保存原图内容为空">4. 保存原图内容为空</h3>
+<h3 id="保存原图内容为空">保存原图内容为空</h3>
 <p>保存原图时，想通过md5得到HASH字符串的文件名，之后再把文件保存在指定目录下。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -614,7 +614,7 @@ name := hex<span class="preprocessor">.EncodeToString</span>(md5h<span class="pr
 <p>结果发现保存的原图内容是0字节，怀疑就是这里把文件流读到末尾了。<br>改造代码就是在保存图片前调用<code>file.Seek(0, 0)</code>，把<code>offset</code>设置为0恢复文件流。</p>
 ]]></content>
     <summary type="html"><![CDATA[<p>最近想利用Go来写切图服务，没什么经验，遇到的问题比较多，下面就简单总结下，看到的同学们可以参考下吧。</p>
-<h3 id="1-_设置HTTP_response_header不生效">1. 设置HTTP response header不生效</h3>
+<h3 id="设置HTTP_response_header不生效">设置HTTP response header不生效</h3>
 <p>由于响应的数据格式为JSON，所以想设置下<code>Content-Type : application/json</code>，代码如下</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre>1
 2
@@ -997,10 +997,10 @@ JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -XX:+Us
     <link href="http://liubaing.com/2015/07/21/MySQL-JDBC-Driver%E7%89%88%E6%9C%ACBug/"/>
     <id>http://liubaing.com/2015/07/21/MySQL-JDBC-Driver版本Bug/</id>
     <published>2015-07-21T09:12:15.000Z</published>
-    <updated>2015-07-21T09:53:30.000Z</updated>
+    <updated>2017-03-22T10:15:59.000Z</updated>
     <content type="html"><![CDATA[<p>上周发现线上的CTR信息不准确，影响到广告投放概率。</p>
 <p>经过同事的排查发现是数据库实例连接错了，在jdbcUrl中指定的端口是是3307，但实际上是读写3306默认端口的数据库。</p>
-<p>跟踪确定是Driver本身的Bug，Google了下官方已经有<a href="https://bugs.mysql.com/bug.php?id=47494" target="_blank" rel="external">相关Bug反馈</a>了，解决方案就是把mysql-connector-java的版本从5.1.9调整为5.1.18。</p>
+<p>跟踪确定是Driver本身的Bug，Google了下官方已经有<a href="https://bugs.mysql.com/bug.php?id=47494" target="_blank" rel="external">相关Bug反馈</a>了，解决方案就是把<code>mysql-connector-java</code>的版本从5.1.9调整为5.1.18。</p>
 ]]></content>
     
     
@@ -1398,7 +1398,7 @@ JAVA_OPTS=<span class="string">"<span class="variable">$JAVA_OPTS</span> -XX:+Us
     <link href="http://liubaing.com/2014/06/27/HTTP%E5%B8%B8%E8%A7%81%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/"/>
     <id>http://liubaing.com/2014/06/27/HTTP常见乱码问题/</id>
     <published>2014-06-27T07:42:03.000Z</published>
-    <updated>2017-03-21T11:20:57.000Z</updated>
+    <updated>2017-03-22T10:05:28.000Z</updated>
     <content type="html"><![CDATA[<p>众所周知，乱码问题源于编码不一致，往往在平时开发中容易忽略指明编码，而依赖于默认编码。</p>
 <h3 id="常用编码">常用编码</h3>
 <h4 id="ASCII">ASCII</h4>
@@ -1765,8 +1765,11 @@ passwd = <span class="string">""</span>
     <link href="http://liubaing.com/2014/06/13/%E7%BF%BB%E5%A2%99/"/>
     <id>http://liubaing.com/2014/06/13/翻墙/</id>
     <published>2014-06-13T08:38:14.000Z</published>
-    <updated>2016-11-10T08:36:22.000Z</updated>
-    <content type="html"><![CDATA[<p>最近Google访问不了，各种403和连接被重置。<br><a id="more"></a><br>这给平时工作带来很大的不便，至于原因大家心知肚明。</p>
+    <updated>2017-03-22T10:05:28.000Z</updated>
+    <content type="html"><![CDATA[<p><strong>更新</strong>：提供新版<a href="https://github.com/racaljk/hosts" target="_blank" rel="external">hosts</a>下载，大家自测。</p>
+<hr>
+<p>最近Google访问不了，各种403和连接被重置。</p>
+<p>这给平时工作带来很大的不便，至于原因大家心知肚明。</p>
 <p>之前由于改过hosts，遇到Google被墙对自己影响不大，但这次彻底歇菜了。</p>
 <p>选择VPN还得取决所在网络环境，L2TP方式经常连接不上，所以暂时先Pass。看微博上有推荐用SSH代理，去淘宝上搜了一家，10块一月，感觉价格可以接受，还是香港主机，下单吧。</p>
 <p>跟大家分享Mac下的方法，首先打开终端输入</p>
@@ -1775,11 +1778,8 @@ passwd = <span class="string">""</span>
 </pre></td></tr></table></figure><br>输入密码后在网络设置中增加代理，这里选择SOCKS Proxy，输入127.0.0.1:7070后点击应用。</p>
 <p><img src="http://liubaing.qiniudn.com/ssh_proxy.jpeg" alt="增加代理"></p>
 <p>现在，打开浏览器试试吧！</p>
-<hr>
-<p>2014-6-19更新：</p>
-<p>提供新版<a href="http://liubaing.qiniudn.com/hosts" target="_blank" rel="external">hosts</a>下载，大家自测。</p>
 ]]></content>
-    <summary type="html"><![CDATA[<p>最近Google访问不了，各种403和连接被重置。<br>]]></summary>
+    
     
       <category term="VPN" scheme="http://liubaing.com/tags/VPN/"/>
     
@@ -1897,12 +1897,12 @@ $ git reset –soft &lt;commit-id&gt;  回退到某个commit-id，只是commit�
     <link href="http://liubaing.com/2014/04/12/Linode%E9%80%80%E9%92%B1/"/>
     <id>http://liubaing.com/2014/04/12/Linode退钱/</id>
     <published>2014-04-12T08:13:17.000Z</published>
-    <updated>2016-11-10T08:36:22.000Z</updated>
-    <content type="html"><![CDATA[<p>之前用过一段时间Linode，不过由于种种原因（其实就是懒）不想继续维护了，Remove掉主机后，它会自动结算剩余金额。也不想让钱那么寂寞的呆在账户里，琢磨怎么退还到信用卡里。<br><a id="more"></a></p>
-<p>方法是登录Linode后给Linode客服发ticket申请退款。我直接写了一句 I don’t have time to maintain it and kindly need money，提交，等着收钱。然后客服回复后，退款自生成之日起，要3到5天才能到你的信用卡账户。</p>
-<p>退款后，如果你觉得这个账户没有继续存在的必要，那么可以在account选项卡页面的最底部，找到“Cancel this Account”链接，点击即可。</p>
+    <updated>2017-03-22T10:07:53.000Z</updated>
+    <content type="html"><![CDATA[<p>之前用过一段时间Linode，不过由于种种原因（其实就是懒）不想继续维护了，Remove掉主机后，它会自动结算剩余金额。也不想让钱那么寂寞的呆在账户里，琢磨怎么退还到信用卡里。</p>
+<p>方法是登录Linode后给Linode客服发ticket申请退款。我直接写了一句<code>I don&#39;t have time to maintain it and kindly need money</code>，提交，等着收钱。然后客服回复后，退款自生成之日起，要3到5天才能到你的信用卡账户。</p>
+<p>退款后，如果你觉得这个账户没有继续存在的必要，那么可以在account选项卡页面的最底部，找到<code>Cancel this Account</code>链接，点击即可。</p>
 ]]></content>
-    <summary type="html"><![CDATA[<p>之前用过一段时间Linode，不过由于种种原因（其实就是懒）不想继续维护了，Remove掉主机后，它会自动结算剩余金额。也不想让钱那么寂寞的呆在账户里，琢磨怎么退还到信用卡里。<br>]]></summary>
+    
     
       <category term="扯淡" scheme="http://liubaing.com/categories/%E6%89%AF%E6%B7%A1/"/>
     
